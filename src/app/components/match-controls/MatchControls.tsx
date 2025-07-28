@@ -1,24 +1,72 @@
-const statuses = [
-  "NOT_STARTED",
-  "TIME_TBD",
-  "FIRST_HALF",
-  "HALF_TIME",
-  "SECOND_HALF",
-  "EXTRA_TIME",
-  "PENALTIES",
-  "BREAK_TIME",
-  "LIVE",
-  "INTERRUPTED",
-  "FULL_TIME",
-  "AFTER_EXTRA_TIME",
-  "AFTER_PENALTIES",
-  "CANCELLED",
-  "POSTPONED",
-  "ABANDONED",
-  "AWARDED",
-  "WALKOVER",
-  "SUSPENDED",
+const statuses: StatusOption[] = [
+  {
+    key: "NOT_STARTED",
+    value: "NOT STARTED",
+  },
+  {
+    key: "LIVE",
+    value: "LIVE",
+  },
+  {
+    key: "TIME_TBD",
+    value: "TBD",
+  },
+  {
+    key: "FIRST_HALF",
+    value: "FIRST HALF",
+  },
+  {
+    key: "HALF_TIME",
+    value: "HALF TIME",
+  },
+  {
+    key: "SECOND_HALF",
+    value: "SECOND HALF",
+  },
+  {
+    key: "EXTRA_TIME",
+    value: "EXTRA TIME",
+  },
+  {
+    key: "PENALTIES",
+    value: "PENALTIES",
+  },
+  {
+    key: "BREAK_TIME",
+    value: "BREAK TIME",
+  },
+
+  {
+    key: "INTERRUPTED",
+    value: "INTERRUPTED",
+  },
+  {
+    key: "FULL_TIME",
+    value: "FULL TIME",
+  },
+  {
+    key: "CANCELLED",
+    value: "CANCELLED",
+  },
+
+  {
+    key: "POSTPONED",
+    value: "POSTPONED",
+  },
+  {
+    key: "ABANDONED",
+    value: "ABANDONED",
+  },
+  {
+    key: "SUSPENDED",
+    value: "SUSPENDED",
+  },
 ];
+
+interface StatusOption {
+  key: string;
+  value: string;
+}
 
 interface MatchControlsProps {
   status: string;
@@ -44,9 +92,9 @@ const MatchControls = ({
         onChange={(e) => setStatus(e.target.value)}
         className="bg-white text-black p-2 rounded"
       >
-        {statuses.map((s) => (
-          <option key={s} value={s}>
-            {s === "All" ? "All Statuses" : s}
+        {statuses.map((statusOption) => (
+          <option key={statusOption.key} value={statusOption.key}>
+            {statusOption.value}
           </option>
         ))}
       </select>

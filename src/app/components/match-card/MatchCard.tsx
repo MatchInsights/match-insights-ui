@@ -5,8 +5,7 @@ interface MatchCardProps {
 }
 
 const MatchCard = ({ todayMatch }: MatchCardProps) => {
-  const { homeTeam, awayTeam, date, matchStatus, venue, league, timeZone } =
-    todayMatch;
+  const { homeTeam, awayTeam, date, matchStatus, venue, league } = todayMatch;
 
   let localDate: Date | null = null;
 
@@ -26,39 +25,64 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
   const formattedLocalDate = localDate ? localDate.toLocaleDateString() : "TBD";
 
   return (
-    <div className="bg-brand-card rounded-xl p-3 shadow-md text-brand-white text-xs">
-      <ul className="space-y-1">
-        <li className="flex items-center gap-1">
-          {homeTeam?.logo && (
-            <img src={homeTeam.logo} alt={homeTeam.name} className="w-4 h-4" />
-          )}
-          <span>{homeTeam?.name || "TBD"}</span>
-          <span className="text-brand-lightGray">vs</span>
-          {awayTeam?.logo && (
-            <img src={awayTeam.logo} alt={awayTeam.name} className="w-4 h-4" />
-          )}
-          <span>{awayTeam?.name || "TBD"}</span>
-        </li>
+    <div className="bg-brand-card rounded-xl p-4 shadow-md text-brand-white text-[10px]">
+      <div className="flex flex-row items-center gap-4">
+        {/* Left: Teams */}
+        <div className="flex flex-col items-start w-[45%] space-y-2">
+          {/* Home Team */}
+          <div className="flex items-center gap-2">
+            {homeTeam?.logo ? (
+              <img
+                src={homeTeam.logo}
+                alt={homeTeam.name}
+                className="w-5 h-5 object-contain"
+              />
+            ) : (
+              <div className="w-5 h-5 bg-brand-darkGray rounded-full" />
+            )}
+            <span className="font-medium">{homeTeam?.name || "TBD"}</span>
+          </div>
 
-        <li className="text-brand-orange font-semibold">
-          {matchStatus?.long || "Upcoming"}{" "}
-          {matchStatus?.elapsed != null && (
-            <span className="text-brand-lightGray">
-              ({matchStatus.elapsed} min)
-            </span>
-          )}
-        </li>
+          {/* VS */}
+          <span className="text-brand-lightGray ml-7">vs</span>
 
-        <li className="text-brand-lightGray">
-          🏆 {league?.name || "Unknown League"}
-        </li>
+          {/* Away Team */}
+          <div className="flex items-center gap-2">
+            {awayTeam?.logo ? (
+              <img
+                src={awayTeam.logo}
+                alt={awayTeam.name}
+                className="w-5 h-5 object-contain"
+              />
+            ) : (
+              <div className="w-5 h-5 bg-brand-darkGray rounded-full" />
+            )}
+            <span className="font-medium">{awayTeam?.name || "TBD"}</span>
+          </div>
+        </div>
 
-        <li className="text-brand-lightGray">🏟 {venue?.name || "TBD"}</li>
+        {/* Right: Match Info */}
+        <div className="flex flex-col w-[55%] space-y-1">
+          <div className="text-brand-orange font-semibold">
+            {matchStatus?.long || "Upcoming"}{" "}
+            {matchStatus?.elapsed != null && (
+              <span className="text-brand-lightGray">
+                ({matchStatus.elapsed} min)
+              </span>
+            )}
+          </div>
 
-        <li className="text-brand-yellow">
-          📅 {formattedLocalDate} — ⏰ {formattedLocalTime}
-        </li>
-      </ul>
+          <div className="text-brand-lightGray">
+            🏆 {league?.name || "Unknown League"}
+          </div>
+
+          <div className="text-brand-lightGray">🏟 {venue?.name || "TBD"}</div>
+
+          <div className="text-brand-yellow">
+            📅 {formattedLocalDate} — ⏰ {formattedLocalTime}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
