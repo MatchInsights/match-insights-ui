@@ -33,8 +33,8 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-orange-400 mb-4">
+    <div className="w-full mx-auto px-12 py-12">
+      <h1 className="text-4xl md:text-6xl font-bold text-orange-400 mb-4">
         Today's Matches
       </h1>
 
@@ -46,9 +46,9 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
         leagueFilter={leagueFilter}
         setLeagueFilter={setLeagueFilter}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8">
         {filtered.length === 0 ? (
-          <p className="bg-brand-danger text-center col-span-full py-2 rounded">
+          <p className="bg-brand-danger text-center col-span-full py-4 rounded">
             No matches found for the selected filters.
           </p>
         ) : (

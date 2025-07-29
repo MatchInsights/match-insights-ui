@@ -86,11 +86,11 @@ const MatchControls = ({
   setLeagueFilter,
 }: MatchControlsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <select
         value={status}
         onChange={(e) => setStatus(e.target.value)}
-        className="bg-white text-black p-2 rounded"
+        className="bg-white text-black p-4 rounded"
       >
         {statuses.map((statusOption) => (
           <option key={statusOption.key} value={statusOption.key}>
@@ -104,7 +104,7 @@ const MatchControls = ({
         placeholder="Filter by team name..."
         value={teamFilter}
         onChange={(e) => setTeamFilter(e.target.value)}
-        className="bg-white text-black p-2 rounded"
+        className="bg-white text-black p-4 rounded"
       />
 
       <input
@@ -112,7 +112,7 @@ const MatchControls = ({
         placeholder="Filter by league..."
         value={leagueFilter}
         onChange={(e) => setLeagueFilter(e.target.value)}
-        className="bg-white text-black p-2 rounded"
+        className="bg-white text-black p-4 rounded"
       />
     </div>
   );
