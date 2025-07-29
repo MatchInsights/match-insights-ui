@@ -1,0 +1,19 @@
+import { Team } from "../../../types/types";
+
+interface TeamProps {
+  team: Team | undefined;
+}
+const CardTeam = ({ team }: TeamProps) => {
+  return (
+    <div className="flex items-center gap-2">
+      {team?.logo ? (
+        <img src={team.logo} alt={""} className="w-4 h-4 object-contain" />
+      ) : (
+        <div className="w-4 h-4 bg-brand-darkGray rounded-full" />
+      )}
+      <span className="font-medium">{team?.name || "TBD"}</span>
+    </div>
+  );
+};
+
+export default CardTeam;
