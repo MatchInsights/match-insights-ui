@@ -5,12 +5,12 @@ interface HomeProps {
   fetchTodayMatches: (status: string) => Promise<TodayMatch[]>;
 }
 
-const HomePage = ({ fetchTodayMatches }: HomeProps) => {
+const Home = ({ fetchTodayMatches }: HomeProps) => {
   return (
-    <div>
+    <div data-testid="today-matches">
       <TodayMatches fetchTodayMatches={fetchTodayMatches} />
     </div>
   );
 };
 
-export default HomePage;
+export default Home;

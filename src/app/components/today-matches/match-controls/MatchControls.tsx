@@ -1,4 +1,4 @@
-const statuses: StatusOption[] = [
+export const statuses: StatusOption[] = [
   {
     key: "NOT_STARTED",
     value: "NOT STARTED",
