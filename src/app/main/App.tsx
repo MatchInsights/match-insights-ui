@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./navigation/Navbar";
+import Footer from "./footer/Footer";
 import HomePage from "../pages/home/Home";
 import { fetchTodayMatches } from "../services/apiService";
 

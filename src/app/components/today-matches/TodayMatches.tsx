@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import MatchCard from "../match-card/MatchCard";
-import MatchControls from "../match-controls/MatchControls";
+import MatchCard from "./match-card/MatchCard";
+import MatchControls from "./match-controls/MatchControls";
 import { TodayMatch } from "../../types/types";
 
 interface TodayMatchesProps {

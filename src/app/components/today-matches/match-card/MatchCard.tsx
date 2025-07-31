@@ -1,4 +1,4 @@
-import { TodayMatch } from "../../types/types";
+import { TodayMatch } from "../../../types/types";
 import CardInfo from "./card-info/CardInfo";
 import CardTeam from "./team/CardTeam";
 

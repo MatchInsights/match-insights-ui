@@ -1,4 +1,4 @@
-import { League, MatchStatus, Venue } from "../../../types/types";
+import { League, MatchStatus, Venue } from "../../../../types/types";
 
 interface CardInfoProps {
   date: string | undefined;
@@ -10,24 +10,22 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
   let localDate: Date | null = null;
 
   if (date) {
-    try {
-      const utcDate = new Date(date);
-      localDate = utcDate;
-    } catch (e) {
-      console.error("Invalid date format:", e);
-    }
+    const utcDate = new Date(date);
+    localDate = utcDate;
   }
 
   const formattedLocalTime = localDate
     ? localDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    : "TBD";
+    : "Unknown Time";
 
-  const formattedLocalDate = localDate ? localDate.toLocaleDateString() : "TBD";
+  const formattedLocalDate = localDate
+    ? localDate.toLocaleDateString()
+    : "Unknown Date";
 
   return (
     <>
       <div className="text-brand-orange font-semibold">
-        {matchStatus?.long || "Upcoming"}{" "}
+        {matchStatus?.long || "Unknown Status"}{" "}
         {matchStatus?.elapsed != null && (
           <span className="text-brand-lightGray">
             ({matchStatus.elapsed} min)
@@ -39,7 +37,9 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
         🏆 {league?.name || "Unknown League"}
       </div>
 
-      <div className="text-brand-lightGray">🏟 {venue?.name || "TBD"}</div>
+      <div className="text-brand-lightGray">
+        🏟 {venue?.name || "Unknown Venue"}
+      </div>
 
       <div className="text-brand-yellow">
         📅 {formattedLocalDate} — ⏰ {formattedLocalTime}
