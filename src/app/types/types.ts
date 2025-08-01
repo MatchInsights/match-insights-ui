@@ -12,6 +12,7 @@ export interface MatchStatus {
 
 export interface League {
   name?: string;
+  id?: Number;
   country?: string;
   logo?: string;
   flag?: string;
@@ -34,4 +35,18 @@ export interface TodayMatch {
   league?: League;
   homeTeam?: Team;
   awayTeam?: Team;
+}
+
+export interface LeagueStandingInfo {
+  rank: number;
+  teamName: string;
+  logo: string;
+  points: number;
+  played: number;
+  won: number;
+  draw: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  form: string | null;
 }

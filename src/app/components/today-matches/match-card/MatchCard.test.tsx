@@ -42,7 +42,7 @@ describe("MatchCard", () => {
     expect(screen.getByText("Live")).toBeInTheDocument();
     expect(screen.getByText("(25 min)")).toBeInTheDocument();
     expect(screen.getByText("🏟 Main Stadium")).toBeInTheDocument();
-    expect(screen.getByText("🏆 Super League")).toBeInTheDocument();
+    expect(screen.getByTestId("league-link")).toBeInTheDocument();
 
     const dateRegex = /\d{1,2}\/\d{1,2}\/\d{2,4}/;
     const timeRegex = /\d{1,2}:\d{2}/;

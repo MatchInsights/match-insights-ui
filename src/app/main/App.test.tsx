@@ -5,6 +5,7 @@ import App from "./App";
 
 vi.mock("../services/apiService", () => ({
   fetchTodayMatches: vi.fn().mockResolvedValue([]),
+  fetchLeagueStanding: vi.fn().mockResolvedValue([]),
 }));
 
 vi.mock("../pages/home/Home", () => ({

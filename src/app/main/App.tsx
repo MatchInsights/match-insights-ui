@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import HomePage from "../pages/home/Home";
-import { fetchTodayMatches } from "../services/apiService";
+import { fetchLeagueStanding, fetchTodayMatches } from "../services/apiService";
+import LeagueStanding from "../components/league-standing/LeagueStanding";
 
 function App() {
   return (
@@ -13,6 +14,11 @@ function App() {
           <Route
             path="/"
             element={<HomePage fetchTodayMatches={fetchTodayMatches} />}
+          />
+
+          <Route
+            path="/league/:leagueId"
+            element={<LeagueStanding fetchStandings={fetchLeagueStanding} />}
           />
         </Routes>
       </main>

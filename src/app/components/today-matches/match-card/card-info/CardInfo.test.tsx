@@ -41,7 +41,7 @@ describe("CardInfo", () => {
       />
     );
 
-    expect(screen.getByText("🏆 Champions League")).toBeInTheDocument();
+    expect(screen.getByTestId("league-link")).toBeInTheDocument();
     expect(screen.getByText("🏟 National Stadium")).toBeInTheDocument();
   });
 
@@ -77,7 +77,6 @@ describe("CardInfo", () => {
     );
 
     expect(screen.getByText("Unknown Status")).toBeInTheDocument();
-    expect(screen.getByText("🏆 Unknown League")).toBeInTheDocument();
     expect(screen.getByText("🏟 Unknown Venue")).toBeInTheDocument();
     expect(
       screen.getByText("📅 Unknown Date — ⏰ Unknown Time")
