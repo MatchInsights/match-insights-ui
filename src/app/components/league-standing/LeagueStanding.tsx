@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
+import FetchStatus from "../fetch-status/FetchStatus";
 
 interface LeagueStandingProps {
   fetchStandings: (leagueId: number) => Promise<LeagueStandingInfo[]>;
@@ -11,14 +12,20 @@ export default function LeagueStanding({
 }: LeagueStandingProps) {
   const [standings, setStandings] = useState<LeagueStandingInfo[]>([]);
   const { leagueId } = useParams<{ leagueId: string }>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (leagueId) {
       fetchStandings(Number(leagueId)).then((data) => {
         setStandings(data);
+        setLoading(false);
       });
     }
   }, [leagueId]);
+
+  if (loading)
+    return <FetchStatus type="loading" message="Loading League Info..." />;
+  if (!standings) return <FetchStatus type="error" message="Fetch Failed." />;
 
   return (
     <div className="bg-brand-darkBg text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">

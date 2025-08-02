@@ -1,4 +1,4 @@
-import { TodayMatch, LeagueStandingInfo } from "../types/types";
+import { TodayMatch, LeagueStandingInfo, MatchDetails } from "../types/types";
 
 import apiFetch from "./apiConfig";
 
@@ -16,6 +16,15 @@ export const fetchLeagueStanding = async (
 ): Promise<LeagueStandingInfo[]> => {
   const response = await apiFetch.get<LeagueStandingInfo[]>(
     `/api/league/standing/${leagueId}`
+  );
+  return response.data;
+};
+
+export const fetchMatchDetails = async (
+  matchId: number
+): Promise<MatchDetails> => {
+  const response = await apiFetch.get<MatchDetails>(
+    `/api/matches/${matchId}/details`
   );
   return response.data;
 };

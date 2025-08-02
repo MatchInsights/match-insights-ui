@@ -34,18 +34,8 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
         )}
       </div>
 
-      <div className="text-brand-lightGray" data-testid={"league-link"}>
-        🏆{" "}
-        {league?.id ? (
-          <Link
-            to={`/league/${league.id}`}
-            className="hover:underline text-brand-lightGray"
-          >
-            {league.name}
-          </Link>
-        ) : (
-          "Unknown League"
-        )}
+      <div className="text-brand-lightGray " data-testid={"league-link"}>
+        🏆 {league?.id ? league?.name : "Unknown League"}
       </div>
 
       <div className="text-brand-lightGray">

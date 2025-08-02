@@ -4,37 +4,59 @@ export interface Venue {
 }
 
 export interface MatchStatus {
-  long?: string;
-  short?: string;
+  long: string;
+  short: string;
   elapsed?: number;
   extra?: number;
 }
 
 export interface League {
-  name?: string;
-  id?: Number;
+  id: number;
+  name: string;
   country?: string;
   logo?: string;
   flag?: string;
-  season?: number;
+  season: number;
   round?: string;
 }
 
 export interface Team {
-  name?: string;
+  id: number;
+  name: string;
   logo?: string;
   winner?: boolean;
   goals?: number;
 }
 
+export interface Goal {
+  home?: number;
+  away?: number;
+}
+
+export interface Score {
+  halftime?: Goal;
+  fulltime?: Goal;
+}
+
+export interface MatchDetails {
+  id: number;
+  date: string;
+  league: League;
+  venue: Venue;
+  homeTeam: Team;
+  awayTeam: Team;
+  goals: Goal;
+  score: Score;
+}
+
 export interface TodayMatch {
-  date?: string;
-  timeZone?: string;
-  venue?: Venue;
-  matchStatus?: MatchStatus;
-  league?: League;
-  homeTeam?: Team;
-  awayTeam?: Team;
+  id: number;
+  date: string;
+  venue: Venue;
+  matchStatus: MatchStatus;
+  league: League;
+  homeTeam: Team;
+  awayTeam: Team;
 }
 
 export interface LeagueStandingInfo {
@@ -48,5 +70,5 @@ export interface LeagueStandingInfo {
   lost: number;
   goalsFor: number;
   goalsAgainst: number;
-  form: string | null;
+  form: string;
 }

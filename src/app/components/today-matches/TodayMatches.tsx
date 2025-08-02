@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MatchCard from "./match-card/MatchCard";
 import MatchControls from "./match-controls/MatchControls";
 import { TodayMatch } from "../../types/types";
+import FetchStatus from "../fetch-status/FetchStatus";
 
 interface TodayMatchesProps {
   fetchTodayMatches: (status: string) => Promise<TodayMatch[]>;
@@ -12,10 +13,14 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
   const [matches, setMatches] = useState<TodayMatch[]>([]);
   const [teamFilter, setTeamFilter] = useState("");
   const [leagueFilter, setLeagueFilter] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchTodayMatches(status)
-      .then((data) => setMatches(data))
+      .then((data) => {
+        setMatches(data);
+        setLoading(false);
+      })
       .catch((err) => console.error("Fetch error:", err));
   }, [status]);
 
@@ -31,6 +36,10 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
 
     return teamMatch && leagueMatch;
   });
+
+  if (loading)
+    return <FetchStatus type="loading" message="Loading Today Matches..." />;
+  if (!matches) return <FetchStatus type="error" message="Fetch Failed." />;
 
   return (
     <div className="w-full mx-auto px-12 py-12">

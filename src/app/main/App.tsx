@@ -2,8 +2,13 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import HomePage from "../pages/home/Home";
-import { fetchLeagueStanding, fetchTodayMatches } from "../services/apiService";
+import {
+  fetchLeagueStanding,
+  fetchMatchDetails,
+  fetchTodayMatches,
+} from "../services/apiService";
 import LeagueStanding from "../components/league-standing/LeagueStanding";
+import MatchDetail from "../components/match-details/MatchDetails";
 
 function App() {
   return (
@@ -19,6 +24,11 @@ function App() {
           <Route
             path="/league/:leagueId"
             element={<LeagueStanding fetchStandings={fetchLeagueStanding} />}
+          />
+
+          <Route
+            path="/match/:id"
+            element={<MatchDetail fetchMatchDetails={fetchMatchDetails} />}
           />
         </Routes>
       </main>
