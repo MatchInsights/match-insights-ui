@@ -41,7 +41,7 @@ describe("CardInfo", () => {
       />
     );
 
-    expect(screen.getByTestId("league-link")).toBeInTheDocument();
+    expect(screen.getByTestId("league")).toBeInTheDocument();
     expect(screen.getByText("🏟 National Stadium")).toBeInTheDocument();
   });
 

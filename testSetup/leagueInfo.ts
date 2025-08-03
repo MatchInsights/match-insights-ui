@@ -1,0 +1,43 @@
+import { LeagueStandingInfo } from "../src/app/types/types";
+
+export const mockStandings: LeagueStandingInfo[] = [
+  {
+    rank: 1,
+    teamName: "Manchester City",
+    logo: "https://example.com/mc-logo.png",
+    points: 9,
+    played: 3,
+    won: 3,
+    draw: 0,
+    lost: 0,
+    goalsFor: 10,
+    goalsAgainst: 2,
+    form: "WWW",
+  },
+  {
+    rank: 2,
+    teamName: "Arsenal",
+    logo: "https://example.com/arsenal-logo.png",
+    points: 7,
+    played: 3,
+    won: 2,
+    draw: 1,
+    lost: 0,
+    goalsFor: 6,
+    goalsAgainst: 3,
+    form: "WDW",
+  },
+  {
+    rank: 3,
+    teamName: "Liverpool",
+    logo: "https://example.com/liverpool-logo.png",
+    points: 6,
+    played: 3,
+    won: 2,
+    draw: 0,
+    lost: 1,
+    goalsFor: 5,
+    goalsAgainst: 4,
+    form: "WWL",
+  },
+];

@@ -44,7 +44,7 @@ describe("LeagueStanding Component", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/League Standings/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading League Info.../i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText(/No League Info/i)).toBeInTheDocument();
