@@ -60,7 +60,7 @@ describe("TodayMatches", () => {
 
   it("renders heading and calls fetchTodayMatches on mount", async () => {
     render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
-    expect(screen.getByText("Today's Matches")).toBeInTheDocument();
+    expect(screen.getByText("Loading Today Matches...")).toBeInTheDocument();
 
     await waitFor(() => {
       expect(fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");

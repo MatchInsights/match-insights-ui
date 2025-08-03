@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import MatchCard from "./MatchCard"; // adjust if necessary
 import { TodayMatch } from "../../../types/types";
+import { MemoryRouter } from "react-router-dom";
 
 describe("MatchCard", () => {
   const mockTodayMatch: TodayMatch = {
@@ -22,12 +23,17 @@ describe("MatchCard", () => {
       name: "Main Stadium",
     },
     league: {
+      id: 1,
       name: "Super League",
     },
   };
 
   it("renders both team names and logos", () => {
-    render(<MatchCard todayMatch={mockTodayMatch} />);
+    render(
+      <MemoryRouter>
+        <MatchCard todayMatch={mockTodayMatch} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText("Alpha FC")).toBeInTheDocument();
     expect(screen.getByText("Beta United")).toBeInTheDocument();
@@ -37,12 +43,16 @@ describe("MatchCard", () => {
   });
 
   it("renders the match info from CardInfo", () => {
-    render(<MatchCard todayMatch={mockTodayMatch} />);
+    render(
+      <MemoryRouter>
+        <MatchCard todayMatch={mockTodayMatch} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText("Live")).toBeInTheDocument();
     expect(screen.getByText("(25 min)")).toBeInTheDocument();
     expect(screen.getByText("🏟 Main Stadium")).toBeInTheDocument();
-    expect(screen.getByTestId("league-link")).toBeInTheDocument();
+    expect(screen.getByTestId("league")).toBeInTheDocument();
 
     const dateRegex = /\d{1,2}\/\d{1,2}\/\d{2,4}/;
     const timeRegex = /\d{1,2}:\d{2}/;
@@ -56,7 +66,11 @@ describe("MatchCard", () => {
   });
 
   it('renders "vs" separator', () => {
-    render(<MatchCard todayMatch={mockTodayMatch} />);
+    render(
+      <MemoryRouter>
+        <MatchCard todayMatch={mockTodayMatch} />
+      </MemoryRouter>
+    );
     expect(screen.getByText("vs")).toBeInTheDocument();
   });
 });

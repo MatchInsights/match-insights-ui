@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
 import FetchStatus from "../fetch-status/FetchStatus";
+import SubHeader from "../sub-header/SubHeader";
 
 interface LeagueStandingProps {
   fetchStandings: (leagueId: number) => Promise<LeagueStandingInfo[]>;
@@ -29,9 +30,7 @@ export default function LeagueStanding({
 
   return (
     <div className="bg-brand-darkBg text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
-      <h2 className="text-brand-orange text-lg md:text-2xl font-semibold mb-4">
-        League Standings
-      </h2>
+      <SubHeader title="League Standing" />
 
       {standings.length === 0 ? (
         <p className="bg-brand-danger text-center py-4 rounded-lg">
@@ -64,7 +63,7 @@ export default function LeagueStanding({
                   <td className="flex items-center gap-2 py-2">
                     <img
                       src={team.logo}
-                      alt={team.teamName}
+                      alt={""}
                       className="w-5 h-5 md:w-6 md:h-6"
                     />
                     <span>{team.teamName}</span>

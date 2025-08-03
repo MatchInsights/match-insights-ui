@@ -8,7 +8,7 @@ import {
   fetchTodayMatches,
 } from "../services/apiService";
 import LeagueStanding from "../components/league-standing/LeagueStanding";
-import MatchDetail from "../components/match-details/MatchDetails";
+import MatchDetail from "../components/match-details/MatchDetail";
 
 function App() {
   return (

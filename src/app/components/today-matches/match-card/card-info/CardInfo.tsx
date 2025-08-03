@@ -1,5 +1,4 @@
 import { League, MatchStatus, Venue } from "../../../../types/types";
-import { Link } from "react-router-dom";
 
 interface CardInfoProps {
   date: string | undefined;
@@ -34,7 +33,7 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
         )}
       </div>
 
-      <div className="text-brand-lightGray " data-testid={"league-link"}>
+      <div className="text-brand-lightGray " data-testid={"league"}>
         🏆 {league?.id ? league?.name : "Unknown League"}
       </div>
 
