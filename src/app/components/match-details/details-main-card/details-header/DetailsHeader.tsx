@@ -10,37 +10,40 @@ export default function DetailsHeader({
   awayTeam,
 }: DetailHeaderProps) {
   return (
-    <div className="flex items-center gap-4 mb-4 flex-wrap">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-4 sm:gap-10 mb-6 text-left sm:text-center">
+      {/* Home Team */}
+      <div className="flex items-center gap-3 w-full sm:w-auto">
         {homeTeam.logo ? (
           <img
             src={homeTeam.logo}
-            alt={""}
-            className="w-8 h-8 md:w-10 md:h-10 object-contain"
+            alt=""
+            className="w-10 h-10 md:w-14 md:h-14 object-contain"
             data-testid="home-team-logo"
           />
         ) : (
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-brand-darkGray rounded-full" />
+          <div className="w-10 h-10 md:w-14 md:h-14 bg-brand-darkGray rounded-full" />
         )}
         <span className="text-brand-orange text-2xl md:text-3xl font-bold">
           {homeTeam.name}
         </span>
       </div>
 
-      <span className="text-brand-lightGray text-xl md:text-2xl font-semibold">
+      {/* VS */}
+      <span className="text-brand-lightGray text-xl md:text-2xl font-semibold w-full sm:w-auto text-left sm:text-center">
         vs
       </span>
 
-      <div className="flex items-center gap-2">
+      {/* Away Team */}
+      <div className="flex items-center gap-3 w-full sm:w-auto">
         {awayTeam.logo ? (
           <img
             src={awayTeam.logo}
-            alt={""}
-            className="w-8 h-8 md:w-10 md:h-10 object-contain"
+            alt=""
+            className="w-10 h-10 md:w-14 md:h-14 object-contain"
             data-testid="away-team-logo"
           />
         ) : (
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-brand-darkGray rounded-full" />
+          <div className="w-10 h-10 md:w-14 md:h-14 bg-brand-darkGray rounded-full" />
         )}
         <span className="text-brand-orange text-2xl md:text-3xl font-bold">
           {awayTeam.name}

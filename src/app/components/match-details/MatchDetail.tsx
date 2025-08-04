@@ -31,45 +31,59 @@ export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
   const { homeTeam, awayTeam, date, venue, league, goals, score } = match;
 
   return (
-    <div className="bg-brand-darkBg text-brand-white px-4 md:px-6 lg:px-12 py-8 min-h-screen">
-      <SubHeader title={`Match Details`} />
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-brand-navbar p-6 rounded-2xl shadow-md w-full">
-          <div className="flex flex-col md:flex-row gap-6 w-full">
-            <div className="w-full md:w-3/4">
-              <DetailsMainCard
-                homeTeam={homeTeam}
-                awayTeam={awayTeam}
-                date={date}
-                venue={venue}
-                league={league}
-                score={score}
-                goals={goals}
-              />
-            </div>
+    <div className="bg-brand-darkBg text-brand-white px-4 md:px-6 lg:px-12 py-8 min-h-screen w-full">
+      <SubHeader title="Match Details" />
 
-            <div className="w-full md:w-1/4">
-              <MatchScoreCard score={score} />
-            </div>
+      {/* Responsive grid layout */}
+      <div
+        className="
+          grid 
+          gap-6 
+          grid-cols-1 
+          sm:grid-cols-2 
+          lg:grid-cols-3 
+          auto-rows-min
+          mt-8
+        "
+      >
+        {/* DetailsMainCard - larger size */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-2 row-span-2">
+          <div className="bg-brand-navbar p-10 rounded-2xl shadow-md h-full w-full">
+            <DetailsMainCard
+              homeTeam={homeTeam}
+              awayTeam={awayTeam}
+              date={date}
+              venue={venue}
+              league={league}
+              score={score}
+              goals={goals}
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <InfoCard title="Match Statistics" content="Coming soon..." />
-          <InfoCard title="Lineups" content="Coming soon..." />
-          <InfoCard title="Goals Timeline" content="Coming soon..." />
+        {/* Match Score Card */}
+        <div className="col-span-1">
+          <div className="bg-brand-navbar p-10 rounded-2xl shadow-md h-full">
+            <MatchScoreCard score={score} />
+          </div>
         </div>
+
+        {/* Info Cards */}
+        <InfoCard title="Match Statistics" content="Coming soon..." />
+        <InfoCard title="Lineups" content="Coming soon..." />
+        <InfoCard title="Goals Timeline" content="Coming soon..." />
+        <InfoCard title="Additional Insights" content="Coming soon..." />
       </div>
     </div>
   );
 }
 
-// Future Info Card
+// General-purpose card
 function InfoCard({ title, content }: { title: string; content: string }) {
   return (
-    <div className="bg-brand-navbar p-6 rounded-2xl shadow-md w-full">
-      <h3 className="text-brand-yellow text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-brand-lightGray text-base">{content}</p>
+    <div className="bg-brand-navbar p-10 rounded-2xl shadow-md w-full min-h-[300px] flex flex-col justify-between">
+      <h3 className="text-brand-yellow text-2xl font-semibold mb-4">{title}</h3>
+      <p className="text-brand-lightGray text-lg">{content}</p>
     </div>
   );
 }
