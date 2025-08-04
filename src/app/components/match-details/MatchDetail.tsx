@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MatchDetails } from "../../types/types";
+import { MatchDetails, TeamForm } from "../../types/types";
 import FetchStatus from "../fetch-status/FetchStatus";
 import { DetailsMainCard } from "./details-main-card/DetailsMainCard";
 import MatchScoreCard from "./match-score-card/MatchScoreCard";
 import SubHeader from "../sub-header/SubHeader";
+import LastFiveMatches from "./last-five-matches/LastFiveMatches";
 
 interface MatchDetailProps {
   fetchMatchDetails: (id: number) => Promise<MatchDetails>;
+  fetchLastFiveMatches: (
+    homeTeamId: number,
+    awayTeamId: number
+  ) => Promise<TeamForm>;
 }
 
-export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
+export default function MatchDetail({
+  fetchMatchDetails,
+  fetchLastFiveMatches,
+}: MatchDetailProps) {
   const { id } = useParams<{ id: string }>();
   const [match, setMatch] = useState<MatchDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +42,6 @@ export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
     <div className="bg-brand-darkBg text-brand-white px-4 md:px-6 lg:px-12 py-8 min-h-screen w-full">
       <SubHeader title="Match Details" />
 
-      {/* Responsive grid layout */}
       <div
         className="
           grid 
@@ -46,7 +53,6 @@ export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
           mt-8
         "
       >
-        {/* DetailsMainCard - larger size */}
         <div className="col-span-1 sm:col-span-2 lg:col-span-2 row-span-2">
           <div className="bg-brand-navbar p-10 rounded-2xl shadow-md h-full w-full">
             <DetailsMainCard
@@ -61,14 +67,20 @@ export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
           </div>
         </div>
 
-        {/* Match Score Card */}
         <div className="col-span-1">
           <div className="bg-brand-navbar p-10 rounded-2xl shadow-md h-full">
             <MatchScoreCard score={score} />
           </div>
         </div>
 
-        {/* Info Cards */}
+        <LastFiveMatches
+          fetchLastFiveMatches={fetchLastFiveMatches}
+          homeTeamId={homeTeam.id}
+          homeTeam={homeTeam.name}
+          awayTeam={awayTeam.name}
+          awayTeamId={awayTeam.id}
+        />
+
         <InfoCard title="Match Statistics" content="Coming soon..." />
         <InfoCard title="Lineups" content="Coming soon..." />
         <InfoCard title="Goals Timeline" content="Coming soon..." />
@@ -78,7 +90,6 @@ export default function MatchDetail({ fetchMatchDetails }: MatchDetailProps) {
   );
 }
 
-// General-purpose card
 function InfoCard({ title, content }: { title: string; content: string }) {
   return (
     <div className="bg-brand-navbar p-10 rounded-2xl shadow-md w-full min-h-[300px] flex flex-col justify-between">

@@ -115,8 +115,7 @@ describe("DetailsMainCard", () => {
 
   it("renders dash score and Scheduled label when not fulltime", () => {
     renderCard(scoreScheduled);
-    expect(screen.getByText("2 : 1")).toBeInTheDocument(); // goals still show
-    expect(screen.getByText("Scheduled")).toBeInTheDocument();
+    expect(screen.getByText("2 : 1")).toBeInTheDocument();
   });
 
   it("renders dash if goal values are null", () => {

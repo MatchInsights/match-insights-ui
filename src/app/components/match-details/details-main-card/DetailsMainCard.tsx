@@ -24,7 +24,6 @@ export const DetailsMainCard = ({
   return (
     <div className="bg-brand-card p-10 rounded-2xl shadow-xl w-full h-full flex flex-col justify-between">
       <div className="flex flex-col lg:flex-row justify-between gap-10 flex-grow">
-        {/* Left Side: Details */}
         <div className="w-full lg:w-2/3 space-y-8 text-left">
           <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />
 
@@ -49,16 +48,13 @@ export const DetailsMainCard = ({
           </p>
         </div>
 
-        {/* Right Side: Score */}
-        <div className="w-full lg:w-1/3 flex items-center justify-start text-left">
-          <div>
-            <p className="text-7xl font-extrabold text-brand-white leading-none">
-              {goals.home ?? "-"} : {goals.away ?? "-"}
-            </p>
-            <p className="text-brand-white text-xl mt-3">
-              {score.fulltime?.home != null ? "FT" : "Scheduled"}
-            </p>
-          </div>
+        <div className="w-full lg:w-1/3 flex items-left justify-start text-left">
+          <p className="text-5xl font-extrabold text-brand-white leading-none">
+            {goals.home ?? "-"} : {goals.away ?? "-"}
+          </p>
+          <p className="text-brand-white text-xl m-3">
+            {score.fulltime?.home != null && "FT"}
+          </p>
         </div>
       </div>
     </div>

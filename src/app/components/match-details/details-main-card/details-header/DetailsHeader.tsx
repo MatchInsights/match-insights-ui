@@ -11,7 +11,6 @@ export default function DetailsHeader({
 }: DetailHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-4 sm:gap-10 mb-6 text-left sm:text-center">
-      {/* Home Team */}
       <div className="flex items-center gap-3 w-full sm:w-auto">
         {homeTeam.logo ? (
           <img
@@ -28,12 +27,10 @@ export default function DetailsHeader({
         </span>
       </div>
 
-      {/* VS */}
       <span className="text-brand-lightGray text-xl md:text-2xl font-semibold w-full sm:w-auto text-left sm:text-center">
         vs
       </span>
 
-      {/* Away Team */}
       <div className="flex items-center gap-3 w-full sm:w-auto">
         {awayTeam.logo ? (
           <img

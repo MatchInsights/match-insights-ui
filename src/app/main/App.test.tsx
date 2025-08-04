@@ -8,6 +8,9 @@ vi.mock("../services/apiService", () => ({
   fetchTodayMatches: vi.fn().mockResolvedValue([]),
   fetchLeagueStanding: vi.fn().mockResolvedValue([]),
   fetchMatchDetails: vi.fn().mockResolvedValue([]),
+  fetchLastFiveMatches: vi
+    .fn()
+    .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] }),
 }));
 
 vi.mock("../pages/home/Home", () => ({

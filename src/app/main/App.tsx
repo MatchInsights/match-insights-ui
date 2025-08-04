@@ -6,6 +6,7 @@ import {
   fetchLeagueStanding,
   fetchMatchDetails,
   fetchTodayMatches,
+  fetchLastFiveMatches,
 } from "../services/apiService";
 import LeagueStanding from "../components/league-standing/LeagueStanding";
 import MatchDetail from "../components/match-details/MatchDetail";
@@ -28,7 +29,12 @@ function App() {
 
           <Route
             path="/match/:id"
-            element={<MatchDetail fetchMatchDetails={fetchMatchDetails} />}
+            element={
+              <MatchDetail
+                fetchMatchDetails={fetchMatchDetails}
+                fetchLastFiveMatches={fetchLastFiveMatches}
+              />
+            }
           />
         </Routes>
       </main>

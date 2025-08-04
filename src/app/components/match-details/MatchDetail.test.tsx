@@ -50,11 +50,14 @@ const mockMatchDetails: MatchDetails = {
 
 describe("MatchDetail", () => {
   it("renders loading state initially", () => {
-    const fetchMock = vi.fn(() => new Promise(() => {})); // never resolves
+    const fetchMock = vi.fn(() => new Promise(() => {}));
 
     render(
       <MemoryRouter initialEntries={["/match/1"]}>
-        <MatchDetail fetchMatchDetails={fetchMock} />
+        <MatchDetail
+          fetchMatchDetails={fetchMock}
+          fetchLastFiveMatches={fetchMock}
+        />
       </MemoryRouter>
     );
 
@@ -66,7 +69,10 @@ describe("MatchDetail", () => {
 
     render(
       <MemoryRouter>
-        <MatchDetail fetchMatchDetails={fetchMock} />
+        <MatchDetail
+          fetchMatchDetails={fetchMock}
+          fetchLastFiveMatches={fetchMock}
+        />
       </MemoryRouter>
     );
 
@@ -80,7 +86,10 @@ describe("MatchDetail", () => {
 
     render(
       <MemoryRouter>
-        <MatchDetail fetchMatchDetails={fetchMock} />
+        <MatchDetail
+          fetchMatchDetails={fetchMock}
+          fetchLastFiveMatches={fetchMock}
+        />
       </MemoryRouter>
     );
 

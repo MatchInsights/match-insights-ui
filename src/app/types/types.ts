@@ -72,3 +72,8 @@ export interface LeagueStandingInfo {
   goalsAgainst: number;
   form: string;
 }
+
+export interface TeamForm {
+  homeTeamLastFive: string[];
+  awayTeamLastFive: string[];
+}
