@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MatchDetails, TeamForm } from "../../types/types";
+import { H2HDetails, MatchDetails, TeamForm } from "../../types/types";
 import FetchStatus from "../fetch-status/FetchStatus";
 import { DetailsMainCard } from "./details-main-card/DetailsMainCard";
 import MatchScoreCard from "./match-score-card/MatchScoreCard";
 import SubHeader from "../sub-header/SubHeader";
 import LastFiveMatches from "./last-five-matches/LastFiveMatches";
+import HeadToHead from "./h2h/HeadToHead";
 
 interface MatchDetailProps {
   fetchMatchDetails: (id: number) => Promise<MatchDetails>;
@@ -13,11 +14,16 @@ interface MatchDetailProps {
     homeTeamId: number,
     awayTeamId: number
   ) => Promise<TeamForm>;
+  fetchHeadToHead: (
+    homeTeamId: number,
+    awayTeamId: number
+  ) => Promise<H2HDetails[]>;
 }
 
 export default function MatchDetail({
   fetchMatchDetails,
   fetchLastFiveMatches,
+  fetchHeadToHead,
 }: MatchDetailProps) {
   const { id } = useParams<{ id: string }>();
   const [match, setMatch] = useState<MatchDetails | null>(null);
@@ -73,13 +79,23 @@ export default function MatchDetail({
           </div>
         </div>
 
-        <LastFiveMatches
-          fetchLastFiveMatches={fetchLastFiveMatches}
-          homeTeamId={homeTeam.id}
-          homeTeam={homeTeam.name}
-          awayTeam={awayTeam.name}
-          awayTeamId={awayTeam.id}
-        />
+        <div data-testid="last-five-info" className="col-span-1">
+          <LastFiveMatches
+            fetchLastFiveMatches={fetchLastFiveMatches}
+            homeTeamId={homeTeam.id}
+            homeTeam={homeTeam.name}
+            awayTeam={awayTeam.name}
+            awayTeamId={awayTeam.id}
+          />
+        </div>
+
+        <div data-testid="h2h-info" className="col-span-1">
+          <HeadToHead
+            homeTeamId={homeTeam.id}
+            awayTeamId={awayTeam.id}
+            fetchHeadToHead={fetchHeadToHead}
+          />
+        </div>
 
         <InfoCard title="Match Statistics" content="Coming soon..." />
         <InfoCard title="Lineups" content="Coming soon..." />
