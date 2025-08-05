@@ -12,6 +12,7 @@ import {
 
 import LeagueStanding from "../components/league-standing/LeagueStanding";
 import MatchDetail from "../components/match-details/MatchDetail";
+import About from "../pages/about/About";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
             path="/"
             element={<HomePage fetchTodayMatches={fetchTodayMatches} />}
           />
-
+          <Route path="/about" element={<About />} />
           <Route
             path="/league/:leagueId"
             element={<LeagueStanding fetchStandings={fetchLeagueStanding} />}
