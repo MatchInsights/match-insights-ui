@@ -44,7 +44,10 @@ const LastFiveMatches = ({
 
   return (
     <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl shadow-md w-full flex flex-col gap-4">
-      <h3 className="text-brand-yellow text-xl font-semibold">
+      <h3
+        data-testid="last-five-matches"
+        className="text-brand-yellow text-xl font-semibold"
+      >
         Last Five Matches
       </h3>
 

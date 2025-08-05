@@ -57,6 +57,7 @@ describe("MatchDetail", () => {
         <MatchDetail
           fetchMatchDetails={fetchMock}
           fetchLastFiveMatches={fetchMock}
+          fetchHeadToHead={fetchMock}
         />
       </MemoryRouter>
     );
@@ -82,13 +83,14 @@ describe("MatchDetail", () => {
   });
 
   it("renders match details on success", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(mockMatchDetails);
-
     render(
       <MemoryRouter>
         <MatchDetail
-          fetchMatchDetails={fetchMock}
-          fetchLastFiveMatches={fetchMock}
+          fetchMatchDetails={vi.fn().mockResolvedValue(mockMatchDetails)}
+          fetchLastFiveMatches={vi
+            .fn()
+            .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] })}
+          fetchHeadToHead={vi.fn().mockResolvedValue([])}
         />
       </MemoryRouter>
     );
@@ -97,6 +99,8 @@ describe("MatchDetail", () => {
       expect(screen.getByText(homeTeam.name)).toBeInTheDocument();
       expect(screen.getByText(awayTeam.name)).toBeInTheDocument();
       expect(screen.getAllByText("2 : 3").length).is.toBe(2);
+      expect(screen.getByTestId("last-five-info")).toBeInTheDocument();
+      expect(screen.getByTestId("h2h-info")).toBeInTheDocument();
     });
   });
 });

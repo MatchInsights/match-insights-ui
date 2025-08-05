@@ -7,7 +7,9 @@ import {
   fetchMatchDetails,
   fetchTodayMatches,
   fetchLastFiveMatches,
+  fetchHeadToHead,
 } from "../services/apiService";
+
 import LeagueStanding from "../components/league-standing/LeagueStanding";
 import MatchDetail from "../components/match-details/MatchDetail";
 
@@ -33,6 +35,7 @@ function App() {
               <MatchDetail
                 fetchMatchDetails={fetchMatchDetails}
                 fetchLastFiveMatches={fetchLastFiveMatches}
+                fetchHeadToHead={fetchHeadToHead}
               />
             }
           />

@@ -2,7 +2,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
-import { fetchMatchDetails } from "../services/apiService";
 
 vi.mock("../services/apiService", () => ({
   fetchTodayMatches: vi.fn().mockResolvedValue([]),
@@ -11,6 +10,7 @@ vi.mock("../services/apiService", () => ({
   fetchLastFiveMatches: vi
     .fn()
     .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] }),
+  fetchHeadToHead: vi.fn().mockResolvedValue([]),
 }));
 
 vi.mock("../pages/home/Home", () => ({

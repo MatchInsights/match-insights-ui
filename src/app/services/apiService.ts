@@ -3,28 +3,9 @@ import {
   LeagueStandingInfo,
   MatchDetails,
   TeamForm,
+  H2HDetails,
 } from "../types/types";
 import apiFetch from "./apiConfig";
-
-// import { mockTodayMatches } from "../../../testSetup/matches";
-// import { mockStandings } from "../../../testSetup/leagueInfo";
-// import { mockMatchDetails } from "../../../testSetup/matchDetails";
-// import { lastFiveData } from "../../../testSetup/teamsform";
-
-// export const fetchTodayMatches = async (
-//   status: string
-// ): Promise<TodayMatch[]> => Promise.resolve(mockTodayMatches);
-// export const fetchLeagueStanding = async (
-//   leagueId: Number
-// ): Promise<LeagueStandingInfo[]> => Promise.resolve(mockStandings);
-// export const fetchMatchDetails = async (
-//   matchId: number
-// ): Promise<MatchDetails> => Promise.resolve(mockMatchDetails);
-
-// export const fetchLastFiveMatches = async (
-//   homeTeamId: number,
-//   awayTeamId: number
-// ): Promise<TeamForm> => Promise.resolve(lastFiveData);
 
 export const fetchTodayMatches = async (
   status: string
@@ -59,6 +40,16 @@ export const fetchLastFiveMatches = async (
 ): Promise<TeamForm> => {
   const response = await apiFetch.get<TeamForm>(
     `/api/teams/lastfive/${homeTeamId}/${awayTeamId}`
+  );
+  return response.data;
+};
+
+export const fetchHeadToHead = async (
+  homeTeamId: number,
+  awayTeamId: number
+): Promise<H2HDetails[]> => {
+  const response = await apiFetch.get<H2HDetails[]>(
+    `/api/teams/h2h/${homeTeamId}/${awayTeamId}`
   );
   return response.data;
 };

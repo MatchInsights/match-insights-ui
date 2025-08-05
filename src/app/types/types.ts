@@ -77,3 +77,20 @@ export interface TeamForm {
   homeTeamLastFive: string[];
   awayTeamLastFive: string[];
 }
+
+export interface H2HDetails {
+  date: string;
+  venue: Venue;
+  leagueName: string;
+  season: number;
+  round?: string;
+  winner: string;
+  homeHalfTimeGoal: number;
+  awayHalfTimeGoal: number;
+  homeFullTimeGoal: number;
+  awayFullTimeGoal: number;
+  homeExtraTimeGoal: number;
+  awayExtraTimeGoal: number;
+  homePenalty: number;
+  awayPenalty: number;
+}
