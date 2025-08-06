@@ -68,6 +68,7 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
               league={league}
               score={score}
               goals={goals}
+              apiService={apiService}
             />
           </div>
         </div>

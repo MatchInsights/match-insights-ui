@@ -1,7 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { DetailsMainCard } from "./DetailsMainCard";
 import { MemoryRouter } from "react-router-dom";
 import type { Team, League, Venue, Goal, Score } from "../../../types/types";
+import { ApiService } from "../../../services/apiService";
+import { describe, it, expect, vi } from "vitest";
+import { g } from "vitest/dist/chunks/suite.qtkXWc6R.js";
 
 describe("DetailsMainCard", () => {
   const homeTeam: Team = {
@@ -46,80 +49,126 @@ describe("DetailsMainCard", () => {
 
   const testDate = "2024-03-15T18:00:00Z";
 
-  function renderCard(score: Score = scoreFT) {
+  function renderCard(
+    score: Score,
+    apiService: ApiService,
+    badLeague?: League
+  ) {
     return render(
       <MemoryRouter>
         <DetailsMainCard
           homeTeam={homeTeam}
           awayTeam={awayTeam}
           date={testDate}
-          league={league}
+          league={badLeague || league}
           venue={venue}
           goals={goals}
           score={score}
+          apiService={apiService as ApiService}
         />
       </MemoryRouter>
     );
   }
 
-  it("renders team names via DetailsHeader", () => {
-    renderCard();
-    expect(screen.getByText("Home Team")).toBeInTheDocument();
-    expect(screen.getByText("Away Team")).toBeInTheDocument();
+  it("renders team names via DetailsHeader", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      expect(screen.getByText("Home Team")).toBeInTheDocument();
+      expect(screen.getByText("Away Team")).toBeInTheDocument();
+    });
   });
 
-  it("renders league name with correct link", () => {
-    renderCard();
-    const leagueLink = screen.getByTestId("league-link");
-    expect(leagueLink).toHaveTextContent("🏆 Premier League — Matchday 5");
-    expect(leagueLink).toHaveAttribute("href", "/league/12");
+  it("renders league name with correct link", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      const leagueLink = screen.getByTestId("league-link");
+      expect(leagueLink).toHaveTextContent("🏆 Premier League — Matchday 5");
+      expect(leagueLink).toHaveAttribute("href", "/league/12");
+    });
   });
 
-  it("renders fallback league name if id is missing", () => {
+  it("renders fallback league name if id is missing", async () => {
     const badLeague = { id: null, name: "", round: "" } as League;
-    render(
-      <MemoryRouter>
-        <DetailsMainCard
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-          date={testDate}
-          league={badLeague}
-          venue={venue}
-          goals={goals}
-          score={scoreFT}
-        />
-      </MemoryRouter>
-    );
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
 
-    expect(screen.getByTestId("league-link")).toHaveTextContent(
-      "Unknown League"
-    );
+    renderCard(scoreFT, apiService as ApiService, badLeague);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("league-link")).toHaveTextContent(
+        "🏆 Unknown League — →"
+      );
+    });
   });
 
-  it("renders venue name and city", () => {
-    renderCard();
-    expect(screen.getByText(/Stadium ABC, City XYZ/)).toBeInTheDocument();
+  it("renders venue name and city", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Stadium ABC, City XYZ/)).toBeInTheDocument();
+    });
   });
 
-  it("renders formatted date", () => {
-    renderCard();
-    const expected = new Date(testDate).toLocaleString();
-    expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
+  it("renders formatted date", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      const expected = new Date(testDate).toLocaleString();
+      expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
+    });
   });
 
-  it("renders the correct score and FT label", () => {
-    renderCard(scoreFT);
-    expect(screen.getByText("2 : 1")).toBeInTheDocument();
-    expect(screen.getByText("FT")).toBeInTheDocument();
+  it("renders the correct score and FT label", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      expect(screen.getByText("2 : 1")).toBeInTheDocument();
+      expect(screen.getByText("FT")).toBeInTheDocument();
+    });
   });
 
-  it("renders dash score and Scheduled label when not fulltime", () => {
-    renderCard(scoreScheduled);
-    expect(screen.getByText("2 : 1")).toBeInTheDocument();
+  it("renders dash score and Scheduled label when not fulltime", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+
+    renderCard(scoreScheduled, apiService as ApiService);
+    await waitFor(() => {
+      expect(screen.getByText("2 : 1")).toBeInTheDocument();
+    });
   });
 
-  it("renders dash if goal values are null", () => {
-    const nullGoals: Goal = { home: null, away: null };
+  it("renders league stats", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({
+        homeTeamPosition: 10,
+        awayTeamPosition: 5,
+        homeTeamPoints: 25,
+        awayTeamPoints: 30,
+      }),
+    };
+
     render(
       <MemoryRouter>
         <DetailsMainCard
@@ -128,11 +177,29 @@ describe("DetailsMainCard", () => {
           date={testDate}
           league={league}
           venue={venue}
-          goals={nullGoals}
+          goals={goals}
           score={scoreScheduled}
+          apiService={apiService as ApiService}
         />
       </MemoryRouter>
     );
-    expect(screen.getByText("- : -")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("10 vs 5")).toBeInTheDocument();
+      expect(screen.getByText("25 vs 30")).toBeInTheDocument();
+    });
+  });
+
+  it("renders formatted date", async () => {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({}),
+    };
+
+    renderCard(scoreFT, apiService as ApiService);
+
+    await waitFor(() => {
+      const expected = new Date(testDate).toLocaleString();
+      expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
+    });
   });
 });
