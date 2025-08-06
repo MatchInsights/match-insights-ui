@@ -4,6 +4,7 @@ import {
   MatchDetails,
   TeamForm,
   H2HDetails,
+  TwoTeamStats,
 } from "../types/types";
 import apiFetch from "./apiConfig";
 
@@ -50,6 +51,27 @@ export const fetchHeadToHead = async (
 ): Promise<H2HDetails[]> => {
   const response = await apiFetch.get<H2HDetails[]>(
     `/api/teams/h2h/${homeTeamId}/${awayTeamId}`
+  );
+  return response.data;
+};
+
+export const fetchSeasonStats = async (
+  homeTeamId: number,
+  awayTeamId: number,
+  leagueId: number
+): Promise<TwoTeamStats> => {
+  const response = await apiFetch.get<TwoTeamStats>(
+    `/api/teams/season/stats/${homeTeamId}/${awayTeamId}/${leagueId}`
+  );
+  return response.data;
+};
+
+export const fetchH2HStats = async (
+  homeTeamId: number,
+  awayTeamId: number
+): Promise<TwoTeamStats> => {
+  const response = await apiFetch.get<TwoTeamStats>(
+    `/api/teams/h2h/stats/${homeTeamId}/${awayTeamId}`
   );
   return response.data;
 };

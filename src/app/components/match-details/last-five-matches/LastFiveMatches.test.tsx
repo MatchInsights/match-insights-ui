@@ -27,7 +27,7 @@ describe("LastFiveMatches", () => {
       />
     );
 
-    expect(screen.getByText(/Loading Teams Form/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading Data/i)).toBeInTheDocument();
   });
 
   it("renders badges correctly after loading", async () => {
@@ -73,7 +73,7 @@ describe("LastFiveMatches", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getAllByText(/No data available/i)).toHaveLength(2);
+      expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
     });
   });
 });

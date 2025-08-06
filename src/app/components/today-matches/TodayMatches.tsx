@@ -21,7 +21,10 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
         setMatches(data);
         setLoading(false);
       })
-      .catch((err) => console.error("Fetch error:", err));
+      .catch(() => {
+        setLoading(false);
+        setMatches([]);
+      });
   }, [status]);
 
   const filtered = matches.filter((match) => {
@@ -39,7 +42,9 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
 
   if (loading)
     return <FetchStatus type="loading" message="Loading Today Matches..." />;
-  if (!matches) return <FetchStatus type="error" message="Fetch Failed." />;
+
+  if (!loading && matches.length === 0)
+    return <FetchStatus type="error" message="Fetch Failed..." />;
 
   return (
     <div className="w-full mx-auto px-12 py-12">

@@ -8,6 +8,8 @@ import {
   fetchTodayMatches,
   fetchLastFiveMatches,
   fetchHeadToHead,
+  fetchH2HStats,
+  fetchSeasonStats,
 } from "../services/apiService";
 
 import LeagueStanding from "../components/league-standing/LeagueStanding";
@@ -25,6 +27,7 @@ function App() {
             element={<HomePage fetchTodayMatches={fetchTodayMatches} />}
           />
           <Route path="/about" element={<About />} />
+
           <Route
             path="/league/:leagueId"
             element={<LeagueStanding fetchStandings={fetchLeagueStanding} />}
@@ -34,9 +37,13 @@ function App() {
             path="/match/:id"
             element={
               <MatchDetail
-                fetchMatchDetails={fetchMatchDetails}
-                fetchLastFiveMatches={fetchLastFiveMatches}
-                fetchHeadToHead={fetchHeadToHead}
+                fetchFunctions={{
+                  fetchMatchDetails,
+                  fetchLastFiveMatches,
+                  fetchHeadToHead,
+                  fetchH2HStats,
+                  fetchSeasonStats,
+                }}
               />
             }
           />
