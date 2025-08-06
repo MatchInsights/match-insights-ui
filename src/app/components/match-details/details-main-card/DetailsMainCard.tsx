@@ -38,7 +38,7 @@ export const DetailsMainCard = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!league.id) {
+    if (!league.id || !apiService.fetchTeamLeagueStats) {
       setLoading(false);
       setTeamsLeagueStats(null);
     } else {
