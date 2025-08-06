@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import TeamStats from "./TeamStats";
 import { describe, it, expect, vi } from "vitest";
+import { ApiService } from "../../../services/apiService";
 
 const mockStats = {
   team0: {
@@ -21,13 +22,17 @@ const mockStats = {
 
 describe("TeamStats", () => {
   it("renders loading state initially", () => {
+    const apiService: Partial<ApiService> = {
+      fetchH2HStats: () => new Promise(() => {}),
+    };
+
     render(
       <TeamStats
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
         awayTeamName="Team B"
-        fetchH2HTeamStats={() => new Promise(() => {})}
+        apiService={apiService as ApiService}
       />
     );
 
@@ -35,15 +40,16 @@ describe("TeamStats", () => {
   });
 
   it("renders fallback if no data returned", async () => {
-    const fetchH2HTeamStats = vi.fn().mockResolvedValue(null);
-
+    const apiService: Partial<ApiService> = {
+      fetchH2HStats: vi.fn().mockResolvedValue(null),
+    };
     render(
       <TeamStats
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
         awayTeamName="Team B"
-        fetchH2HTeamStats={fetchH2HTeamStats}
+        apiService={apiService as ApiService}
       />
     );
 
@@ -53,15 +59,16 @@ describe("TeamStats", () => {
   });
 
   it("renders stats correctly with H2H data", async () => {
-    const fetchH2HTeamStats = vi.fn().mockResolvedValue(mockStats);
-
+    const apiService: Partial<ApiService> = {
+      fetchH2HStats: vi.fn().mockResolvedValue(mockStats),
+    };
     render(
       <TeamStats
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
         awayTeamName="Team B"
-        fetchH2HTeamStats={fetchH2HTeamStats}
+        apiService={apiService as ApiService}
       />
     );
 
@@ -75,7 +82,9 @@ describe("TeamStats", () => {
   });
 
   it("calls season stats fetch if provided with leagueId", async () => {
-    const fetchSeasonTeamStats = vi.fn().mockResolvedValue(mockStats);
+    const apiService: Partial<ApiService> = {
+      fetchSeasonStats: vi.fn().mockResolvedValue(mockStats),
+    };
 
     render(
       <TeamStats
@@ -84,12 +93,12 @@ describe("TeamStats", () => {
         leagueId={99}
         homeTeamName="Team A"
         awayTeamName="Team B"
-        fetchSeasonTeamStats={fetchSeasonTeamStats}
+        apiService={apiService as ApiService}
       />
     );
 
     await waitFor(() =>
-      expect(fetchSeasonTeamStats).toHaveBeenCalledWith(1, 2, 99)
+      expect(apiService.fetchSeasonStats).toHaveBeenCalledWith(1, 2, 99)
     );
 
     expect(await screen.findByText("Team A: 1.5")).toBeInTheDocument();

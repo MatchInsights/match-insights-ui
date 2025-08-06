@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { H2HDetails } from "../../../types/types";
 import FetchStatus from "../../fetch-status/FetchStatus";
+import { ApiService } from "../../../services/apiService";
 
 interface HeadToHeadProps {
   homeTeamId: number;
   awayTeamId: number;
-  fetchHeadToHead: (
-    homeTeamId: number,
-    awayTeamId: number
-  ) => Promise<H2HDetails[]>;
+  apiService: ApiService;
 }
 
 const HeadToHead = ({
-  fetchHeadToHead,
+  apiService,
   homeTeamId,
   awayTeamId,
 }: HeadToHeadProps) => {
@@ -20,7 +18,8 @@ const HeadToHead = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchHeadToHead(homeTeamId, awayTeamId)
+    apiService
+      .fetchHeadToHead(homeTeamId, awayTeamId)
       .then((result) => {
         setData(result);
         setLoading(false);

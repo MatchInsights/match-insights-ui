@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MatchDetails, MatchDetailsFetchFunctions } from "../../types/types";
+import { MatchDetails } from "../../types/types";
 import FetchStatus from "../fetch-status/FetchStatus";
 import { DetailsMainCard } from "./details-main-card/DetailsMainCard";
 import MatchScoreCard from "./match-score-card/MatchScoreCard";
@@ -8,20 +8,20 @@ import SubHeader from "../sub-header/SubHeader";
 import LastFiveMatches from "./last-five-matches/LastFiveMatches";
 import HeadToHead from "./h2h/HeadToHead";
 import TeamStats from "./team-stats/TeamStats";
+import { ApiService } from "../../services/apiService";
 
 interface MatchDetailProps {
-  fetchFunctions: MatchDetailsFetchFunctions;
+  apiService: ApiService;
 }
 
-export default function MatchDetail({ fetchFunctions }: MatchDetailProps) {
+export default function MatchDetail({ apiService }: MatchDetailProps) {
   const { id } = useParams<{ id: string }>();
   const [match, setMatch] = useState<MatchDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!id) return;
-
-    fetchFunctions
+    apiService
       .fetchMatchDetails(Number(id))
       .then((details) => {
         setMatch(details);
@@ -84,7 +84,7 @@ export default function MatchDetail({ fetchFunctions }: MatchDetailProps) {
             className="w-full sm:w-1/2 flex justify-center"
           >
             <LastFiveMatches
-              fetchLastFiveMatches={fetchFunctions.fetchLastFiveMatches}
+              apiService={apiService}
               homeTeamId={homeTeam.id}
               homeTeam={homeTeam.name}
               awayTeam={awayTeam.name}
@@ -100,7 +100,7 @@ export default function MatchDetail({ fetchFunctions }: MatchDetailProps) {
           <HeadToHead
             homeTeamId={homeTeam.id}
             awayTeamId={awayTeam.id}
-            fetchHeadToHead={fetchFunctions.fetchHeadToHead}
+            apiService={apiService}
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function MatchDetail({ fetchFunctions }: MatchDetailProps) {
             awayTeamId={awayTeam.id}
             homeTeamName={homeTeam.name}
             awayTeamName={awayTeam.name}
-            fetchH2HTeamStats={fetchFunctions.fetchH2HStats}
+            apiService={apiService}
           />
         </div>
 
@@ -127,7 +127,7 @@ export default function MatchDetail({ fetchFunctions }: MatchDetailProps) {
             leagueId={league.id}
             homeTeamName={homeTeam.name}
             awayTeamName={awayTeam.name}
-            fetchSeasonTeamStats={fetchFunctions.fetchSeasonStats}
+            apiService={apiService}
           />
         </div>
 

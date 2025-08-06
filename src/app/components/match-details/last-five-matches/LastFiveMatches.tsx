@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { TeamForm } from "../../../types/types";
 import FetchStatus from "../../fetch-status/FetchStatus";
+import { ApiService } from "../../../services/apiService";
 
 interface LastFiveMatchesProps {
   homeTeamId: number;
   homeTeam: string;
   awayTeamId: number;
   awayTeam: string;
-  fetchLastFiveMatches: (
-    homeTeamId: number,
-    awayTeamId: number
-  ) => Promise<TeamForm>;
+  apiService: ApiService;
 }
 
 const LastFiveMatches = ({
-  fetchLastFiveMatches,
+  apiService,
   homeTeamId,
   homeTeam,
   awayTeamId,
@@ -31,8 +29,9 @@ const LastFiveMatches = ({
   };
 
   useEffect(() => {
-    fetchLastFiveMatches(homeTeamId, awayTeamId)
-      .then((result) => {
+    apiService
+      .fetchLastFiveMatches(homeTeamId, awayTeamId)
+      .then((result: TeamForm) => {
         const { homeTeamLastFive, awayTeamLastFive } = result;
         setHomeTeamData(homeTeamLastFive);
         setAwayTeamData(awayTeamLastFive);

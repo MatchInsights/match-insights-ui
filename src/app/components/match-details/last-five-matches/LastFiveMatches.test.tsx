@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import LastFiveMatches from "./LastFiveMatches";
-
-const mockFetchLastFiveMatches = vi.fn();
+import { ApiService } from "../../../services/apiService";
 
 const homeTeamId = 1;
 const awayTeamId = 2;
@@ -15,11 +14,13 @@ describe("LastFiveMatches", () => {
   });
 
   it("shows loading initially", () => {
-    mockFetchLastFiveMatches.mockReturnValue(new Promise(() => {}));
+    const apiService: Partial<ApiService> = {
+      fetchLastFiveMatches: () => new Promise(() => {}),
+    };
 
     render(
       <LastFiveMatches
-        fetchLastFiveMatches={mockFetchLastFiveMatches}
+        apiService={apiService as ApiService}
         homeTeamId={homeTeamId}
         homeTeam={homeTeam}
         awayTeamId={awayTeamId}
@@ -31,14 +32,16 @@ describe("LastFiveMatches", () => {
   });
 
   it("renders badges correctly after loading", async () => {
-    mockFetchLastFiveMatches.mockResolvedValue({
-      homeTeamLastFive: ["W", "D", "L", "W", "D"],
-      awayTeamLastFive: ["L", "L", "W", "D", "W"],
-    });
+    const apiService: Partial<ApiService> = {
+      fetchLastFiveMatches: vi.fn().mockResolvedValue({
+        homeTeamLastFive: ["W", "D", "L", "W", "D"],
+        awayTeamLastFive: ["L", "L", "W", "D", "W"],
+      }),
+    };
 
     render(
       <LastFiveMatches
-        fetchLastFiveMatches={mockFetchLastFiveMatches}
+        apiService={apiService as ApiService}
         homeTeamId={homeTeamId}
         homeTeam={homeTeam}
         awayTeamId={awayTeamId}
@@ -57,14 +60,16 @@ describe("LastFiveMatches", () => {
   });
 
   it("renders fallback message when no data is available", async () => {
-    mockFetchLastFiveMatches.mockResolvedValue({
-      homeTeamLastFive: [],
-      awayTeamLastFive: [],
-    });
+    const apiService: Partial<ApiService> = {
+      fetchLastFiveMatches: vi.fn().mockResolvedValue({
+        homeTeamLastFive: [],
+        awayTeamLastFive: [],
+      }),
+    };
 
     render(
       <LastFiveMatches
-        fetchLastFiveMatches={mockFetchLastFiveMatches}
+        apiService={apiService as ApiService}
         homeTeamId={homeTeamId}
         homeTeam={homeTeam}
         awayTeamId={awayTeamId}

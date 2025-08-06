@@ -6,9 +6,9 @@ import type {
   MatchDetails,
   Team,
   League,
-  MatchDetailsFetchFunctions,
   TwoTeamStats,
 } from "../../types/types";
+import { ApiService } from "../../services/apiService";
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
@@ -73,19 +73,13 @@ const mockMatchDetails: MatchDetails = {
 
 describe("MatchDetail", () => {
   it("renders loading state initially", () => {
-    const fetchFunctions: MatchDetailsFetchFunctions = {
-      fetchMatchDetails: vi.fn(
-        (id: number) => new Promise<MatchDetails>(() => {})
-      ),
-      fetchLastFiveMatches: vi.fn(),
-      fetchHeadToHead: vi.fn(),
-      fetchH2HStats: vi.fn(),
-      fetchSeasonStats: vi.fn(),
+    const apiService: Partial<ApiService> = {
+      fetchMatchDetails: vi.fn().mockReturnValue(new Promise(() => {})),
     };
 
     render(
       <MemoryRouter initialEntries={["/match/1"]}>
-        <MatchDetail fetchFunctions={fetchFunctions} />
+        <MatchDetail apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
@@ -93,16 +87,12 @@ describe("MatchDetail", () => {
   });
 
   it("renders error state when match is null", async () => {
-    const fetchFunctions: MatchDetailsFetchFunctions = {
+    const apiService: Partial<ApiService> = {
       fetchMatchDetails: vi.fn().mockResolvedValue(null),
-      fetchLastFiveMatches: vi.fn(),
-      fetchHeadToHead: vi.fn(),
-      fetchH2HStats: vi.fn(),
-      fetchSeasonStats: vi.fn(),
     };
     render(
       <MemoryRouter>
-        <MatchDetail fetchFunctions={fetchFunctions} />
+        <MatchDetail apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
@@ -112,7 +102,7 @@ describe("MatchDetail", () => {
   });
 
   it("renders match details on success", async () => {
-    const fetchFunctions: MatchDetailsFetchFunctions = {
+    const apiService: Partial<ApiService> = {
       fetchMatchDetails: vi.fn().mockResolvedValue(mockMatchDetails),
       fetchLastFiveMatches: vi
         .fn()
@@ -121,9 +111,10 @@ describe("MatchDetail", () => {
       fetchH2HStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
       fetchSeasonStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
     };
+
     render(
       <MemoryRouter>
-        <MatchDetail fetchFunctions={fetchFunctions} />
+        <MatchDetail apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
