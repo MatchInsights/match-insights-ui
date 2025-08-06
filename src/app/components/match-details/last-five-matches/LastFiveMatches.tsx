@@ -31,16 +31,24 @@ const LastFiveMatches = ({
   };
 
   useEffect(() => {
-    fetchLastFiveMatches(homeTeamId, awayTeamId).then((result) => {
-      const { homeTeamLastFive, awayTeamLastFive } = result;
-      setHomeTeamData(homeTeamLastFive);
-      setAwayTeamData(awayTeamLastFive);
-      setLoading(false);
-    });
+    fetchLastFiveMatches(homeTeamId, awayTeamId)
+      .then((result) => {
+        const { homeTeamLastFive, awayTeamLastFive } = result;
+        setHomeTeamData(homeTeamLastFive);
+        setAwayTeamData(awayTeamLastFive);
+        setLoading(false);
+      })
+      .catch(() => {
+        setHomeTeamData([]);
+        setAwayTeamData([]);
+        setLoading(false);
+      });
   }, [homeTeamId, awayTeamId]);
 
-  if (loading)
-    return <FetchStatus type="loading" message="Loading Teams Form..." />;
+  if (loading) return <FetchStatus type="loading" message="Loading Data..." />;
+
+  if (!loading && homeTeamData.length === 0 && awayTeamData.length === 0)
+    return <FetchStatus type="error" message="No data available" />;
 
   return (
     <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl shadow-md w-full flex flex-col gap-4">

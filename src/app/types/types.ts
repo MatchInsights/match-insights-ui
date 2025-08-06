@@ -1,3 +1,28 @@
+export interface MatchDetailsFetchFunctions {
+  fetchMatchDetails: (id: number) => Promise<MatchDetails>;
+
+  fetchLastFiveMatches: (
+    homeTeamId: number,
+    awayTeamId: number
+  ) => Promise<TeamForm>;
+
+  fetchHeadToHead: (
+    homeTeamId: number,
+    awayTeamId: number
+  ) => Promise<H2HDetails[]>;
+
+  fetchH2HStats: (
+    homeTeamId: number,
+    awayTeamId: number
+  ) => Promise<TwoTeamStats>;
+
+  fetchSeasonStats: (
+    homeTeamId: number,
+    awayTeamId: number,
+    leagueId: number
+  ) => Promise<TwoTeamStats>;
+}
+
 export interface Venue {
   name?: string;
   city?: string;
@@ -93,4 +118,17 @@ export interface H2HDetails {
   awayExtraTimeGoal: number;
   homePenalty: number;
   awayPenalty: number;
+}
+
+export interface TeamStats {
+  avgGoalsFor: number;
+  avgGoalsAgainst: number;
+  cleanSheetPercent: number;
+  scoredInPercent: number;
+  concededInPercent: number;
+}
+
+export interface TwoTeamStats {
+  team0: TeamStats;
+  team1: TeamStats;
 }

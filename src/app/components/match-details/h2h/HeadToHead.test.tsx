@@ -28,7 +28,7 @@ describe("HeadToHead", () => {
     render(
       <HeadToHead homeTeamId={1} awayTeamId={2} fetchHeadToHead={mockFetch} />
     );
-    expect(screen.getByText(/Loading H2H Data/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
   });
 
   it("renders empty state when no data is returned", async () => {
@@ -38,7 +38,7 @@ describe("HeadToHead", () => {
     );
     await waitFor(() => {
       expect(
-        screen.getByText(/No head-to-head data available/i)
+        screen.getByText(/No head to head data available/i)
       ).toBeInTheDocument();
     });
   });

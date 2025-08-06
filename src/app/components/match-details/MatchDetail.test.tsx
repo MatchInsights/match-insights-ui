@@ -2,7 +2,13 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 import MatchDetail from "./MatchDetail";
-import type { MatchDetails, Team, League } from "../../types/types";
+import type {
+  MatchDetails,
+  Team,
+  League,
+  MatchDetailsFetchFunctions,
+  TwoTeamStats,
+} from "../../types/types";
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
@@ -11,6 +17,23 @@ vi.mock("react-router-dom", async () => {
     useParams: () => ({ id: "1" }),
   };
 });
+
+export const mockTwoTeamStats: TwoTeamStats = {
+  team0: {
+    avgGoalsFor: 1.6,
+    avgGoalsAgainst: 1.2,
+    cleanSheetPercent: 30.0,
+    scoredInPercent: 85.0,
+    concededInPercent: 70.0,
+  },
+  team1: {
+    avgGoalsFor: 1.1,
+    avgGoalsAgainst: 1.8,
+    cleanSheetPercent: 20.0,
+    scoredInPercent: 65.0,
+    concededInPercent: 80.0,
+  },
+};
 
 const homeTeam: Team = {
   id: 1,
@@ -50,15 +73,19 @@ const mockMatchDetails: MatchDetails = {
 
 describe("MatchDetail", () => {
   it("renders loading state initially", () => {
-    const fetchMock = vi.fn(() => new Promise(() => {}));
+    const fetchFunctions: MatchDetailsFetchFunctions = {
+      fetchMatchDetails: vi.fn(
+        (id: number) => new Promise<MatchDetails>(() => {})
+      ),
+      fetchLastFiveMatches: vi.fn(),
+      fetchHeadToHead: vi.fn(),
+      fetchH2HStats: vi.fn(),
+      fetchSeasonStats: vi.fn(),
+    };
 
     render(
       <MemoryRouter initialEntries={["/match/1"]}>
-        <MatchDetail
-          fetchMatchDetails={fetchMock}
-          fetchLastFiveMatches={fetchMock}
-          fetchHeadToHead={fetchMock}
-        />
+        <MatchDetail fetchFunctions={fetchFunctions} />
       </MemoryRouter>
     );
 
@@ -66,14 +93,16 @@ describe("MatchDetail", () => {
   });
 
   it("renders error state when match is null", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(null);
-
+    const fetchFunctions: MatchDetailsFetchFunctions = {
+      fetchMatchDetails: vi.fn().mockResolvedValue(null),
+      fetchLastFiveMatches: vi.fn(),
+      fetchHeadToHead: vi.fn(),
+      fetchH2HStats: vi.fn(),
+      fetchSeasonStats: vi.fn(),
+    };
     render(
       <MemoryRouter>
-        <MatchDetail
-          fetchMatchDetails={fetchMock}
-          fetchLastFiveMatches={fetchMock}
-        />
+        <MatchDetail fetchFunctions={fetchFunctions} />
       </MemoryRouter>
     );
 
@@ -83,24 +112,28 @@ describe("MatchDetail", () => {
   });
 
   it("renders match details on success", async () => {
+    const fetchFunctions: MatchDetailsFetchFunctions = {
+      fetchMatchDetails: vi.fn().mockResolvedValue(mockMatchDetails),
+      fetchLastFiveMatches: vi
+        .fn()
+        .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] }),
+      fetchHeadToHead: vi.fn().mockResolvedValue([]),
+      fetchH2HStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
+      fetchSeasonStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
+    };
     render(
       <MemoryRouter>
-        <MatchDetail
-          fetchMatchDetails={vi.fn().mockResolvedValue(mockMatchDetails)}
-          fetchLastFiveMatches={vi
-            .fn()
-            .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] })}
-          fetchHeadToHead={vi.fn().mockResolvedValue([])}
-        />
+        <MatchDetail fetchFunctions={fetchFunctions} />
       </MemoryRouter>
     );
 
     await waitFor(() => {
-      expect(screen.getByText(homeTeam.name)).toBeInTheDocument();
-      expect(screen.getByText(awayTeam.name)).toBeInTheDocument();
-      expect(screen.getAllByText("2 : 3").length).is.toBe(2);
+      expect(screen.getByTestId("main-card")).toBeInTheDocument();
+      expect(screen.getByTestId("score-card")).toBeInTheDocument();
+      expect(screen.getByTestId("last-five-card")).toBeInTheDocument();
       expect(screen.getByTestId("last-five-info")).toBeInTheDocument();
-      expect(screen.getByTestId("h2h-info")).toBeInTheDocument();
+      expect(screen.getByTestId("h2h-stats")).toBeInTheDocument();
+      expect(screen.getByTestId("season-stats")).toBeInTheDocument();
     });
   });
 });

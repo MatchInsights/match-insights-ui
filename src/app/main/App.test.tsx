@@ -11,6 +11,12 @@ vi.mock("../services/apiService", () => ({
     .fn()
     .mockResolvedValue({ homeTeamLastFive: [], awayTeamLastFive: [] }),
   fetchHeadToHead: vi.fn().mockResolvedValue([]),
+  fetchSeasonStats: vi
+    .fn()
+    .mockResolvedValue({ homeTeamStats: {}, awayTeamStats: {} }),
+  fetchH2HStats: vi
+    .fn()
+    .mockResolvedValue({ homeTeamStats: {}, awayTeamStats: {} }),
 }));
 
 vi.mock("../pages/home/Home", () => ({

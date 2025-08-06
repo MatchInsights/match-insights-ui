@@ -47,7 +47,7 @@ describe("LeagueStanding Component", () => {
     expect(screen.getByText(/Loading League Info.../i)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByText(/No League Info/i)).toBeInTheDocument();
+      expect(screen.getByText(/Fetch Failed.../i)).toBeInTheDocument();
     });
 
     expect(fetchStandingsMock).toHaveBeenCalledWith(123);

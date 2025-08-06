@@ -14,6 +14,7 @@ const todayMatches: TodayMatch[] = [
       elapsed: 90,
     },
     league: {
+      id: 1,
       name: "Premier League",
       country: "England",
       logo: "https://example.com/premier-league-logo.png",
@@ -22,12 +23,14 @@ const todayMatches: TodayMatch[] = [
       round: "Week 1",
     },
     homeTeam: {
+      id: 1,
       name: "Manchester United",
       logo: "https://example.com/logos/manu.png",
       winner: true,
       goals: 3,
     },
     awayTeam: {
+      id: 2,
       name: "Chelsea",
       logo: "https://example.com/logos/chelsea.png",
       winner: false,
@@ -47,6 +50,7 @@ const todayMatches: TodayMatch[] = [
       elapsed: 35,
     },
     league: {
+      id: 2,
       name: "La Liga",
       country: "Spain",
       logo: "https://example.com/laliga-logo.png",
@@ -55,11 +59,13 @@ const todayMatches: TodayMatch[] = [
       round: "Matchday 2",
     },
     homeTeam: {
+      id: 3,
       name: "Barcelona",
       logo: "https://example.com/logos/barcelona.png",
       goals: 1,
     },
     awayTeam: {
+      id: 4,
       name: "Real Betis",
       logo: "https://example.com/logos/betis.png",
       goals: 0,
@@ -77,6 +83,7 @@ const todayMatches: TodayMatch[] = [
       short: "NS",
     },
     league: {
+      id: 3,
       name: "Serie A",
       country: "Italy",
       logo: "https://example.com/seriea-logo.png",
@@ -85,10 +92,12 @@ const todayMatches: TodayMatch[] = [
       round: "Round 1",
     },
     homeTeam: {
+      id: 5,
       name: "AC Milan",
       logo: "https://example.com/logos/acmilan.png",
     },
     awayTeam: {
+      id: 6,
       name: "Juventus",
       logo: "https://example.com/logos/juventus.png",
     },

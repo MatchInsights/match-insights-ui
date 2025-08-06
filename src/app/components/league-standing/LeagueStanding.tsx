@@ -17,16 +17,23 @@ export default function LeagueStanding({
 
   useEffect(() => {
     if (leagueId) {
-      fetchStandings(Number(leagueId)).then((data) => {
-        setStandings(data);
-        setLoading(false);
-      });
+      fetchStandings(Number(leagueId))
+        .then((data) => {
+          setStandings(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+          setStandings([]);
+        });
     }
   }, [leagueId]);
 
   if (loading)
     return <FetchStatus type="loading" message="Loading League Info..." />;
-  if (!standings) return <FetchStatus type="error" message="Fetch Failed." />;
+
+  if (!loading && standings.length === 0)
+    return <FetchStatus type="error" message="Fetch Failed..." />;
 
   return (
     <div className="bg-brand-darkBg text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
