@@ -3,21 +3,21 @@ import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
 import FetchStatus from "../fetch-status/FetchStatus";
 import SubHeader from "../sub-header/SubHeader";
+import { ApiService } from "../../services/apiService";
 
 interface LeagueStandingProps {
-  fetchStandings: (leagueId: number) => Promise<LeagueStandingInfo[]>;
+  apiService: ApiService;
 }
 
-export default function LeagueStanding({
-  fetchStandings,
-}: LeagueStandingProps) {
+export default function LeagueStanding({ apiService }: LeagueStandingProps) {
   const [standings, setStandings] = useState<LeagueStandingInfo[]>([]);
   const { leagueId } = useParams<{ leagueId: string }>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (leagueId) {
-      fetchStandings(Number(leagueId))
+      apiService
+        .fetchLeagueStanding(Number(leagueId))
         .then((data) => {
           setStandings(data);
           setLoading(false);

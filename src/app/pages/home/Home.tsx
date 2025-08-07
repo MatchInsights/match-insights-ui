@@ -1,14 +1,14 @@
 import TodayMatches from "../../components/today-matches/TodayMatches";
-import { TodayMatch } from "../../types/types";
+import { ApiService } from "../../services/apiService";
 
 interface HomeProps {
-  fetchTodayMatches: (status: string) => Promise<TodayMatch[]>;
+  apiService: ApiService;
 }
 
-const Home = ({ fetchTodayMatches }: HomeProps) => {
+const Home = ({ apiService }: HomeProps) => {
   return (
     <div data-testid="today-matches">
-      <TodayMatches fetchTodayMatches={fetchTodayMatches} />
+      <TodayMatches apiService={apiService} />
     </div>
   );
 };

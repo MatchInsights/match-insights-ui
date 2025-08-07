@@ -1,4 +1,4 @@
-import { TwoTeamStats } from "../src/app/types/types";
+import { TeamPositionsAndPoints, TwoTeamStats } from "../src/app/types/types";
 
 export const mockTwoTeamStats: TwoTeamStats = {
   team0: {
@@ -15,4 +15,11 @@ export const mockTwoTeamStats: TwoTeamStats = {
     scoredInPercent: 65.0,
     concededInPercent: 80.0,
   },
+};
+
+export const mockTeamsLeagueStats: TeamPositionsAndPoints = {
+  homeTeamPosition: 1,
+  awayTeamPosition: 2,
+  homeTeamPoints: 45,
+  awayTeamPoints: 42,
 };

@@ -3,12 +3,13 @@ import MatchCard from "./match-card/MatchCard";
 import MatchControls from "./match-controls/MatchControls";
 import { TodayMatch } from "../../types/types";
 import FetchStatus from "../fetch-status/FetchStatus";
+import { ApiService } from "../../services/apiService";
 
 interface TodayMatchesProps {
-  fetchTodayMatches: (status: string) => Promise<TodayMatch[]>;
+  apiService: ApiService;
 }
 
-const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
+const TodayMatches = ({ apiService }: TodayMatchesProps) => {
   const [status, setStatus] = useState("NOT_STARTED");
   const [matches, setMatches] = useState<TodayMatch[]>([]);
   const [teamFilter, setTeamFilter] = useState("");
@@ -16,7 +17,8 @@ const TodayMatches = ({ fetchTodayMatches }: TodayMatchesProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchTodayMatches(status)
+    apiService
+      .fetchTodayMatches(status)
       .then((data) => {
         setMatches(data);
         setLoading(false);

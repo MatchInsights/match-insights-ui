@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import HeadToHead from "./HeadToHead";
 import type { H2HDetails } from "../../../types/types";
+import { ApiService } from "../../../services/apiService";
 
 const mockH2HData: H2HDetails[] = [
   {
@@ -24,17 +25,31 @@ const mockH2HData: H2HDetails[] = [
 
 describe("HeadToHead", () => {
   it("renders loading state initially", async () => {
-    const mockFetch = vi.fn(() => new Promise(() => {}));
+    const apiService: Partial<ApiService> = {
+      fetchHeadToHead: () => new Promise(() => {}),
+    };
+
     render(
-      <HeadToHead homeTeamId={1} awayTeamId={2} fetchHeadToHead={mockFetch} />
+      <HeadToHead
+        homeTeamId={1}
+        awayTeamId={2}
+        apiService={apiService as ApiService}
+      />
     );
     expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
   });
 
   it("renders empty state when no data is returned", async () => {
-    const mockFetch = vi.fn().mockResolvedValue([]);
+    const apiService: Partial<ApiService> = {
+      fetchHeadToHead: vi.fn().mockResolvedValue([]),
+    };
+
     render(
-      <HeadToHead homeTeamId={1} awayTeamId={2} fetchHeadToHead={mockFetch} />
+      <HeadToHead
+        homeTeamId={1}
+        awayTeamId={2}
+        apiService={apiService as ApiService}
+      />
     );
     await waitFor(() => {
       expect(
@@ -44,9 +59,16 @@ describe("HeadToHead", () => {
   });
 
   it("renders match cards when data is returned", async () => {
-    const mockFetch = vi.fn().mockResolvedValue(mockH2HData);
+    const apiService: Partial<ApiService> = {
+      fetchHeadToHead: vi.fn().mockResolvedValue(mockH2HData),
+    };
+
     render(
-      <HeadToHead homeTeamId={1} awayTeamId={2} fetchHeadToHead={mockFetch} />
+      <HeadToHead
+        homeTeamId={1}
+        awayTeamId={2}
+        apiService={apiService as ApiService}
+      />
     );
 
     await waitFor(() => {

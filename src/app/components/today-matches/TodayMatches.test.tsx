@@ -2,6 +2,7 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import TodayMatches from "./TodayMatches";
 import type { TodayMatch } from "../../types/types";
+import { ApiService } from "../../services/apiService";
 
 vi.mock("./match-card/MatchCard", () => ({
   default: ({ todayMatch }: { todayMatch: TodayMatch }) => (
@@ -38,37 +39,73 @@ vi.mock("./match-controls/MatchControls", () => ({
 
 const mockMatches: TodayMatch[] = [
   {
-    date: "2025-07-31",
-    homeTeam: { name: "Team A" },
-    awayTeam: { name: "Team B" },
-    league: { name: "Premier League" },
+    id: 1,
+    date: "2024-06-01T15:00:00Z",
+    matchStatus: {
+      long: "Not Started",
+      short: "NS",
+      elapsed: 0,
+      extra: 0,
+    },
+    venue: { name: "Stadium A", city: "City A" },
+    homeTeam: { id: 101, name: "Team A" },
+    awayTeam: { id: 102, name: "Team B" },
+    league: {
+      id: 201,
+      name: "Premier League",
+      country: "England",
+      flag: "",
+      season: 2024,
+      round: "Regular Season - 1",
+      logo: "",
+    },
   },
   {
-    date: "2025-07-31",
-    homeTeam: { name: "Team C" },
-    awayTeam: { name: "Team D" },
-    league: { name: "La Liga" },
+    id: 2,
+    date: "2024-06-01T15:00:00Z",
+    matchStatus: {
+      long: "Not Started",
+      short: "NS",
+      elapsed: 0,
+      extra: 0,
+    },
+    venue: { name: "Stadium A", city: "City A" },
+    homeTeam: { id: 103, name: "Team C" },
+    awayTeam: { id: 104, name: "Team D" },
+    league: {
+      id: 201,
+      name: "La Liga",
+      country: "Spain",
+      flag: "",
+      season: 2025,
+      round: "Regular Season - 1",
+      logo: "",
+    },
   },
 ];
 
 describe("TodayMatches", () => {
   let fetchTodayMatches: any;
 
-  beforeEach(() => {
-    fetchTodayMatches = vi.fn().mockResolvedValue(mockMatches);
-  });
-
   it("renders heading and calls fetchTodayMatches on mount", async () => {
-    render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
+    const apiService: Partial<ApiService> = {
+      fetchTodayMatches: vi.fn().mockReturnValue(new Promise(() => {})),
+    };
+
+    render(<TodayMatches apiService={apiService as ApiService} />);
     expect(screen.getByText("Loading Today Matches...")).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");
+      expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");
     });
   });
 
   it("renders match cards after fetch", async () => {
-    render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
+    const apiService: Partial<ApiService> = {
+      fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
+    };
+
+    render(<TodayMatches apiService={apiService as ApiService} />);
 
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
@@ -76,7 +113,10 @@ describe("TodayMatches", () => {
   });
 
   it("shows no match message if filters exclude all matches", async () => {
-    render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
+    const apiService: Partial<ApiService> = {
+      fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
+    };
+    render(<TodayMatches apiService={apiService as ApiService} />);
 
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
@@ -92,7 +132,11 @@ describe("TodayMatches", () => {
   });
 
   it("filters by league", async () => {
-    render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
+    const apiService: Partial<ApiService> = {
+      fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
+    };
+
+    render(<TodayMatches apiService={apiService as ApiService} />);
 
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
@@ -107,16 +151,20 @@ describe("TodayMatches", () => {
   });
 
   it("refetches when status changes", async () => {
-    render(<TodayMatches fetchTodayMatches={fetchTodayMatches} />);
+    const apiService: Partial<ApiService> = {
+      fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
+    };
+
+    render(<TodayMatches apiService={apiService as ApiService} />);
 
     await waitFor(() => {
-      expect(fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");
+      expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");
     });
 
     fireEvent.click(screen.getByText("Change Status"));
 
     await waitFor(() => {
-      expect(fetchTodayMatches).toHaveBeenCalledWith("IN_PLAY");
+      expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("IN_PLAY");
     });
   });
 });

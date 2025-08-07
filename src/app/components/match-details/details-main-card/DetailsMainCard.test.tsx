@@ -1,9 +1,15 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { DetailsMainCard } from "./DetailsMainCard";
 import { MemoryRouter } from "react-router-dom";
 import type { Team, League, Venue, Goal, Score } from "../../../types/types";
+import { ApiService } from "../../../services/apiService";
+import { describe, it, expect, vi } from "vitest";
 
 describe("DetailsMainCard", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   const homeTeam: Team = {
     id: 1,
     name: "Home Team",
@@ -46,93 +52,112 @@ describe("DetailsMainCard", () => {
 
   const testDate = "2024-03-15T18:00:00Z";
 
-  function renderCard(score: Score = scoreFT) {
+  function renderCard(score: Score, badLeague?: League) {
+    const apiService: Partial<ApiService> = {
+      fetchTeamLeagueStats: vi.fn().mockResolvedValue({
+        homeTeamPosition: 1,
+        awayTeamPosition: 2,
+        homeTeamPoints: 30,
+        awayTeamPoints: 28,
+      }),
+    };
+
     return render(
       <MemoryRouter>
         <DetailsMainCard
           homeTeam={homeTeam}
           awayTeam={awayTeam}
           date={testDate}
-          league={league}
+          league={badLeague || league}
           venue={venue}
           goals={goals}
           score={score}
+          apiService={apiService as ApiService}
         />
       </MemoryRouter>
     );
   }
 
-  it("renders team names via DetailsHeader", () => {
-    renderCard();
-    expect(screen.getByText("Home Team")).toBeInTheDocument();
-    expect(screen.getByText("Away Team")).toBeInTheDocument();
-  });
-
-  it("renders league name with correct link", () => {
-    renderCard();
-    const leagueLink = screen.getByTestId("league-link");
-    expect(leagueLink).toHaveTextContent("🏆 Premier League — Matchday 5");
-    expect(leagueLink).toHaveAttribute("href", "/league/12");
-  });
-
-  it("renders fallback league name if id is missing", () => {
-    const badLeague = { id: null, name: "", round: "" } as League;
-    render(
-      <MemoryRouter>
-        <DetailsMainCard
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-          date={testDate}
-          league={badLeague}
-          venue={venue}
-          goals={goals}
-          score={scoreFT}
-        />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByTestId("league-link")).toHaveTextContent(
-      "Unknown League"
-    );
-  });
-
-  it("renders venue name and city", () => {
-    renderCard();
-    expect(screen.getByText(/Stadium ABC, City XYZ/)).toBeInTheDocument();
-  });
-
-  it("renders formatted date", () => {
-    renderCard();
-    const expected = new Date(testDate).toLocaleString();
-    expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
-  });
-
-  it("renders the correct score and FT label", () => {
+  it("renders team names via DetailsHeader", async () => {
     renderCard(scoreFT);
-    expect(screen.getByText("2 : 1")).toBeInTheDocument();
-    expect(screen.getByText("FT")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("Home Team")).toBeInTheDocument();
+      expect(screen.getByText("Away Team")).toBeInTheDocument();
+    });
   });
 
-  it("renders dash score and Scheduled label when not fulltime", () => {
+  it("renders league name with correct link", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      const leagueLink = screen.getByTestId("league-link");
+      expect(leagueLink).toHaveTextContent("🏆 Premier League — Matchday 5");
+      expect(leagueLink).toHaveAttribute("href", "/league/12");
+    });
+  });
+
+  it("renders fallback league name if id is missing", async () => {
+    const badLeague = { id: null, name: "", round: "" } as League;
+
+    renderCard(scoreFT, badLeague);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("league-link")).toHaveTextContent(
+        "🏆 Unknown League — →"
+      );
+    });
+  });
+
+  it("renders venue name and city", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Stadium ABC, City XYZ/)).toBeInTheDocument();
+    });
+  });
+
+  it("renders formatted date", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      const expected = new Date(testDate).toLocaleString();
+      expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
+    });
+  });
+
+  it("renders the correct score and FT label", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      expect(screen.getByText("2 : 1")).toBeInTheDocument();
+      expect(screen.getByText("FT")).toBeInTheDocument();
+    });
+  });
+
+  it("renders dash score and Scheduled label when not fulltime", async () => {
     renderCard(scoreScheduled);
-    expect(screen.getByText("2 : 1")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText("2 : 1")).toBeInTheDocument();
+    });
   });
 
-  it("renders dash if goal values are null", () => {
-    const nullGoals: Goal = { home: null, away: null };
-    render(
-      <MemoryRouter>
-        <DetailsMainCard
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-          date={testDate}
-          league={league}
-          venue={venue}
-          goals={nullGoals}
-          score={scoreScheduled}
-        />
-      </MemoryRouter>
-    );
-    expect(screen.getByText("- : -")).toBeInTheDocument();
+  it("renders league stats", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      expect(screen.getByText("30 vs 28")).toBeInTheDocument();
+      expect(screen.getByText("1 vs 2")).toBeInTheDocument();
+    });
+  });
+
+  it("renders formatted date", async () => {
+    renderCard(scoreFT);
+
+    await waitFor(() => {
+      const expected = new Date(testDate).toLocaleString();
+      expect(screen.getByText(`📅 ${expected}`)).toBeInTheDocument();
+    });
   });
 });

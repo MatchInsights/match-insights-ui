@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../types/types";
 import FetchStatus from "../../fetch-status/FetchStatus";
+import { ApiService } from "../../../services/apiService";
 
 interface TeamStatsProps {
   homeTeamId: number;
@@ -8,14 +9,7 @@ interface TeamStatsProps {
   homeTeamName: string;
   awayTeamName: string;
   leagueId?: number;
-
-  fetchSeasonTeamStats?: (
-    homeId: number,
-    awayId: number,
-    leagueId: number
-  ) => Promise<TwoTeamStats>;
-
-  fetchH2HTeamStats?: (homeId: number, awayId: number) => Promise<TwoTeamStats>;
+  apiService: ApiService;
 }
 
 export default function TeamStats({
@@ -24,15 +18,15 @@ export default function TeamStats({
   leagueId,
   homeTeamName,
   awayTeamName,
-  fetchH2HTeamStats,
-  fetchSeasonTeamStats,
+  apiService,
 }: TeamStatsProps) {
   const [stats, setStats] = useState<TwoTeamStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (fetchH2HTeamStats) {
-      fetchH2HTeamStats(homeTeamId, awayTeamId)
+    if (!leagueId) {
+      apiService
+        .fetchH2HStats(homeTeamId, awayTeamId)
         .then((result) => {
           setStats(result);
           setLoading(false);
@@ -43,8 +37,9 @@ export default function TeamStats({
         });
     }
 
-    if (fetchSeasonTeamStats && leagueId) {
-      fetchSeasonTeamStats(homeTeamId, awayTeamId, leagueId)
+    if (leagueId) {
+      apiService
+        .fetchSeasonStats(homeTeamId, awayTeamId, leagueId)
         .then((result) => {
           setStats(result);
           setLoading(false);
@@ -108,7 +103,7 @@ export default function TeamStats({
   return (
     <div className="bg-brand-navbar p-6 md:p-10 rounded-2xl shadow-md w-full">
       <h3 className="text-brand-yellow m-4 text-3xl font-bold mb-10 text-center">
-        {fetchH2HTeamStats ? "H2H Team Stats" : "Season Team Stats"}
+        {!leagueId ? "H2H Team Stats" : "Season Team Stats"}
       </h3>
 
       <div className="flex flex-col space-y-8">
@@ -122,14 +117,14 @@ export default function TeamStats({
               <div className="sm:w-1/3 text-lg  mt-3 text-white font-semibold">
                 {homeTeamName}: {home}
               </div>
-              <div className="sm:w-2/3 mt-3">{renderBar(home)}</div>
+              <div className="sm:w-2/3 mt-3">{renderBar(home ?? 0)}</div>
             </div>
 
             <div className="flex flex-col mt-4 sm:flex-row sm:items-center gap-3 sm:gap-6 mt-3">
               <div className="sm:w-1/3 text-lg mt-3  text-white font-semibold">
                 {awayTeamName}: {away}
               </div>
-              <div className="sm:w-2/3 mt-3">{renderBar(away)}</div>
+              <div className="sm:w-2/3 mt-3">{renderBar(away ?? 0)}</div>
             </div>
           </div>
         ))}

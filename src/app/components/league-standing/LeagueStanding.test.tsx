@@ -3,6 +3,7 @@ import { describe, it, vi, beforeEach } from "vitest";
 import LeagueStanding from "./LeagueStanding";
 import type { LeagueStandingInfo } from "../../types/types";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ApiService } from "../../services/apiService";
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
@@ -29,18 +30,14 @@ describe("LeagueStanding Component", () => {
     },
   ];
 
-  const fetchStandingsMock = vi.fn();
-
-  beforeEach(() => {
-    fetchStandingsMock.mockReset();
-  });
-
   it("renders heading and empty message if no standings", async () => {
-    fetchStandingsMock.mockResolvedValueOnce([]);
+    const apiService: Partial<ApiService> = {
+      fetchLeagueStanding: vi.fn().mockResolvedValue([]),
+    };
 
     render(
       <MemoryRouter>
-        <LeagueStanding fetchStandings={fetchStandingsMock} />
+        <LeagueStanding apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
@@ -50,15 +47,17 @@ describe("LeagueStanding Component", () => {
       expect(screen.getByText(/Fetch Failed.../i)).toBeInTheDocument();
     });
 
-    expect(fetchStandingsMock).toHaveBeenCalledWith(123);
+    expect(apiService.fetchLeagueStanding).toHaveBeenCalledWith(123);
   });
 
   it("renders table rows when standings are available", async () => {
-    fetchStandingsMock.mockResolvedValueOnce(mockStandings);
+    const apiService: Partial<ApiService> = {
+      fetchLeagueStanding: vi.fn().mockResolvedValueOnce(mockStandings),
+    };
 
     render(
       <MemoryRouter>
-        <LeagueStanding fetchStandings={fetchStandingsMock} />
+        <LeagueStanding apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
@@ -69,16 +68,18 @@ describe("LeagueStanding Component", () => {
   });
 
   it("calls fetchStandings with correct leagueId", async () => {
-    fetchStandingsMock.mockResolvedValueOnce([]);
+    const apiService: Partial<ApiService> = {
+      fetchLeagueStanding: vi.fn().mockResolvedValueOnce([]),
+    };
 
     render(
       <MemoryRouter>
-        <LeagueStanding fetchStandings={fetchStandingsMock} />
+        <LeagueStanding apiService={apiService as ApiService} />
       </MemoryRouter>
     );
 
     await waitFor(() => {
-      expect(fetchStandingsMock).toHaveBeenCalledWith(123);
+      expect(apiService.fetchLeagueStanding).toHaveBeenCalledWith(123);
     });
   });
 });
