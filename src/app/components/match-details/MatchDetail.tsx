@@ -85,12 +85,19 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
       {/* Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
         {/* Left */}
-
         <DetailsSection
           components={[
             <HeadToHead
               homeTeamId={homeTeam.id}
               awayTeamId={awayTeam.id}
+              apiService={apiService}
+            />,
+            <TeamStats
+              homeTeamId={homeTeam.id}
+              awayTeamId={awayTeam.id}
+              leagueId={league.id}
+              homeTeamName={homeTeam.name}
+              awayTeamName={awayTeam.name}
               apiService={apiService}
             />,
             <InfoCard title="Match Statistics" content="Coming soon..." />,
@@ -120,14 +127,6 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           <DetailsSection
             components={[
               <MatchOdds fixtureId={Number(id)} apiService={apiService} />,
-              <TeamStats
-                homeTeamId={homeTeam.id}
-                awayTeamId={awayTeam.id}
-                leagueId={league.id}
-                homeTeamName={homeTeam.name}
-                awayTeamName={awayTeam.name}
-                apiService={apiService}
-              />,
             ]}
             sectionId="r1-right"
           />

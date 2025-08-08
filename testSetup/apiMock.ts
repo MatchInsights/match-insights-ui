@@ -87,4 +87,4 @@ export class MockApiServiceImplementation implements ApiService {
   }
 }
 
-export const apiService = MockApiServiceImplementation.getInstance();
+export const apiServiceMock = MockApiServiceImplementation.getInstance();

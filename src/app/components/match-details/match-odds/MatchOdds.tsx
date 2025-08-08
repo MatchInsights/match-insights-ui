@@ -16,6 +16,8 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
     apiService
       .fetchOdds(fixtureId)
       .then((res) => {
+        console.log("Fetched Odds:", res);
+
         setOdds(res);
         setLoading(false);
       })
