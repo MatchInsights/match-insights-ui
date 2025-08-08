@@ -6,6 +6,7 @@ import {
   H2HDetails,
   TwoTeamStats,
   TeamPositionsAndPoints,
+  Bet,
 } from "../src/app/types/types";
 
 import { mockTodayMatches } from "./matches";
@@ -13,6 +14,7 @@ import { mockStandings } from "./leagueInfo";
 import { mockMatchDetails } from "./matchDetails";
 import { lastFiveData } from "./teamsform";
 import { mockH2HDetails } from "./head2head";
+import { bets } from "./odds";
 import { mockTwoTeamStats, mockTeamsLeagueStats } from "./twoteamsstats";
 import { ApiService } from "../src/app/services/apiService";
 
@@ -78,6 +80,10 @@ export class MockApiServiceImplementation implements ApiService {
     leagueId: number
   ): Promise<TeamPositionsAndPoints> {
     return Promise.resolve(mockTeamsLeagueStats);
+  }
+
+  public async fetchOdds(fixtureId: number): Promise<Bet[]> {
+    return Promise.resolve(bets);
   }
 }
 

@@ -110,6 +110,7 @@ describe("MatchDetail", () => {
       fetchHeadToHead: vi.fn().mockResolvedValue([]),
       fetchH2HStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
       fetchSeasonStats: vi.fn().mockResolvedValue(mockTwoTeamStats),
+      fetchOdds: vi.fn().mockResolvedValue([]),
     };
 
     render(
@@ -119,12 +120,11 @@ describe("MatchDetail", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId("main-card")).toBeInTheDocument();
-      expect(screen.getByTestId("score-card")).toBeInTheDocument();
-      expect(screen.getByTestId("last-five-card")).toBeInTheDocument();
-      expect(screen.getByTestId("last-five-info")).toBeInTheDocument();
-      expect(screen.getByTestId("h2h-stats")).toBeInTheDocument();
-      expect(screen.getByTestId("season-stats")).toBeInTheDocument();
+      expect(screen.getByTestId("top-left")).toBeInTheDocument();
+      expect(screen.getByTestId("top-right")).toBeInTheDocument();
+      expect(screen.getByTestId("r1-left")).toBeInTheDocument();
+      expect(screen.getByTestId("r1-center")).toBeInTheDocument();
+      expect(screen.getByTestId("r1-right")).toBeInTheDocument();
     });
   });
 });

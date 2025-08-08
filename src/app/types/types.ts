@@ -114,3 +114,13 @@ export interface TeamPositionsAndPoints {
   homeTeamPoints?: number;
   awayTeamPoints?: number;
 }
+
+export interface Odd {
+  label: String;
+  odd: number;
+}
+
+export interface Bet {
+  betName: string;
+  values: Odd[];
+}

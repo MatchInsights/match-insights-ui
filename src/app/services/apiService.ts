@@ -6,6 +6,7 @@ import {
   H2HDetails,
   TwoTeamStats,
   TeamPositionsAndPoints,
+  Bet,
 } from "../types/types";
 import apiFetch from "./apiConfig";
 
@@ -32,6 +33,8 @@ export interface ApiService {
     awayTeamId: number,
     leagueId: number
   ): Promise<TeamPositionsAndPoints>;
+
+  fetchOdds(fixtureId: number): Promise<Bet[]>;
 }
 
 export class ApiServiceImplementation implements ApiService {
@@ -118,6 +121,11 @@ export class ApiServiceImplementation implements ApiService {
     const response = await apiFetch.get<TeamPositionsAndPoints>(
       `/api/teams/league/stats/${homeTeamId}/${awayTeamId}/${leagueId}`
     );
+    return response.data;
+  }
+
+  public async fetchOdds(fixtureId: number): Promise<Bet[]> {
+    const response = await apiFetch.get<Bet[]>(`/api/odds/${fixtureId}`);
     return response.data;
   }
 }
