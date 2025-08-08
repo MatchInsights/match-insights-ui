@@ -68,9 +68,9 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
             No matches found for the selected filters.
           </p>
         ) : (
-          filtered.map((match) => (
+          filtered.map((match, index) => (
             <MatchCard
-              key={`${match.date}-${match?.homeTeam?.name}-${match?.awayTeam?.name}`}
+              key={`${index}-${match.date}-${match?.homeTeam?.name}-${match?.awayTeam?.name}`}
               todayMatch={match}
             />
           ))

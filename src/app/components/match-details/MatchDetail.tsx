@@ -4,11 +4,12 @@ import { MatchDetails } from "../../types/types";
 import FetchStatus from "../fetch-status/FetchStatus";
 import { DetailsMainCard } from "./details-main-card/DetailsMainCard";
 import MatchScoreCard from "./match-score-card/MatchScoreCard";
-import SubHeader from "../sub-header/SubHeader";
 import LastFiveMatches from "./last-five-matches/LastFiveMatches";
 import HeadToHead from "./h2h/HeadToHead";
 import TeamStats from "./team-stats/TeamStats";
+import { DetailsSection } from "./details-section/DetailsSection";
 import { ApiService } from "../../services/apiService";
+import MatchOdds from "./match-odds/MatchOdds";
 
 interface MatchDetailProps {
   apiService: ApiService;
@@ -43,99 +44,93 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
     match as MatchDetails;
 
   return (
-    <div className="bg-brand-darkBg text-brand-white px-4 md:px-6 lg:px-12 py-8 min-h-screen w-full">
-      <SubHeader title="Match Details" />
-
-      <div
-        className="
-          grid 
-          gap-6 
-          grid-cols-1 
-          lg:grid-cols-3 
-          mt-8
-        "
-      >
-        <div className="lg:col-span-2">
-          <div
-            data-testid="main-card"
-            className="bg-brand-navbar rounded-2xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10"
-          >
-            <DetailsMainCard
-              homeTeam={homeTeam}
-              awayTeam={awayTeam}
-              date={date}
-              venue={venue}
-              league={league}
-              score={score}
-              goals={goals}
-              apiService={apiService}
-            />
-          </div>
+    <div className="mt-8 space-y-6">
+      {/* Row 0 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
+        {/* Left */}
+        <div data-testid="top-left" className="lg:col-span-2">
+          <DetailsSection
+            components={[
+              <DetailsMainCard
+                homeTeam={homeTeam}
+                awayTeam={awayTeam}
+                date={date}
+                venue={venue}
+                league={league}
+                score={score}
+                goals={goals}
+                apiService={apiService}
+              />,
+            ]}
+          />
         </div>
 
-        <div className="bg-brand-navbar rounded-2xl shadow-md w-full p-2 sm:p-4 md:p-4 lg:p-2 flex flex-col sm:flex-row items-center justify-center gap-2">
-          <div
-            data-testid="score-card"
-            className="w-full sm:w-1/2 flex justify-center"
-          >
-            <MatchScoreCard score={score} />
-          </div>
-          <div
-            data-testid="last-five-card"
-            className="w-full sm:w-1/2 flex justify-center"
-          >
+        {/* Right */}
+        <DetailsSection
+          components={[
+            <MatchScoreCard score={score} />,
             <LastFiveMatches
               apiService={apiService}
               homeTeamId={homeTeam.id}
               homeTeam={homeTeam.name}
               awayTeam={awayTeam.name}
               awayTeamId={awayTeam.id}
-            />
-          </div>
-        </div>
+            />,
+          ]}
+          cardClassName="flex flex-col m-12 items-center justify-center space-y-4"
+          sectionId="top-right"
+        />
+      </div>
 
-        <div
-          data-testid="last-five-info"
-          className="bg-brand-navbar rounded-2xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10"
-        >
-          <HeadToHead
-            homeTeamId={homeTeam.id}
-            awayTeamId={awayTeam.id}
-            apiService={apiService}
+      {/* Row 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
+        {/* Left */}
+        <DetailsSection
+          components={[
+            <HeadToHead
+              homeTeamId={homeTeam.id}
+              awayTeamId={awayTeam.id}
+              apiService={apiService}
+            />,
+            <TeamStats
+              homeTeamId={homeTeam.id}
+              awayTeamId={awayTeam.id}
+              leagueId={league.id}
+              homeTeamName={homeTeam.name}
+              awayTeamName={awayTeam.name}
+              apiService={apiService}
+            />,
+            <InfoCard title="Match Statistics" content="Coming soon..." />,
+            <InfoCard title="Lineups" content="Coming soon..." />,
+          ]}
+          sectionId="r1-left"
+        />
+
+        {/* Center */}
+        <DetailsSection
+          components={[
+            <TeamStats
+              homeTeamId={homeTeam.id}
+              awayTeamId={awayTeam.id}
+              homeTeamName={homeTeam.name}
+              awayTeamName={awayTeam.name}
+              apiService={apiService}
+            />,
+            <InfoCard title="Goals Timeline" content="Coming soon..." />,
+            <InfoCard title="Additional Insights" content="Coming soon..." />,
+          ]}
+          sectionId="r1-center"
+        />
+
+        {/* Right */}
+        <div className="space-y-6">
+          <DetailsSection
+            components={[
+              <MatchOdds fixtureId={Number(id)} apiService={apiService} />,
+            ]}
+            sectionId="r1-right"
           />
         </div>
-
-        <div
-          data-testid="h2h-stats"
-          className="bg-brand-navbar rounded-2xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10"
-        >
-          <TeamStats
-            homeTeamId={homeTeam.id}
-            awayTeamId={awayTeam.id}
-            homeTeamName={homeTeam.name}
-            awayTeamName={awayTeam.name}
-            apiService={apiService}
-          />
-        </div>
-
-        <div
-          data-testid="season-stats"
-          className="bg-brand-navbar rounded-2xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10"
-        >
-          <TeamStats
-            homeTeamId={homeTeam.id}
-            awayTeamId={awayTeam.id}
-            leagueId={league.id}
-            homeTeamName={homeTeam.name}
-            awayTeamName={awayTeam.name}
-            apiService={apiService}
-          />
-        </div>
-
-        <InfoCard title="Match Statistics" content="Coming soon..." />
-        <InfoCard title="Lineups" content="Coming soon..." />
-        <InfoCard title="Goals Timeline" content="Coming soon..." />
-        <InfoCard title="Additional Insights" content="Coming soon..." />
       </div>
     </div>
   );
