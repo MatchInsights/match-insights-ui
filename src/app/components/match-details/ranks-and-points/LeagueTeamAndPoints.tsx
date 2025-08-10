@@ -20,10 +20,10 @@ export const LeagueTeamAndPoints = ({
     useState<TeamPositionsAndPoints | null>(null);
 
   const [loadingScoreAndPoints, setLoadingScoreAndPoints] = useState(true);
-  const [showScoreAndPoints, setShowScoreAndPoints] = useState(false);
+  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
-    if (showScoreAndPoints) {
+    if (isShown) {
       setLoadingScoreAndPoints(true);
       apiService
         .fetchTeamLeagueStats(homeTeamId, awayTeamId, leagueId)
@@ -35,24 +35,24 @@ export const LeagueTeamAndPoints = ({
         })
         .finally(() => setLoadingScoreAndPoints(false));
     }
-  }, [homeTeamId, awayTeamId, leagueId, showScoreAndPoints]);
+  }, [homeTeamId, awayTeamId, leagueId, isShown]);
 
-  if (loadingScoreAndPoints && showScoreAndPoints)
+  if (loadingScoreAndPoints && isShown)
     return (
       <PreDisplay
         title="Ranks And Points"
-        expanded={showScoreAndPoints}
-        setExpanded={setShowScoreAndPoints}
+        expanded={isShown}
+        setExpanded={setIsShown}
         child={<FetchStatus type="loading" message="Loading League Stats..." />}
       />
     );
 
-  if (!loadingScoreAndPoints && showScoreAndPoints && !teamsLeagueStats)
+  if (!loadingScoreAndPoints && isShown && !teamsLeagueStats)
     return (
       <PreDisplay
         title="Ranks And Points"
-        expanded={showScoreAndPoints}
-        setExpanded={setShowScoreAndPoints}
+        expanded={isShown}
+        setExpanded={setIsShown}
         child={
           <FetchStatus type="info" message="Failed to load League Stats." />
         }
@@ -62,8 +62,8 @@ export const LeagueTeamAndPoints = ({
   return (
     <PreDisplay
       title="Ranks And Points"
-      expanded={showScoreAndPoints}
-      setExpanded={setShowScoreAndPoints}
+      expanded={isShown}
+      setExpanded={setIsShown}
       child={
         <div className="space-y-1 text-left">
           <p className="text-base text-brand-lightGray">
