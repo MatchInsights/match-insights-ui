@@ -32,23 +32,32 @@ const LastFiveMatches = ({
   };
 
   useEffect(() => {
-    apiService
-      .fetchLastFiveMatches(homeTeamId, awayTeamId)
-      .then((result: TeamForm) => {
-        const { homeTeamLastFive, awayTeamLastFive } = result;
-        setHomeTeamData(homeTeamLastFive);
-        setAwayTeamData(awayTeamLastFive);
-        setLoading(false);
-      })
-      .catch(() => {
-        setHomeTeamData([]);
-        setAwayTeamData([]);
-        setLoading(false);
-      });
+    if (isShown) {
+      setLoading(true);
+      apiService
+        .fetchLastFiveMatches(homeTeamId, awayTeamId)
+        .then((result: TeamForm) => {
+          const { homeTeamLastFive, awayTeamLastFive } = result;
+          setHomeTeamData(homeTeamLastFive);
+          setAwayTeamData(awayTeamLastFive);
+        })
+        .catch(() => {
+          setHomeTeamData([]);
+          setAwayTeamData([]);
+        })
+        .finally(() => setLoading(false));
+    }
   }, [homeTeamId, awayTeamId, isShown]);
 
   if (loading && isShown)
-    return <FetchStatus type="loading" message="Loading Data..." />;
+    return (
+      <PreDisplay
+        title="Last Five Matches"
+        expanded={isShown}
+        setExpanded={setIsShown}
+        child={<FetchStatus type="loading" message="Loading Data..." />}
+      />
+    );
 
   if (
     !loading &&
@@ -56,12 +65,19 @@ const LastFiveMatches = ({
     awayTeamData.length === 0 &&
     isShown
   )
-    return <FetchStatus type="error" message="No data available" />;
+    return (
+      <PreDisplay
+        title="Last Five Matches"
+        expanded={isShown}
+        setExpanded={setIsShown}
+        child={<FetchStatus type="info" message="No data available" />}
+      />
+    );
 
   return (
     <PreDisplay
       title="Last Five Matches"
-      titleClass="text-brand-yellow font-semibold flex-grow text-brand-white text-base font-bold"
+      titleClass="font-semibold flex-grow text-brand-white text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
       child={

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../types/types";
 import FetchStatus from "../../fetch-status/FetchStatus";
 import { ApiService } from "../../../services/apiService";
+import PreDisplay from "../../pre-display/PreDisplay";
 
 interface TeamStatsProps {
   homeTeamId: number;
@@ -22,44 +23,58 @@ export default function TeamStats({
 }: TeamStatsProps) {
   const [stats, setStats] = useState<TwoTeamStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
-    if (!leagueId) {
+    if (!leagueId && isShown) {
+      setLoading(true);
       apiService
         .fetchH2HStats(homeTeamId, awayTeamId)
         .then((result) => {
           setStats(result);
-          setLoading(false);
         })
         .catch(() => {
-          setLoading(false);
           setStats(null);
-        });
+        })
+        .finally(() => setLoading(false));
     }
 
-    if (leagueId) {
+    if (leagueId && isShown) {
+      setLoading(true);
       apiService
         .fetchSeasonStats(homeTeamId, awayTeamId, leagueId)
         .then((result) => {
           setStats(result);
-          setLoading(false);
         })
         .catch(() => {
-          setLoading(false);
           setStats(null);
-        });
+        })
+        .finally(() => setLoading(false));
     }
-  }, [homeTeamId, awayTeamId]);
+  }, [homeTeamId, awayTeamId, isShown]);
 
-  if (loading) return <FetchStatus type="loading" message="Loading Data..." />;
-
-  if (!loading && !stats) {
+  if (loading && isShown)
     return (
-      <div className="w-full">
-        <FetchStatus type="info" message="No Stats data available." />
-      </div>
+      <PreDisplay
+        title={!leagueId ? "H2H Stats" : "Season Stats"}
+        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
+        expanded={isShown}
+        setExpanded={setIsShown}
+        child={<FetchStatus type="loading" message="Loading Data..." />}
+      />
     );
-  }
+
+  if (!loading && !stats && isShown)
+    return (
+      <PreDisplay
+        title={!leagueId ? "H2H Stats" : "Season Stats"}
+        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
+        expanded={isShown}
+        setExpanded={setIsShown}
+        child={<FetchStatus type="info" message="No Stats data available." />}
+      />
+    );
+
   const categories = [
     {
       label: "Avg Goals For",
@@ -101,34 +116,38 @@ export default function TeamStats({
   );
 
   return (
-    <div className="bg-brand-navbar p-6 md:p-10 rounded-2xl shadow-md w-full">
-      <h3 className="text-brand-yellow m-4 text-3xl font-bold mb-10 text-center">
-        {!leagueId ? "H2H Team Stats" : "Season Team Stats"}
-      </h3>
+    <PreDisplay
+      title={!leagueId ? "H2H Stats" : "Season Stats"}
+      titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
+      expanded={isShown}
+      setExpanded={setIsShown}
+      child={
+        <div className="bg-brand-navbar p-6 md:p-10 rounded-2xl shadow-md w-full">
+          <div className="flex flex-col space-y-8">
+            {categories.map(({ label, home, away }) => (
+              <div key={label}>
+                <p className="text-brand-lightGray m-4  text-lg text-center font-medium">
+                  {label}
+                </p>
 
-      <div className="flex flex-col space-y-8">
-        {categories.map(({ label, home, away }) => (
-          <div key={label}>
-            <p className="text-brand-lightGray m-4  text-lg text-center font-medium">
-              {label}
-            </p>
+                <div className="flex flex-col mt-4 sm:flex-row sm:items-center gap-3 sm:gap-6">
+                  <div className="sm:w-1/3 text-lg  mt-3 text-white font-semibold">
+                    {homeTeamName}: {home}
+                  </div>
+                  <div className="sm:w-2/3 mt-3">{renderBar(home ?? 0)}</div>
+                </div>
 
-            <div className="flex flex-col mt-4 sm:flex-row sm:items-center gap-3 sm:gap-6">
-              <div className="sm:w-1/3 text-lg  mt-3 text-white font-semibold">
-                {homeTeamName}: {home}
+                <div className="flex flex-col mt-4 sm:flex-row sm:items-center gap-3 sm:gap-6 mt-3">
+                  <div className="sm:w-1/3 text-lg mt-3  text-white font-semibold">
+                    {awayTeamName}: {away}
+                  </div>
+                  <div className="sm:w-2/3 mt-3">{renderBar(away ?? 0)}</div>
+                </div>
               </div>
-              <div className="sm:w-2/3 mt-3">{renderBar(home ?? 0)}</div>
-            </div>
-
-            <div className="flex flex-col mt-4 sm:flex-row sm:items-center gap-3 sm:gap-6 mt-3">
-              <div className="sm:w-1/3 text-lg mt-3  text-white font-semibold">
-                {awayTeamName}: {away}
-              </div>
-              <div className="sm:w-2/3 mt-3">{renderBar(away ?? 0)}</div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      }
+    />
   );
 }

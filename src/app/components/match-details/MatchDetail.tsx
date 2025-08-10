@@ -10,6 +10,9 @@ import { DetailsSection } from "./details-section/DetailsSection";
 import { ApiService } from "../../services/apiService";
 import MatchOdds from "./match-odds/MatchOdds";
 import SubHeader from "../sub-header/SubHeader";
+import MatchScoreCard from "./match-score-card/MatchScoreCard";
+import { LeagueTeamAndPoints } from "./ranks-and-points/LeagueTeamAndPoints";
+import LastFiveMatches from "./last-five-matches/LastFiveMatches";
 
 interface MatchDetailProps {
   apiService: ApiService;
@@ -44,34 +47,26 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
     match as MatchDetails;
 
   return (
-    <div className="text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
+    <div className="text-brand-white p-4 md:p-6 rounded-2xl  mt-6 mx-2 md:mx-8">
       <SubHeader title="Match Details" />
       <div className="mt-8 space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 items-start">
-          <div data-testid="top" className="lg:col-span-3">
-            <DetailsSection
-              components={[
-                <DetailsMainCard
-                  homeTeam={homeTeam}
-                  awayTeam={awayTeam}
-                  date={date}
-                  venue={venue}
-                  league={league}
-                  score={score}
-                  goals={goals}
-                  apiService={apiService}
-                />,
-              ]}
-            />
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <DetailsSection
             components={[
-              <HeadToHead
+              <DetailsMainCard
+                homeTeam={homeTeam}
+                awayTeam={awayTeam}
+                date={date}
+                venue={venue}
+                league={league}
+                score={score}
+                goals={goals}
+              />,
+              <TeamStats
                 homeTeamId={homeTeam.id}
                 awayTeamId={awayTeam.id}
+                homeTeamName={homeTeam.name}
+                awayTeamName={awayTeam.name}
                 apiService={apiService}
               />,
               <TeamStats
@@ -88,11 +83,10 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
 
           <DetailsSection
             components={[
-              <TeamStats
+              <MatchScoreCard score={score} />,
+              <HeadToHead
                 homeTeamId={homeTeam.id}
                 awayTeamId={awayTeam.id}
-                homeTeamName={homeTeam.name}
-                awayTeamName={awayTeam.name}
                 apiService={apiService}
               />,
             ]}
@@ -101,6 +95,19 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
 
           <DetailsSection
             components={[
+              <LeagueTeamAndPoints
+                homeTeamId={homeTeam.id}
+                awayTeamId={awayTeam.id}
+                leagueId={league.id}
+                apiService={apiService}
+              />,
+              <LastFiveMatches
+                apiService={apiService}
+                homeTeamId={homeTeam.id}
+                homeTeam={homeTeam.name}
+                awayTeam={awayTeam.name}
+                awayTeamId={awayTeam.id}
+              />,
               <MatchOdds fixtureId={Number(id)} apiService={apiService} />,
             ]}
             sectionId="r1-right"

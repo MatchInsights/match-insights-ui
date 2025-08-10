@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ApiService } from "../../services/apiService";
-import { TeamPositionsAndPoints } from "../../types/types";
-import FetchStatus from "../fetch-status/FetchStatus";
-import PreDisplay from "../pre-display/PreDisplay";
+import { ApiService } from "../../../services/apiService";
+import { TeamPositionsAndPoints } from "../../../types/types";
+import FetchStatus from "../../fetch-status/FetchStatus";
+import PreDisplay from "../../pre-display/PreDisplay";
 
 interface LeagueTeamAndPointsProps {
   homeTeamId: number;
@@ -23,25 +23,41 @@ export const LeagueTeamAndPoints = ({
   const [showScoreAndPoints, setShowScoreAndPoints] = useState(false);
 
   useEffect(() => {
-    setLoadingScoreAndPoints(false);
-    setTeamsLeagueStats(null);
-    apiService
-      .fetchTeamLeagueStats(homeTeamId, awayTeamId, leagueId)
-      .then((details) => {
-        setTeamsLeagueStats(details);
-        setLoadingScoreAndPoints(false);
-      })
-      .catch(() => {
-        setLoadingScoreAndPoints(false);
-        setTeamsLeagueStats(null);
-      });
+    if (showScoreAndPoints) {
+      setLoadingScoreAndPoints(true);
+      apiService
+        .fetchTeamLeagueStats(homeTeamId, awayTeamId, leagueId)
+        .then((details: TeamPositionsAndPoints) => {
+          setTeamsLeagueStats(details);
+        })
+        .catch(() => {
+          setTeamsLeagueStats(null);
+        })
+        .finally(() => setLoadingScoreAndPoints(false));
+    }
   }, [homeTeamId, awayTeamId, leagueId, showScoreAndPoints]);
 
   if (loadingScoreAndPoints && showScoreAndPoints)
-    return <FetchStatus type="loading" message="Loading League Stats..." />;
+    return (
+      <PreDisplay
+        title="Ranks And Points"
+        expanded={showScoreAndPoints}
+        setExpanded={setShowScoreAndPoints}
+        child={<FetchStatus type="loading" message="Loading League Stats..." />}
+      />
+    );
 
   if (!loadingScoreAndPoints && showScoreAndPoints && !teamsLeagueStats)
-    return <FetchStatus type="error" message="Failed to load League Stats." />;
+    return (
+      <PreDisplay
+        title="Ranks And Points"
+        expanded={showScoreAndPoints}
+        setExpanded={setShowScoreAndPoints}
+        child={
+          <FetchStatus type="info" message="Failed to load League Stats." />
+        }
+      />
+    );
 
   return (
     <PreDisplay

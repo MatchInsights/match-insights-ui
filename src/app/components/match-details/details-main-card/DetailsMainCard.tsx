@@ -1,8 +1,6 @@
 import { ApiService } from "../../../services/apiService";
 import { Goal, League, Score, Team, Venue } from "../../../types/types";
-import LastFiveMatches from "../last-five-matches/LastFiveMatches";
-import { LeagueTeamAndPoints } from "../LeagueTeamAndPoints";
-import MatchScoreCard from "../match-score-card/MatchScoreCard";
+
 import { Link } from "react-router-dom";
 import DetailsHeader from "./details-header/DetailsHeader";
 
@@ -14,7 +12,6 @@ interface DetailsMainCardProps {
   venue: Venue;
   goals: Goal;
   score: Score;
-  apiService: ApiService;
 }
 export const DetailsMainCard = ({
   homeTeam,
@@ -24,77 +21,51 @@ export const DetailsMainCard = ({
   venue,
   goals,
   score,
-  apiService,
 }: DetailsMainCardProps) => {
   return (
     <div
       className="
         grid 
-        grid-cols-1 
-        md:grid-cols-1 
-        lg:grid-cols-3 
-        gap-6 
+        grid-cols-1
+        gap-4
         w-full 
-        px-4
+        px-3
       "
-      style={{ minHeight: "300px" }}
+      style={{ minHeight: "200px" }}
     >
-      {[homeTeam, awayTeam].length && (
-        <>
-          <div className="flex flex-col  p-4 rounded-xl  h-full flex-1 space-y-8">
-            <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />
-            <Link
-              data-testid="league-link"
-              to={`/league/${league.id}`}
-              className="text-2xl md:text-3xl lg:text-4xl text-brand-white hover:text-brand-orange hover:underline transition duration-300"
-            >
-              <span className="flex flex-wrap items-center gap-2">
-                🏆 {league?.id ? league.name : "Unknown League"} &mdash;{" "}
-                {league.round}
-                <span className="text-brand-orange text-base ml-2">&rarr;</span>
-              </span>
-            </Link>
+      {homeTeam && awayTeam && (
+        <div className="flex flex-col p-3 rounded-lg h-full space-y-4 bg-brand-dark">
+          <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />
 
-            <div>
-              <p className="text-brand-lightGray text-base">
-                📍 {venue.name}, {venue.city}
-              </p>
-              <p className="text-brand-yellow text-base">
-                📅 {new Date(date).toLocaleString()}
-              </p>
-            </div>
-            <div>
-              <p className="text-7xl m-2 font-extrabold text-brand-white leading-none">
-                {goals.home ?? "-"} : {goals.away ?? "-"}
-                {score.fulltime?.home != null && (
-                  <span className="text-brand-white text-2xl ml-4">FT</span>
-                )}
-              </p>
-            </div>
+          <Link
+            data-testid="league-link"
+            to={`/league/${league.id}`}
+            className="text-lg md:text-xl text-brand-white hover:text-brand-orange hover:underline transition duration-300"
+          >
+            <span className="flex flex-wrap items-center gap-1">
+              🏆 {league?.id ? league.name : "Unknown League"} — {league.round}
+              <span className="text-brand-orange text-sm ml-1">&rarr;</span>
+            </span>
+          </Link>
+
+          <div className="text-sm space-y-1">
+            <p className="text-brand-lightGray">
+              📍 {venue.name}, {venue.city}
+            </p>
+            <p className="text-brand-yellow">
+              📅 {new Date(date).toLocaleString()}
+            </p>
           </div>
 
-          <div className="flex flex-col justify-center items-center bg-brand-dark p-4 rounded-xl  h-full flex-1">
-            <MatchScoreCard score={score} />
+          <div>
+            <p className="text-4xl font-extrabold text-brand-white leading-none">
+              {goals.home ?? "-"} : {goals.away ?? "-"}
+              {score.fulltime?.home != null && (
+                <span className="text-brand-white text-base ml-3">FT</span>
+              )}
+            </p>
           </div>
-
-          <div className="flex flex-col justify-start items-center bg-brand-dark p-4 rounded-xl  h-full flex-1">
-            {league.id && (
-              <LeagueTeamAndPoints
-                homeTeamId={homeTeam.id}
-                awayTeamId={awayTeam.id}
-                leagueId={league.id}
-                apiService={apiService}
-              />
-            )}
-            <LastFiveMatches
-              apiService={apiService}
-              homeTeamId={homeTeam.id}
-              homeTeam={homeTeam.name}
-              awayTeam={awayTeam.name}
-              awayTeamId={awayTeam.id}
-            />
-          </div>
-        </>
+        </div>
       )}
     </div>
   );

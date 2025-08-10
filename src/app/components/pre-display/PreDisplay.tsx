@@ -18,7 +18,7 @@ const PreDisplay = ({
   titleClass,
 }: PreDisplayProps) => {
   return (
-    <div className="bg-brand-navbar rounded-2xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10 mb-6">
+    <div className="bg-brand-navbar rounded-4xl shadow-md w-full p-4 sm:p-6 md:p-8 lg:p-10 mb-6">
       <button
         className="flex items-center w-full focus:outline-none"
         onClick={() => setExpanded(!expanded)}
@@ -32,7 +32,7 @@ const PreDisplay = ({
         )}
         <h3
           className={
-            titleClass ?? "flex-grow text-brand-white text-base font-bold"
+            titleClass ?? "flex-grow text-brand-white text-2xl font-bold"
           }
         >
           {title}
