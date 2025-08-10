@@ -27,7 +27,7 @@ export default function DetailsHeader({
         </span>
       </div>
 
-      <span className="text-brand-lightGray text-xl md:text-2xl font-semibold w-full sm:w-auto text-left sm:text-center">
+      <span className="text-brand-lightGray text-xl md:text-2xl font-semibold w-full sm:w-auto text-center sm:text-center">
         vs
       </span>
 

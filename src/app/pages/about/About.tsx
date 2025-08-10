@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <section className="bg-brand-darkBg text-brand-lightGray px-6 py-12 md:px-16 lg:px-32 w-full">
+    <section className="text-brand-lightGray px-6 py-12 md:px-16 lg:px-32 w-full">
       <div className="max-w-5xl mx-auto text-center md:text-left">
         <h2
           data-testid="header-0"

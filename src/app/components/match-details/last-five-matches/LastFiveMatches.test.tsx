@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import LastFiveMatches from "./LastFiveMatches";
 import { ApiService } from "../../../services/apiService";
 
@@ -28,6 +28,8 @@ describe("LastFiveMatches", () => {
       />
     );
 
+    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
+
     expect(screen.getByText(/Loading Data/i)).toBeInTheDocument();
   });
 
@@ -48,7 +50,7 @@ describe("LastFiveMatches", () => {
         awayTeam={awayTeam}
       />
     );
-
+    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
     await waitFor(() => {
       expect(screen.getByText("Team A")).toBeInTheDocument();
       expect(screen.getByText("Team B")).toBeInTheDocument();
@@ -76,7 +78,7 @@ describe("LastFiveMatches", () => {
         awayTeam={awayTeam}
       />
     );
-
+    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
     await waitFor(() => {
       expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
     });

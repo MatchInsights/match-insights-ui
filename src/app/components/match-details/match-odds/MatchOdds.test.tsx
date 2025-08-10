@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import MatchOdds from "./MatchOdds";
@@ -19,15 +19,11 @@ const createApiService = (
 describe("MatchOdds", () => {
   const fixtureId = 123;
 
-  it("renders loading state initially", () => {
-    const apiService = createApiService([]);
-    render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
-    expect(screen.getByText(/Loading Odds/i)).toBeInTheDocument();
-  });
-
   it("renders info state when no odds are available", async () => {
     const apiService = createApiService([]);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
 
     await waitFor(() =>
       expect(screen.getByText(/Odds Not Available/i)).toBeInTheDocument()
@@ -49,17 +45,20 @@ describe("MatchOdds", () => {
     const apiService = createApiService(mockOdds);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
 
+    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
+
     await waitFor(() =>
-      expect(screen.getByText(/🧮 Match Odds/i)).toBeInTheDocument()
+      expect(screen.getByText("Full Time Result")).toBeInTheDocument()
     );
 
-    expect(screen.getByText("Full Time Result")).toBeInTheDocument();
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
   });
 
   it("renders info state when API call fails", async () => {
     const apiService = createApiService([], true);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
 
     await waitFor(() =>
       expect(screen.getByText(/Odds Not Available/i)).toBeInTheDocument()

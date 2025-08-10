@@ -42,3 +42,19 @@ html,
   height: 100%;
   font-family: "Poppins", sans-serif;
 }
+
+@keyframes pulseLiveAppBg {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulseLiveAppBg {
+  animation: pulseLiveAppBg 6s infinite ease-in-out;
+}

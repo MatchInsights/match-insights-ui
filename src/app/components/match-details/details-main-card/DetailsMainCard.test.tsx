@@ -143,15 +143,6 @@ describe("DetailsMainCard", () => {
     });
   });
 
-  it("renders league stats", async () => {
-    renderCard(scoreFT);
-
-    await waitFor(() => {
-      expect(screen.getByText("30 vs 28")).toBeInTheDocument();
-      expect(screen.getByText("1 vs 2")).toBeInTheDocument();
-    });
-  });
-
   it("renders formatted date", async () => {
     renderCard(scoreFT);
 

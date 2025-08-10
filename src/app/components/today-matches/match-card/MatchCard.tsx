@@ -14,14 +14,14 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
   return (
     <Link
       to={`/match/${id}`}
-      className="block bg-brand-card rounded-xl p-4 shadow-md text-brand-white text-base md:text-lg
+      className="block bg-brand-card rounded-xl p-4 text-brand-white text-base md:text-lg
       hover:bg-brand-navbar hover:shadow-lg hover:-translate-y-1 hover:ring-2 hover:ring-brand-yellow
       transition-all duration-300 ease-in-out cursor-pointer"
     >
-      <div className="flex flex-col md:flex-row items-start gap-4">
-        <div className="flex flex-col items-start w-full md:w-1/2 space-y-2">
+      <div className="flex flex-col md:flex-row items-start gap-4 text-center md:text-left">
+        <div className="flex flex-col text-center items-center md:items-left md:text-left w-full md:w-1/2 space-y-2">
           <CardTeam team={homeTeam} />
-          <span className="text-brand-lightGray ml-11">vs</span>
+          <span className="text-brand-lightGray">vs</span>
           <CardTeam team={awayTeam} />
         </div>
 
