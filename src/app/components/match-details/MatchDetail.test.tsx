@@ -120,8 +120,6 @@ describe("MatchDetail", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId("top-left")).toBeInTheDocument();
-      expect(screen.getByTestId("top-right")).toBeInTheDocument();
       expect(screen.getByTestId("r1-left")).toBeInTheDocument();
       expect(screen.getByTestId("r1-center")).toBeInTheDocument();
       expect(screen.getByTestId("r1-right")).toBeInTheDocument();

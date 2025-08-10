@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import HeadToHead from "./HeadToHead";
 import type { H2HDetails } from "../../../types/types";
@@ -36,6 +36,8 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
+    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
+
     expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
   });
 
@@ -51,6 +53,7 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
+    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
     await waitFor(() => {
       expect(
         screen.getByText(/No head to head data available/i)
@@ -70,6 +73,7 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
+    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/Head to Head/i)).toBeInTheDocument();

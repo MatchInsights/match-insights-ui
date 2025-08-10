@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import TeamStats from "./TeamStats";
 import { describe, it, expect, vi } from "vitest";
 import { ApiService } from "../../../services/apiService";
@@ -35,7 +35,7 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-
+    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
     expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
   });
 
@@ -52,9 +52,9 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-
+    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
     await waitFor(() =>
-      expect(screen.getByText(/no stats data available/i)).toBeInTheDocument()
+      expect(screen.getByText(/No Stats data available./i)).toBeInTheDocument()
     );
   });
 
@@ -72,13 +72,13 @@ describe("TeamStats", () => {
       />
     );
 
-    await waitFor(() =>
-      expect(screen.getByText(/h2h team stats/i)).toBeInTheDocument()
-    );
+    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
 
-    expect(screen.getByText("Team A: 1.5")).toBeInTheDocument();
-    expect(screen.getByText("Team B: 1.3")).toBeInTheDocument();
-    expect(screen.getByText(/Avg Goals For/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Team A: 1.5")).toBeInTheDocument();
+      expect(screen.getByText("Team B: 1.3")).toBeInTheDocument();
+      expect(screen.getByText(/Avg Goals For/i)).toBeInTheDocument();
+    });
   });
 
   it("calls season stats fetch if provided with leagueId", async () => {
@@ -96,7 +96,7 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-
+    fireEvent.click(screen.getByRole("button", { name: /Season Stats/i }));
     await waitFor(() =>
       expect(apiService.fetchSeasonStats).toHaveBeenCalledWith(1, 2, 99)
     );

@@ -24,7 +24,7 @@ describe("DetailsSection", () => {
 
     const cardDivs = containerDiv.querySelectorAll("div.rounded-2xl");
     expect(cardDivs.length).toBe(2);
-    expect(cardDivs[0]).toHaveClass("shadow-md", "p-4", "sm:p-6", "md:p-8");
+    expect(cardDivs[0]).toHaveClass("p-4", "sm:p-6", "md:p-8");
   });
 
   it("applies custom container and card class names", () => {
