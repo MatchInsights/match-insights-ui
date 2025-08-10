@@ -36,7 +36,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
     return <FetchStatus type="error" message="Fetch Failed..." />;
 
   return (
-    <div className="bg-brand-darkBg text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
+    <div className="text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
       <SubHeader title="League Standing" />
 
       {standings.length === 0 ? (

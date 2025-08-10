@@ -5,7 +5,7 @@ interface TeamProps {
 }
 const CardTeam = ({ team }: TeamProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 text-center md:text-left">
       {team?.logo ? (
         <img
           data-testid="team-logo"

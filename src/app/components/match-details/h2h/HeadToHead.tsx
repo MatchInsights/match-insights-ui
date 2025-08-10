@@ -52,7 +52,7 @@ const HeadToHead = ({
       {data.map((match, index) => (
         <div
           key={index}
-          className="bg-brand-card rounded-2xl shadow-md p-6 md:p-8 flex flex-col gap-6 w-full"
+          className="bg-brand-card rounded-2xl p-6 md:p-8 flex flex-col gap-6 w-full"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-center text-center md:text-left">
             <div className="text-base text-brand-lightGray space-y-2">

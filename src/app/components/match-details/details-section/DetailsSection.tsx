@@ -8,7 +8,7 @@ interface DetailsSectionProps {
 export function DetailsSection({
   components,
   containerClassName = "space-y-6",
-  cardClassName = "rounded-2xl shadow-md p-4 sm:p-6 md:p-8",
+  cardClassName = "rounded-2xl p-4 sm:p-6 md:p-8",
   sectionId,
 }: DetailsSectionProps) {
   return (
