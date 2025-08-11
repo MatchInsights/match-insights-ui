@@ -96,11 +96,11 @@ export interface H2HDetails {
 }
 
 export interface TeamStats {
-  avgGoalsFor: number;
-  avgGoalsAgainst: number;
-  cleanSheetPercent: number;
-  scoredInPercent: number;
-  concededInPercent: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  cleanSheet: number;
+  scoredIn: number;
+  concededIn: number;
 }
 
 export interface TwoTeamStats {

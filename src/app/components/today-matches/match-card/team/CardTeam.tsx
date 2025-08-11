@@ -1,21 +1,13 @@
 import { Team } from "../../../../types/types";
+import TeamLogo from "../../../team-logo/TeamLogo";
 
 interface TeamProps {
   team: Team | undefined;
 }
 const CardTeam = ({ team }: TeamProps) => {
   return (
-    <div className="flex items-center gap-2 text-center md:text-left">
-      {team?.logo ? (
-        <img
-          data-testid="team-logo"
-          src={team.logo}
-          alt={""}
-          className="w-4 h-4 object-contain"
-        />
-      ) : (
-        <div className="w-4 h-4 bg-brand-darkGray rounded-full" />
-      )}
+    <div className="flex items-center gap-2 text-center text-left">
+      <TeamLogo src={team?.logo} />
       <span className="font-medium">{team?.name || "Unknown Team"}</span>
     </div>
   );
