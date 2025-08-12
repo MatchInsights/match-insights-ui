@@ -13,6 +13,7 @@ import SubHeader from "../sub-header/SubHeader";
 import MatchScoreCard from "./match-score-card/MatchScoreCard";
 import { LeagueTeamAndPoints } from "./ranks-and-points/LeagueTeamAndPoints";
 import LastFiveMatches from "./last-five-matches/LastFiveMatches";
+import MatchEvents from "../last-five-events/MatchEvents";
 
 interface MatchDetailProps {
   apiService: ApiService;
@@ -62,7 +63,13 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
                 score={score}
                 goals={goals}
               />,
+              <HeadToHead
+                homeTeamId={homeTeam.id}
+                awayTeamId={awayTeam.id}
+                apiService={apiService}
+              />,
               <TeamStats
+                title="H2H Stats"
                 homeTeamId={homeTeam.id}
                 awayTeamId={awayTeam.id}
                 homeTeamName={homeTeam.name}
@@ -70,6 +77,7 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
                 apiService={apiService}
               />,
               <TeamStats
+                title="Both teams Season Stats"
                 homeTeamId={homeTeam.id}
                 awayTeamId={awayTeam.id}
                 leagueId={league.id}
@@ -84,17 +92,6 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           <DetailsSection
             components={[
               <MatchScoreCard score={score} />,
-              <HeadToHead
-                homeTeamId={homeTeam.id}
-                awayTeamId={awayTeam.id}
-                apiService={apiService}
-              />,
-            ]}
-            sectionId="r1-center"
-          />
-
-          <DetailsSection
-            components={[
               <LeagueTeamAndPoints
                 homeTeamId={homeTeam.id}
                 awayTeamId={awayTeam.id}
@@ -108,6 +105,22 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
                 awayTeam={awayTeam.name}
                 awayTeamId={awayTeam.id}
               />,
+              <MatchEvents
+                title={`${homeTeam.name} Last Five Matches Summary`}
+                teamId={homeTeam.id}
+                apiService={apiService}
+              />,
+              <MatchEvents
+                title={`${awayTeam.name} Last Five Matches Summary`}
+                teamId={awayTeam.id}
+                apiService={apiService}
+              />,
+            ]}
+            sectionId="r1-center"
+          />
+
+          <DetailsSection
+            components={[
               <MatchOdds fixtureId={Number(id)} apiService={apiService} />,
             ]}
             sectionId="r1-right"

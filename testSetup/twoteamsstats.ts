@@ -2,18 +2,18 @@ import { TeamPositionsAndPoints, TwoTeamStats } from "../src/app/types/types";
 
 export const mockTwoTeamStats: TwoTeamStats = {
   team0: {
-    avgGoalsFor: 1.6,
-    avgGoalsAgainst: 1.2,
-    cleanSheetPercent: 30.0,
-    scoredInPercent: 85.0,
-    concededInPercent: 70.0,
+    goalsFor: 4,
+    goalsAgainst: 2,
+    cleanSheet: 3,
+    scoredIn: 8,
+    concededIn: 3,
   },
   team1: {
-    avgGoalsFor: 1.1,
-    avgGoalsAgainst: 1.8,
-    cleanSheetPercent: 20.0,
-    scoredInPercent: 65.0,
-    concededInPercent: 80.0,
+    goalsFor: 3,
+    goalsAgainst: 4,
+    cleanSheet: 2,
+    scoredIn: 10,
+    concededIn: 10,
   },
 };
 

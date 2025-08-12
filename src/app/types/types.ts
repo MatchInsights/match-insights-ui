@@ -96,11 +96,11 @@ export interface H2HDetails {
 }
 
 export interface TeamStats {
-  avgGoalsFor: number;
-  avgGoalsAgainst: number;
-  cleanSheetPercent: number;
-  scoredInPercent: number;
-  concededInPercent: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  cleanSheet: number;
+  scoredIn: number;
+  concededIn: number;
 }
 
 export interface TwoTeamStats {
@@ -123,4 +123,17 @@ export interface Odd {
 export interface Bet {
   betName: string;
   values: Odd[];
+}
+
+export interface LastFiveMatchesEvents {
+  penalties: number;
+  firstHalfGoals: number;
+  secondHalfGoals: number;
+  extraTimeGoals: number;
+  firstHalfYellowCards: number;
+  secondHalfYellowCards: number;
+  extraTimeYellowCards: number;
+  firstHalfRedCards: number;
+  secondHalfRedCards: number;
+  extraTimeRedCards: number;
 }

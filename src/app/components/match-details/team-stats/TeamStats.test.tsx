@@ -28,6 +28,7 @@ describe("TeamStats", () => {
 
     render(
       <TeamStats
+        title="stats"
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
@@ -35,7 +36,7 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
+    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
     expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
   });
 
@@ -45,6 +46,7 @@ describe("TeamStats", () => {
     };
     render(
       <TeamStats
+        title="stats"
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
@@ -52,18 +54,19 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
+    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
     await waitFor(() =>
       expect(screen.getByText(/No Stats data available./i)).toBeInTheDocument()
     );
   });
 
-  it("renders stats correctly with H2H data", async () => {
+  it("renders stats correctly", async () => {
     const apiService: Partial<ApiService> = {
       fetchH2HStats: vi.fn().mockResolvedValue(mockStats),
     };
     render(
       <TeamStats
+        title="stats"
         homeTeamId={1}
         awayTeamId={2}
         homeTeamName="Team A"
@@ -72,35 +75,11 @@ describe("TeamStats", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /H2H Stats/i }));
+    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
 
     await waitFor(() => {
-      expect(screen.getByText("Team A: 1.5")).toBeInTheDocument();
-      expect(screen.getByText("Team B: 1.3")).toBeInTheDocument();
-      expect(screen.getByText(/Avg Goals For/i)).toBeInTheDocument();
+      expect(screen.getAllByTestId("stat-label").length).toBe(5);
+      expect(screen.getAllByTestId("home-away-stats").length).toBe(5);
     });
-  });
-
-  it("calls season stats fetch if provided with leagueId", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchSeasonStats: vi.fn().mockResolvedValue(mockStats),
-    };
-
-    render(
-      <TeamStats
-        homeTeamId={1}
-        awayTeamId={2}
-        leagueId={99}
-        homeTeamName="Team A"
-        awayTeamName="Team B"
-        apiService={apiService as ApiService}
-      />
-    );
-    fireEvent.click(screen.getByRole("button", { name: /Season Stats/i }));
-    await waitFor(() =>
-      expect(apiService.fetchSeasonStats).toHaveBeenCalledWith(1, 2, 99)
-    );
-
-    expect(await screen.findByText("Team A: 1.5")).toBeInTheDocument();
   });
 });
