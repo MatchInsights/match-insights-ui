@@ -23,7 +23,6 @@ describe("DetailsHeader", () => {
   it("renders both team logos when provided", () => {
     render(<DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />);
 
-    expect(screen.getByTestId("home-team-logo")).toBeInTheDocument();
-    expect(screen.getByTestId("away-team-logo")).toBeInTheDocument();
+    expect(screen.getAllByTestId("team-logo").length).toBe(2);
   });
 });

@@ -38,7 +38,7 @@ const HeadToHead = ({
     return (
       <PreDisplay
         title="Head to Head"
-        titleClass="text-brand-orange font-semibold flex-grow text-2xl font-bold"
+        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
         child={<FetchStatus type="loading" message="Loading Data..." />}
@@ -49,7 +49,7 @@ const HeadToHead = ({
     return (
       <PreDisplay
         title="Head to Head"
-        titleClass="text-brand-orange font-semibold flex-grow text-2xl font-bold"
+        titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
         child={
@@ -62,7 +62,7 @@ const HeadToHead = ({
   return (
     <PreDisplay
       title="Head to Head"
-      titleClass="text-brand-orange font-semibold flex-grow text-2xl font-bold"
+      titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
       child={
@@ -75,32 +75,32 @@ const HeadToHead = ({
               <div className="flex flex-col gap-4 text-sm sm:text-base text-center">
                 <div className="space-y-1">
                   <p>
-                    <span className="text-brand-yellow font-semibold">
+                    <span className="text-brand-yellow font-semibold m-2">
                       Date:
                     </span>{" "}
                     {new Date(match.date).toLocaleDateString()}
                   </p>
                   <p>
-                    <span className="text-brand-yellow font-semibold">
+                    <span className="text-brand-yellow font-semibold m-2">
                       Venue:
                     </span>{" "}
                     {match.venue.name}
                   </p>
                   <p>
-                    <span className="text-brand-yellow font-semibold">
+                    <span className="text-brand-yellow font-semibold m-2">
                       League:
                     </span>{" "}
                     {match.leagueName}
                   </p>
                   <p>
-                    <span className="text-brand-yellow font-semibold">
+                    <span className="text-brand-yellow font-semibold m-2">
                       Season:
                     </span>{" "}
                     {match.season}
                   </p>
                   {match.round && (
                     <p>
-                      <span className="text-brand-yellow font-semibold">
+                      <span className="text-brand-yellow font-semibold m-2">
                         Round:
                       </span>{" "}
                       {match.round}
@@ -110,25 +110,25 @@ const HeadToHead = ({
 
                 <div className="space-y-1 text-brand-white">
                   <p>
-                    <span className="text-brand-lightGray font-medium">
+                    <span className="text-brand-lightGray font-medium m-2">
                       Half Time:
                     </span>{" "}
                     {match.homeHalfTimeGoal} - {match.awayHalfTimeGoal}
                   </p>
                   <p>
-                    <span className="text-brand-lightGray font-medium">
+                    <span className="text-brand-lightGray font-medium m-2">
                       Full Time:
                     </span>{" "}
                     {match.homeFullTimeGoal} - {match.awayFullTimeGoal}
                   </p>
                   <p>
-                    <span className="text-brand-lightGray font-medium">
+                    <span className="text-brand-lightGray font-medium m-2">
                       Extra Time:
                     </span>{" "}
                     {match.homeExtraTimeGoal} - {match.awayExtraTimeGoal}
                   </p>
                   <p>
-                    <span className="text-brand-lightGray font-medium">
+                    <span className="text-brand-lightGray font-medium m-2 ">
                       Penalties:
                     </span>{" "}
                     {match.homePenalty} - {match.awayPenalty}

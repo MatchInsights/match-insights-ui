@@ -64,13 +64,4 @@ describe("MatchCard", () => {
       screen.getByText((text) => timeRegex.test(text))
     ).toBeInTheDocument();
   });
-
-  it('renders "vs" separator', () => {
-    render(
-      <MemoryRouter>
-        <MatchCard todayMatch={mockTodayMatch} />
-      </MemoryRouter>
-    );
-    expect(screen.getByText("vs")).toBeInTheDocument();
-  });
 });

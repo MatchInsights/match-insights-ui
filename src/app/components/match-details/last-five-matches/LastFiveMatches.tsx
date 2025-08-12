@@ -52,9 +52,10 @@ const LastFiveMatches = ({
   if (loading && isShown)
     return (
       <PreDisplay
-        title="Last Five Matches"
+        title="Last Five Matches Results"
         expanded={isShown}
         setExpanded={setIsShown}
+        titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         child={<FetchStatus type="loading" message="Loading Data..." />}
       />
     );
@@ -70,6 +71,7 @@ const LastFiveMatches = ({
         title="Last Five Matches"
         expanded={isShown}
         setExpanded={setIsShown}
+        titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         child={<FetchStatus type="info" message="No data available" />}
       />
     );
@@ -77,9 +79,9 @@ const LastFiveMatches = ({
   return (
     <PreDisplay
       title="Last Five Matches"
-      titleClass="font-semibold flex-grow text-brand-white text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
+      titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">
           <div className="flex justify-left items-center gap-4 flex-wrap">

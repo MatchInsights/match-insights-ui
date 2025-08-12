@@ -124,3 +124,16 @@ export interface Bet {
   betName: string;
   values: Odd[];
 }
+
+export interface LastFiveMatchesEvents {
+  penalties: number;
+  firstHalfGoals: number;
+  secondHalfGoals: number;
+  extraTimeGoals: number;
+  firstHalfYellowCards: number;
+  secondHalfYellowCards: number;
+  extraTimeYellowCards: number;
+  firstHalfRedCards: number;
+  secondHalfRedCards: number;
+  extraTimeRedCards: number;
+}

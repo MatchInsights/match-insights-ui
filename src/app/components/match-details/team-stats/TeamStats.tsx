@@ -113,7 +113,7 @@ export default function TeamStats({
 
   return (
     <PreDisplay
-      title={!leagueId ? "H2H Stats" : "Season Stats"}
+      title={title}
       titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
@@ -124,12 +124,18 @@ export default function TeamStats({
               key={index}
               className="bg-brand-card rounded-xl p-4 sm:p-5 flex flex-col gap-4 w-full"
             >
-              <div className="flex items-center gap-2 text-brand-yellow font-bold text-lg sm:text-xl">
+              <div
+                data-testid="stat-label"
+                className="flex items-center gap-2 text-brand-yellow font-bold text-lg sm:text-xl"
+              >
                 <span className="text-brand-orange text-2xl m-2">{icon}</span>
                 {label}
               </div>
 
-              <div className="flex flex-col gap-2 text-sm sm:text-base text-center text-brand-white">
+              <div
+                data-testid="home-away-stats"
+                className="flex flex-col gap-2 text-sm sm:text-base text-center text-brand-white"
+              >
                 <p>
                   <span className="text-brand-white text-1xl md:text-2xl font-semibold">
                     {homeTeamName}:

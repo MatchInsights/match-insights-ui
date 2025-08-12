@@ -7,6 +7,7 @@ import {
   TwoTeamStats,
   TeamPositionsAndPoints,
   Bet,
+  LastFiveMatchesEvents,
 } from "../types/types";
 import apiFetch from "./apiConfig";
 
@@ -35,6 +36,8 @@ export interface ApiService {
   ): Promise<TeamPositionsAndPoints>;
 
   fetchOdds(fixtureId: number): Promise<Bet[]>;
+
+  fetchLastFiveMatchesEvents(teamId: number): Promise<LastFiveMatchesEvents>;
 }
 
 export class ApiServiceImplementation implements ApiService {
@@ -126,6 +129,14 @@ export class ApiServiceImplementation implements ApiService {
 
   public async fetchOdds(fixtureId: number): Promise<Bet[]> {
     const response = await apiFetch.get<Bet[]>(`/api/odds/${fixtureId}`);
+    return response.data;
+  }
+  public async fetchLastFiveMatchesEvents(
+    teamId: number
+  ): Promise<LastFiveMatchesEvents> {
+    const response = await apiFetch.get<LastFiveMatchesEvents>(
+      `/api/teams/matches/events/sum/${teamId}`
+    );
     return response.data;
   }
 }
