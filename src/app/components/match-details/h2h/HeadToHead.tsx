@@ -72,7 +72,7 @@ const HeadToHead = ({
               key={index}
               className="bg-brand-card rounded-xl p-4 sm:p-5 flex flex-col gap-4 w-full"
             >
-              <div className="flex flex-col gap-4 text-sm sm:text-base text-center">
+              <div className="flex flex-col gap-4 text-sm sm:text-base text-left">
                 <div className="space-y-1">
                   <p>
                     <span className="text-brand-yellow font-semibold m-2">
@@ -135,7 +135,7 @@ const HeadToHead = ({
                   </p>
                 </div>
 
-                <div className="text-lg font-bold text-brand-success text-center ">
+                <div className="text-lg font-bold text-brand-success text-left ">
                   Winner: <span className="text-white">{match.winner}</span>
                 </div>
               </div>

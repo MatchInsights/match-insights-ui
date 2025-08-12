@@ -134,7 +134,7 @@ export default function TeamStats({
 
               <div
                 data-testid="home-away-stats"
-                className="flex flex-col gap-2 text-sm sm:text-base text-center text-brand-white"
+                className="flex flex-col gap-2 text-sm sm:text-base text-left text-brand-white"
               >
                 <p>
                   <span className="text-brand-white text-1xl md:text-2xl font-semibold">

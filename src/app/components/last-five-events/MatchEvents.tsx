@@ -62,7 +62,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
             <h3 className="text-brand-yellow font-semibold mb-2 text-2xl flex items-center gap-2">
               <FaFutbol className="text-brand-orange" /> Goals
             </h3>
-            <div className="flex flex-col gap-1 text-center text-xl text-brand-white">
+            <div className="flex flex-col gap-1 text-left text-xl text-brand-white">
               <p>
                 First Half:{" "}
                 <span className="text-brand-orange m-2">
@@ -90,11 +90,11 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
             </div>
           </div>
 
-          <div>
+          <div data-testid="goals-data">
             <h3 className="text-brand-yellow font-semibold text-2xl mb-2 flex items-center gap-2">
               <FaSquare className="text-yellow-400" /> Yellow Cards
             </h3>
-            <div className="flex flex-col gap-1 text-center text-xl text-brand-white">
+            <div className="flex flex-col gap-1 text-left text-xl text-brand-white">
               <p>
                 First Half:{" "}
                 <span className="text-brand-orange m-2">
@@ -116,11 +116,11 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
             </div>
           </div>
 
-          <div>
+          <div data-testid="cards-data">
             <h3 className="text-brand-yellow font-semibold text-2xl mb-2 flex items-center gap-2">
               <FaSquareFull className="text-red-600" /> Red Cards
             </h3>
-            <div className="flex flex-col gap-1 text-center text-xl text-brand-white">
+            <div className="flex flex-col gap-1 text-left text-xl text-brand-white">
               <p>
                 First Half:{" "}
                 <span className="text-brand-orange m-2">

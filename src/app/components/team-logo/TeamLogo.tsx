@@ -6,7 +6,10 @@ const TeamLogo = ({ src }: { src?: string }) => {
 
   if (!src || error) {
     return (
-      <div className="w-10 h-10 md:w-14 md:h-14 bg-transparent rounded-full flex items-center justify-center">
+      <div
+        data-testid="shield-fallback"
+        className="w-10 h-10 md:w-14 md:h-14 bg-transparent rounded-full flex items-center justify-center"
+      >
         <FaShieldAlt className="text-brand-lightGray text-lg md:text-xl" />
       </div>
     );
