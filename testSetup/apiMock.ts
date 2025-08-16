@@ -8,8 +8,16 @@ import {
   TeamPositionsAndPoints,
   Bet,
   LastFiveMatchesEvents,
+  TeamsRestStatus,
+  TeamsScorePerformance,
+  OddsWinnerFeeling,
 } from "../src/app/types/types";
 
+import {
+  oddsWinnerFeeling,
+  teamRestStatus,
+  teamScorePerformance,
+} from "./mockdata";
 import { mockTodayMatches } from "./matches";
 import { mockStandings } from "./leagueInfo";
 import { mockMatchDetails } from "./matchDetails";
@@ -92,6 +100,28 @@ export class MockApiServiceImplementation implements ApiService {
     teamId: number
   ): Promise<LastFiveMatchesEvents> {
     return Promise.resolve(lastfiveEvents);
+  }
+
+  public async fetchTeamsRestStatus(
+    homeTeamId: number,
+    awayTeamId: number,
+    fixtureDate: string
+  ): Promise<TeamsRestStatus> {
+    return Promise.resolve(teamRestStatus);
+  }
+
+  public async fetchTeamsScorePerformance(
+    homeTeamId: number,
+    awayTeamId: number,
+    leagueId: number
+  ): Promise<TeamsScorePerformance> {
+    return Promise.resolve(teamScorePerformance);
+  }
+
+  public async fetchOddWinnerFeeling(
+    fixtureId: number
+  ): Promise<OddsWinnerFeeling> {
+    return Promise.resolve(oddsWinnerFeeling);
   }
 }
 

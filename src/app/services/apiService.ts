@@ -8,6 +8,9 @@ import {
   TeamPositionsAndPoints,
   Bet,
   LastFiveMatchesEvents,
+  TeamsRestStatus,
+  TeamsScorePerformance,
+  OddsWinnerFeeling,
 } from "../types/types";
 import apiFetch from "./apiConfig";
 
@@ -38,6 +41,20 @@ export interface ApiService {
   fetchOdds(fixtureId: number): Promise<Bet[]>;
 
   fetchLastFiveMatchesEvents(teamId: number): Promise<LastFiveMatchesEvents>;
+
+  fetchTeamsRestStatus(
+    homeTeamId: number,
+    awayTeamId: number,
+    fixtureDate: string
+  ): Promise<TeamsRestStatus>;
+
+  fetchTeamsScorePerformance(
+    homeTeamId: number,
+    awayTeamId: number,
+    leagueId: number
+  ): Promise<TeamsScorePerformance>;
+
+  fetchOddWinnerFeeling(fixtureId: number): Promise<OddsWinnerFeeling>;
 }
 
 export class ApiServiceImplementation implements ApiService {
@@ -136,6 +153,39 @@ export class ApiServiceImplementation implements ApiService {
   ): Promise<LastFiveMatchesEvents> {
     const response = await apiFetch.get<LastFiveMatchesEvents>(
       `/api/teams/matches/events/sum/${teamId}`
+    );
+    return response.data;
+  }
+
+  public async fetchTeamsRestStatus(
+    homeTeamId: number,
+    awayTeamId: number,
+    fixtureDate: string
+  ): Promise<TeamsRestStatus> {
+    const response = await apiFetch.get<TeamsRestStatus>(
+      `/api/teams/rest/status/${homeTeamId}/${awayTeamId}/${encodeURIComponent(
+        fixtureDate
+      )}`
+    );
+    return response.data;
+  }
+
+  public async fetchTeamsScorePerformance(
+    homeTeamId: number,
+    awayTeamId: number,
+    leagueId: number
+  ): Promise<TeamsScorePerformance> {
+    const response = await apiFetch.get<TeamsScorePerformance>(
+      `/api/teams/score/performance/${homeTeamId}/${awayTeamId}/${leagueId}}`
+    );
+    return response.data;
+  }
+
+  public async fetchOddWinnerFeeling(
+    fixtureId: number
+  ): Promise<OddsWinnerFeeling> {
+    const response = await apiFetch.get<OddsWinnerFeeling>(
+      `/api/odds/feeling/winner/${fixtureId}`
     );
     return response.data;
   }
