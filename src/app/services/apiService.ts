@@ -176,7 +176,7 @@ export class ApiServiceImplementation implements ApiService {
     leagueId: number
   ): Promise<TeamsScorePerformance> {
     const response = await apiFetch.get<TeamsScorePerformance>(
-      `/api/teams/score/performance/${homeTeamId}/${awayTeamId}/${leagueId}}`
+      `/api/teams/score/performance/${homeTeamId}/${awayTeamId}/${leagueId}`
     );
     return response.data;
   }
