@@ -116,7 +116,7 @@ export interface TeamPositionsAndPoints {
 }
 
 export interface Odd {
-  label: String;
+  label: string;
   odd: number;
 }
 
@@ -136,4 +136,20 @@ export interface LastFiveMatchesEvents {
   firstHalfRedCards: number;
   secondHalfRedCards: number;
   extraTimeRedCards: number;
+}
+
+export interface TeamsRestStatus {
+  homeTeamStatus: string;
+  awayTeamStatus: string;
+}
+
+export interface TeamsScorePerformance {
+  homeTeamPerformance: string;
+  awayTeamPerformance: string;
+}
+
+export interface OddsWinnerFeeling {
+  home: string;
+  draw: string;
+  away: string;
 }
