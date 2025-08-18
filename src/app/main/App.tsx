@@ -3,11 +3,11 @@ import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import HomePage from "../pages/home/Home";
 
-import { apiService } from "../services/apiService";
-//import { apiService } from "../../../testSetup/apiMock";
+//import { apiService } from "../services/apiService";
+import { apiService } from "../../../testSetup/apiMock";
 
-import LeagueStanding from "../components/league-standing/LeagueStanding";
-import MatchDetail from "../components/match-details/MatchDetail";
+import LeagueStanding from "../pages/league-standing/LeagueStanding";
+import MatchDetail from "../pages/match-details/MatchDetail";
 import About from "../pages/about/About";
 
 function App() {

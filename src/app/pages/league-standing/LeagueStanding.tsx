@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
-import FetchStatus from "../fetch-status/FetchStatus";
-import SubHeader from "../sub-header/SubHeader";
+import FetchStatus from "../../components/fetch-status/FetchStatus";
+import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
 
 interface LeagueStandingProps {

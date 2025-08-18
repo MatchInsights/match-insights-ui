@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MatchDetails } from "../../types/types";
-import FetchStatus from "../fetch-status/FetchStatus";
-import { DetailsMainCard } from "./details-main-card/DetailsMainCard";
+import FetchStatus from "../../components/fetch-status/FetchStatus";
+import { DetailsMainCard } from "../../components/match-details/details-main-card/DetailsMainCard";
 
-import HeadToHead from "./h2h/HeadToHead";
-import TeamStats from "./team-stats/TeamStats";
-import { DetailsSection } from "./details-section/DetailsSection";
+import HeadToHead from "../../components/match-details/h2h/HeadToHead";
+import TeamStats from "../../components/match-details/team-stats/TeamStats";
+import { DetailsSection } from "../../components/match-details/details-section/DetailsSection";
 import { ApiService } from "../../services/apiService";
-import MatchOdds from "./match-odds/MatchOdds";
-import SubHeader from "../sub-header/SubHeader";
-import MatchScoreCard from "./match-score-card/MatchScoreCard";
-import { LeagueTeamAndPoints } from "./ranks-and-points/LeagueTeamAndPoints";
-import LastFiveMatches from "./last-five-matches/LastFiveMatches";
-import MatchEvents from "../last-five-events/MatchEvents";
-import TeamsRestStatusComponent from "./teams-rest-status/TeamRestStatus";
-import TeamsScorePerformanceComponent from "./teams-score-performance/TeamsScorePerformance";
-import OddsWinnerFeelingComponent from "./odds-winner-feeling/OddsWinnerFeeling";
+import MatchOdds from "../../components/match-details/match-odds/MatchOdds";
+import SubHeader from "../../components/sub-header/SubHeader";
+import MatchScoreCard from "../../components/match-details/match-score-card/MatchScoreCard";
+import { LeagueTeamAndPoints } from "../../components/match-details/ranks-and-points/LeagueTeamAndPoints";
+import LastFiveMatches from "../../components/match-details/last-five-matches/LastFiveMatches";
+import MatchEvents from "../../components/match-details/last-five-events/MatchEvents";
+import TeamsRestStatusComponent from "../../components/match-details/teams-rest-status/TeamRestStatus";
+import TeamsScorePerformanceComponent from "../../components/match-details/teams-score-performance/TeamsScorePerformance";
+import OddsWinnerFeelingComponent from "../../components/match-details/odds-winner-feeling/OddsWinnerFeeling";
 
 interface MatchDetailProps {
   apiService: ApiService;

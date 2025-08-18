@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import FetchStatus from "../fetch-status/FetchStatus";
-import PreDisplay from "../pre-display/PreDisplay";
-import { ApiService } from "../../services/apiService";
+import FetchStatus from "../../fetch-status/FetchStatus";
+import PreDisplay from "../../pre-display/PreDisplay";
+import { ApiService } from "../../../services/apiService";
 
 import { FaFutbol, FaSquare, FaSquareFull } from "react-icons/fa";
-import { LastFiveMatchesEvents } from "../../types/types";
+import { LastFiveMatchesEvents } from "../../../types/types";
 
 interface Props {
   title: string;
