@@ -51,7 +51,7 @@ const PreDisplay = ({
           )}
           <span
             data-testid="expand-icon"
-            className="w-5 h-5  m-2 p-0 items-center text-center text-base  hover:text-brand-yellow "
+            className="w-5 h-5  m-2 mb-4 p-0 items-center text-center text-base  hover:text-brand-yellow "
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "▲" : "▼"}

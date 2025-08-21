@@ -49,7 +49,17 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
 
   if (loading) return <NoData />;
 
-  if (!loading && matches.length === 0) return <NoData />;
+  if (!loading && matches.length === 0)
+    return (
+      <div>
+        <SubHeader
+          navigateBack={false}
+          onRefresh={fetchData}
+          title="Matches of the Day"
+        />
+        <NoData />
+      </div>
+    );
 
   return (
     <div className="w-full mx-auto px-12 py-12">
