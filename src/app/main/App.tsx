@@ -9,6 +9,7 @@ import { apiService } from "../../../testSetup/apiMock";
 import LeagueStanding from "../pages/league-standing/LeagueStanding";
 import MatchDetail from "../pages/match-details/MatchDetail";
 import About from "../pages/about/About";
+import TeamDetailsPage from "../pages/team-details/TeamDetailsPage";
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
             <Route
               path="/match/:id"
               element={<MatchDetail apiService={apiService} />}
+            />
+            <Route
+              path="/team/:id"
+              element={<TeamDetailsPage apiService={apiService} />}
             />
           </Routes>
         </main>

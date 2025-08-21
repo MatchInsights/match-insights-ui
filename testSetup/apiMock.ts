@@ -11,6 +11,8 @@ import {
   TeamsRestStatus,
   TeamsScorePerformance,
   OddsWinnerFeeling,
+  TeamDetails,
+  TeamPlayer,
 } from "../src/app/types/types";
 
 import {
@@ -25,6 +27,7 @@ import { lastFiveData } from "./teamsform";
 import { mockH2HDetails } from "./head2head";
 import { bets } from "./odds";
 import { lastfiveEvents } from "./lastfivematchesevents";
+import { players, teamDetails } from "./team";
 import { mockTwoTeamStats, mockTeamsLeagueStats } from "./twoteamsstats";
 import { ApiService } from "../src/app/services/apiService";
 
@@ -122,6 +125,14 @@ export class MockApiServiceImplementation implements ApiService {
     fixtureId: number
   ): Promise<OddsWinnerFeeling> {
     return Promise.resolve(oddsWinnerFeeling);
+  }
+
+  public async fetchTeamDetails(teamId: number): Promise<TeamDetails> {
+    return Promise.resolve(teamDetails);
+  }
+
+  public async fetchTeamPlayers(teamId: number): Promise<TeamPlayer[]> {
+    return Promise.resolve(players);
   }
 }
 

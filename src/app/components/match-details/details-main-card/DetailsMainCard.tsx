@@ -1,4 +1,3 @@
-import { ApiService } from "../../../services/apiService";
 import { Goal, League, Score, Team, Venue } from "../../../types/types";
 
 import { Link } from "react-router-dom";
