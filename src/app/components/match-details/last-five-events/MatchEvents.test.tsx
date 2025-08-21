@@ -52,7 +52,7 @@ describe("MatchEvents", () => {
 
     fireEvent.click(screen.getByText("Test Title"));
 
-    expect(await screen.findByText(/Loading data.../i)).toBeInTheDocument();
+    expect(await screen.findByText(/No data available/i)).toBeInTheDocument();
   });
 
   it("shows 'No data available' when API returns null", async () => {

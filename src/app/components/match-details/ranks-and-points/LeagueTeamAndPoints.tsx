@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ApiService } from "../../../services/apiService";
 import { TeamPositionsAndPoints } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import PreDisplay from "../../pre-display/PreDisplay";
 
 interface LeagueTeamAndPointsProps {
@@ -44,7 +44,7 @@ export const LeagueTeamAndPoints = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
-        child={<FetchStatus type="loading" message="Loading League Stats..." />}
+        child={<NoData />}
       />
     );
 
@@ -55,9 +55,7 @@ export const LeagueTeamAndPoints = ({
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={
-          <FetchStatus type="info" message="Failed to load League Stats." />
-        }
+        child={<NoData />}
       />
     );
 

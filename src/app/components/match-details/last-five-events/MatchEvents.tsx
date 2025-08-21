@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import PreDisplay from "../../pre-display/PreDisplay";
 import { ApiService } from "../../../services/apiService";
 
@@ -35,7 +35,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="loading" message="Loading data..." />}
+        child={<NoData />}
       />
     );
 
@@ -46,7 +46,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="info" message="No data available" />}
+        child={<NoData />}
       />
     );
 

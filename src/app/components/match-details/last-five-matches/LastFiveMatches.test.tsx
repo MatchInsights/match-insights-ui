@@ -13,7 +13,7 @@ describe("LastFiveMatches", () => {
     vi.clearAllMocks();
   });
 
-  it("shows loading initially", () => {
+  it("shows initiall state", () => {
     const apiService: Partial<ApiService> = {
       fetchLastFiveMatches: () => new Promise(() => {}),
     };
@@ -30,7 +30,7 @@ describe("LastFiveMatches", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
 
-    expect(screen.getByText(/Loading Data/i)).toBeInTheDocument();
+    expect(screen.getByText(/No data available/i)).toBeInTheDocument();
   });
 
   it("renders badges correctly after loading", async () => {

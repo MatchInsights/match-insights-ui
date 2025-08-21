@@ -153,3 +153,22 @@ export interface OddsWinnerFeeling {
   draw: string;
   away: string;
 }
+
+export interface TeamDetails {
+  teamName: string;
+  teamLogo: string;
+  teamCountry: string;
+  teamFounded: number;
+  venueName: string;
+  venueCity: string;
+  venueCapacity: number;
+  coachName: string;
+  coachAge: number;
+}
+
+export interface TeamPlayer {
+  name: string;
+  age: number;
+  nationality: string;
+  position: string;
+}

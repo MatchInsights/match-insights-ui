@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { H2HDetails } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import { ApiService } from "../../../services/apiService";
 import PreDisplay from "../../pre-display/PreDisplay";
 
@@ -41,7 +41,7 @@ const HeadToHead = ({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="loading" message="Loading Data..." />}
+        child={<NoData />}
       />
     );
 
@@ -52,9 +52,7 @@ const HeadToHead = ({
         titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={
-          <FetchStatus type="info" message="No head to head data available." />
-        }
+        child={<NoData />}
       />
     );
   }

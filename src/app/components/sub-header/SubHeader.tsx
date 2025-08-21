@@ -20,7 +20,7 @@ export default function SubHeader({ title }: SubHeaderProps) {
         onClick={handleBack}
         className="flex items-center gap-1 text-brand-orange hover:text-brand-yellow transition text-sm md:text-base"
       >
-        <span className="text-5xl">&larr;</span>
+        <span className="text-5xl mr-6">&larr;</span>
       </button>
     </div>
   );

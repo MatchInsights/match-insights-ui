@@ -13,7 +13,7 @@ describe("Teams Score Performance", () => {
     vi.clearAllMocks();
   });
 
-  it("shows loading initially", () => {
+  it("no data available initially", () => {
     const apiService: Partial<ApiService> = {
       fetchTeamsScorePerformance: () => new Promise(() => {}),
     };
@@ -33,7 +33,7 @@ describe("Teams Score Performance", () => {
       screen.getByRole("button", { name: /Teams Score Performance/i })
     );
 
-    expect(screen.getByText(/Loading Data/i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
   it("renders info after loading", async () => {

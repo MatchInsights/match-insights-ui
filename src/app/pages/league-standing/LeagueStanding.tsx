@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
-import FetchStatus from "../../components/fetch-status/FetchStatus";
+import NoData from "../../components/no-data/NoData";
 import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
 
@@ -29,11 +29,15 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
     }
   }, [leagueId]);
 
-  if (loading)
-    return <FetchStatus type="loading" message="Loading League Info..." />;
+  if (loading) return <NoData />;
 
   if (!loading && standings.length === 0)
-    return <FetchStatus type="error" message="Fetch Failed..." />;
+    return (
+      <div>
+        <SubHeader title="League Standing" />
+        <NoData />
+      </div>
+    );
 
   return (
     <div className="text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">

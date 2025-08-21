@@ -93,7 +93,7 @@ describe("TodayMatches", () => {
     };
 
     render(<TodayMatches apiService={apiService as ApiService} />);
-    expect(screen.getByText("Loading Today Matches...")).toBeInTheDocument();
+    expect(screen.getByText("No Data Available")).toBeInTheDocument();
 
     await waitFor(() => {
       expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");

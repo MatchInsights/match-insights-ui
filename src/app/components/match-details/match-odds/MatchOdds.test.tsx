@@ -26,7 +26,7 @@ describe("MatchOdds", () => {
     fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
 
     await waitFor(() =>
-      expect(screen.getByText(/Odds Not Available/i)).toBeInTheDocument()
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
     );
   });
 
@@ -61,7 +61,7 @@ describe("MatchOdds", () => {
     fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
 
     await waitFor(() =>
-      expect(screen.getByText(/Odds Not Available/i)).toBeInTheDocument()
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
     );
   });
 });

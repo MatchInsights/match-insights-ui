@@ -39,7 +39,7 @@ describe("LeagueTeamAndPoints", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
 
-    expect(screen.getByText(/Loading League Stats.../i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
   it("renders data when API returns league stats", async () => {
@@ -85,9 +85,7 @@ describe("LeagueTeamAndPoints", () => {
     fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
 
     await waitFor(() =>
-      expect(
-        screen.getByText(/Failed to load League Stats./i)
-      ).toBeInTheDocument()
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
     );
   });
 

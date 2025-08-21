@@ -24,7 +24,7 @@ const mockH2HData: H2HDetails[] = [
 ];
 
 describe("HeadToHead", () => {
-  it("renders loading state initially", async () => {
+  it("renders initiall state", async () => {
     const apiService: Partial<ApiService> = {
       fetchHeadToHead: () => new Promise(() => {}),
     };
@@ -38,7 +38,7 @@ describe("HeadToHead", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
 
-    expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
   it("renders empty state when no data is returned", async () => {
@@ -55,9 +55,7 @@ describe("HeadToHead", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
     await waitFor(() => {
-      expect(
-        screen.getByText(/No head to head data available/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/No data available/i)).toBeInTheDocument();
     });
   });
 
