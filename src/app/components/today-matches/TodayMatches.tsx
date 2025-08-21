@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import MatchCard from "./match-card/MatchCard";
 import MatchControls from "./match-controls/MatchControls";
 import { TodayMatch } from "../../types/types";
-import FetchStatus from "../fetch-status/FetchStatus";
+import FetchStatus from "../no-data/NoData";
 import { ApiService } from "../../services/apiService";
+import NoData from "../no-data/NoData";
 
 interface TodayMatchesProps {
   apiService: ApiService;
@@ -42,11 +43,9 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
     return teamMatch && leagueMatch;
   });
 
-  if (loading)
-    return <FetchStatus type="loading" message="Loading Today Matches..." />;
+  if (loading) return <NoData />;
 
-  if (!loading && matches.length === 0)
-    return <FetchStatus type="error" message="Fetch Failed..." />;
+  if (!loading && matches.length === 0) return <NoData />;
 
   return (
     <div className="w-full mx-auto px-12 py-12">

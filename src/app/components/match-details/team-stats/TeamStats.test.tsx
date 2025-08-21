@@ -21,7 +21,7 @@ const mockStats = {
 };
 
 describe("TeamStats", () => {
-  it("renders loading state initially", () => {
+  it("renders initiall state", () => {
     const apiService: Partial<ApiService> = {
       fetchH2HStats: () => new Promise(() => {}),
     };
@@ -37,7 +37,7 @@ describe("TeamStats", () => {
       />
     );
     fireEvent.click(screen.getByRole("button", { name: /stats/i }));
-    expect(screen.getByText(/Loading Data.../i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
   it("renders fallback if no data returned", async () => {
@@ -56,7 +56,7 @@ describe("TeamStats", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /stats/i }));
     await waitFor(() =>
-      expect(screen.getByText(/No Stats data available./i)).toBeInTheDocument()
+      expect(screen.getByText(/No data available/i)).toBeInTheDocument()
     );
   });
 

@@ -72,7 +72,7 @@ const mockMatchDetails: MatchDetails = {
 };
 
 describe("MatchDetail", () => {
-  it("renders loading state initially", () => {
+  it("renders initial State", () => {
     const apiService: Partial<ApiService> = {
       fetchMatchDetails: vi.fn().mockReturnValue(new Promise(() => {})),
     };
@@ -83,7 +83,7 @@ describe("MatchDetail", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Loading Match Details...")).toBeInTheDocument();
+    expect(screen.getByText("No Data Available")).toBeInTheDocument();
   });
 
   it("renders error state when match is null", async () => {
@@ -97,7 +97,7 @@ describe("MatchDetail", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText("Match not found.")).toBeInTheDocument();
+      expect(screen.getByText("No Data Available")).toBeInTheDocument();
     });
   });
 

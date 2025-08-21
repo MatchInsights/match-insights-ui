@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TeamsScorePerformance } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import { ApiService } from "../../../services/apiService";
 import PreDisplay from "../../pre-display/PreDisplay";
 
@@ -53,7 +53,7 @@ const TeamsScorePerformanceComponent = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-        child={<FetchStatus type="loading" message="Loading Data..." />}
+        child={<NoData />}
       />
     );
 
@@ -64,7 +64,7 @@ const TeamsScorePerformanceComponent = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-        child={<FetchStatus type="info" message="No data available" />}
+        child={<NoData />}
       />
     );
 

@@ -41,10 +41,10 @@ describe("LeagueStanding Component", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/Loading League Info.../i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByText(/Fetch Failed.../i)).toBeInTheDocument();
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
     });
 
     expect(apiService.fetchLeagueStanding).toHaveBeenCalledWith(123);

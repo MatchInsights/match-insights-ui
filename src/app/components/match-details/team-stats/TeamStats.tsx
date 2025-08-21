@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import FetchStatus from "../../no-data/NoData";
 import { ApiService } from "../../../services/apiService";
 import PreDisplay from "../../pre-display/PreDisplay";
 import { FaFutbol, FaShieldAlt, FaSkull } from "react-icons/fa";
+import NoData from "../../no-data/NoData";
 
 interface TeamStatsProps {
   title: string;
@@ -63,7 +64,7 @@ export default function TeamStats({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="loading" message="Loading Data..." />}
+        child={<NoData />}
       />
     );
 
@@ -74,7 +75,7 @@ export default function TeamStats({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="info" message="No Stats data available." />}
+        child={<NoData />}
       />
     );
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ApiService } from "../../../services/apiService";
 import { Bet } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import PreDisplay from "../../pre-display/PreDisplay";
 
 interface MatchOddsProps {
@@ -35,7 +35,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         title={"Match Odds"}
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="loading" message="Loading Odds..." />}
+        child={<NoData />}
       />
     );
 
@@ -45,7 +45,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         title={"Match Odds"}
         expanded={isShown}
         setExpanded={setIsShown}
-        child={<FetchStatus type="info" message="Odds Not Available" />}
+        child={<NoData />}
       />
     );
 

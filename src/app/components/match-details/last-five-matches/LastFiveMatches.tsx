@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TeamForm } from "../../../types/types";
-import FetchStatus from "../../fetch-status/FetchStatus";
+import NoData from "../../no-data/NoData";
 import { ApiService } from "../../../services/apiService";
 import PreDisplay from "../../pre-display/PreDisplay";
 
@@ -56,7 +56,7 @@ const LastFiveMatches = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
-        child={<FetchStatus type="loading" message="Loading Data..." />}
+        child={<NoData />}
       />
     );
 
@@ -72,7 +72,7 @@ const LastFiveMatches = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
-        child={<FetchStatus type="info" message="No data available" />}
+        child={<NoData />}
       />
     );
 

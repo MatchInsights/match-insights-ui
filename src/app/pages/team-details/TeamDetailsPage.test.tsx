@@ -55,9 +55,9 @@ describe("TeamDetailsPage", () => {
     return { apiService };
   };
 
-  it("renders loading state initially", () => {
+  it("renders initial state", () => {
     setup();
-    expect(screen.getByText(/Loading Team Details/i)).toBeInTheDocument();
+    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
   it("renders team info and squad when data is loaded", async () => {
@@ -72,7 +72,7 @@ describe("TeamDetailsPage", () => {
     setup(failingDetails, vi.fn().mockResolvedValue(mockPlayers));
 
     await waitFor(() =>
-      expect(screen.getByText(/No Team Details/i)).toBeInTheDocument()
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
     );
   });
 
@@ -81,7 +81,7 @@ describe("TeamDetailsPage", () => {
     setup(vi.fn().mockResolvedValue(mockTeam), failingPlayers);
 
     await waitFor(() =>
-      expect(screen.getByText(/Players Not Found/i)).toBeInTheDocument()
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
     );
   });
 
@@ -90,8 +90,8 @@ describe("TeamDetailsPage", () => {
     setup(failing, failing);
 
     await waitFor(() => {
-      expect(screen.getByText(/No Team Details/i)).toBeInTheDocument();
-      expect(screen.getByText(/Players Not Found/i)).toBeInTheDocument();
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
+      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
     });
   });
 });

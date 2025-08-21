@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MatchDetails } from "../../types/types";
-import FetchStatus from "../../components/fetch-status/FetchStatus";
+import NoData from "../../components/no-data/NoData";
 import { DetailsMainCard } from "../../components/match-details/details-main-card/DetailsMainCard";
 
 import HeadToHead from "../../components/match-details/h2h/HeadToHead";
@@ -41,11 +41,15 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
       });
   }, [id]);
 
-  if (loading)
-    return <FetchStatus type="loading" message="Loading Match Details..." />;
+  if (loading) return <NoData />;
 
   if (!loading && !match)
-    return <FetchStatus type="error" message="Match not found." />;
+    return (
+      <div>
+        <SubHeader title="Match Details" />
+        <NoData />
+      </div>
+    );
 
   const { homeTeam, awayTeam, date, venue, league, goals, score } =
     match as MatchDetails;

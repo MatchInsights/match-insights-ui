@@ -4,7 +4,7 @@ import TeamInfo from "../../components/team-details/team-info/TeamInfo";
 import { TeamSquad } from "../../components/team-details/team-squad/TeamSquad";
 import { ApiService } from "../../services/apiService";
 import { useParams } from "react-router-dom";
-import FetchStatus from "../../components/fetch-status/FetchStatus";
+import NoData from "../../components/no-data/NoData";
 import SubHeader from "../../components/sub-header/SubHeader";
 
 interface TeamDetailsPageProps {
@@ -37,23 +37,14 @@ const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading)
-    return <FetchStatus type="loading" message="Loading Team Details..." />;
+  if (loading) return <NoData />;
 
   return (
     <div className="min-h-screen text-brand-white p-4 md:p-8 space-y-8">
       <SubHeader title="Team Details" />
-      {details ? (
-        <TeamInfo teamDetails={details} />
-      ) : (
-        <FetchStatus type="error" message="No Team Details..." />
-      )}
+      {details ? <TeamInfo teamDetails={details} /> : <NoData />}
 
-      {players.length > 0 ? (
-        <TeamSquad players={players} />
-      ) : (
-        <FetchStatus type="error" message="Players Not Found..." />
-      )}
+      {players.length > 0 ? <TeamSquad players={players} /> : <NoData />}
     </div>
   );
 };
