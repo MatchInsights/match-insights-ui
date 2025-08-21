@@ -36,7 +36,7 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
@@ -53,7 +53,7 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getByText(/No data available/i)).toBeInTheDocument();
     });
@@ -71,7 +71,7 @@ describe("HeadToHead", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Head to Head/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() => {
       expect(screen.getByText(/Head to Head/i)).toBeInTheDocument();

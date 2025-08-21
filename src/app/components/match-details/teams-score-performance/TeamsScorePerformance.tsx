@@ -25,7 +25,7 @@ const TeamsScorePerformanceComponent = ({
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -38,6 +38,10 @@ const TeamsScorePerformanceComponent = ({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, leagueId, isShown]);
 
   const performanceColor = (status?: string) => {
@@ -52,6 +56,7 @@ const TeamsScorePerformanceComponent = ({
         title="Teams Score Performance"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
       />
@@ -63,6 +68,7 @@ const TeamsScorePerformanceComponent = ({
         title="Teams Score Performance"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
       />
@@ -73,6 +79,7 @@ const TeamsScorePerformanceComponent = ({
       title="Teams Score Performance"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">

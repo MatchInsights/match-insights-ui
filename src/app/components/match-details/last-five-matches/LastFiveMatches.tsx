@@ -31,7 +31,7 @@ const LastFiveMatches = ({
     L: "bg-white",
   };
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -47,6 +47,10 @@ const LastFiveMatches = ({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, isShown]);
 
   if (loading && isShown)
@@ -55,6 +59,7 @@ const LastFiveMatches = ({
         title="Last Five Matches Results"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
       />
@@ -71,6 +76,7 @@ const LastFiveMatches = ({
         title="Last Five Matches"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
       />
@@ -81,6 +87,7 @@ const LastFiveMatches = ({
       title="Last Five Matches"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">

@@ -16,11 +16,11 @@ export default function DetailsHeader({
       <Link
         data-testid="home-team-link"
         to={`/team/${homeTeam.id}`}
-        className=" hover:text-brand-orange hover:underline transition duration-300"
+        className=" hover:text-brand-white hover:underline transition duration-300"
       >
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <TeamLogo src={homeTeam.logo} />
-          <span className="text-brand-orange text-2xl md:text-3xl font-bold">
+          <span className="text-brand-orange hover:text-brand-yellow  text-2xl md:text-3xl font-bold">
             {homeTeam.name}
           </span>
         </div>
@@ -33,11 +33,11 @@ export default function DetailsHeader({
       <Link
         data-testid="away-team-link"
         to={`/team/${awayTeam.id}`}
-        className=" hover:text-brand-orange hover:underline transition duration-300"
+        className="hover:text-brand-white hover:underline transition duration-300"
       >
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <TeamLogo src={awayTeam.logo} />
-          <span className="text-brand-orange text-2xl md:text-3xl font-bold">
+          <span className="text-brand-orange hover:text-brand-yellow  text-2xl md:text-3xl font-bold">
             {awayTeam.name}
           </span>
         </div>

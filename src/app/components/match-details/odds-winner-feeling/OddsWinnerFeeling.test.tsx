@@ -27,9 +27,7 @@ describe("Odds Winner Feeling", () => {
       />
     );
 
-    fireEvent.click(
-      screen.getByRole("button", { name: /Odds Winner Feeling/i })
-    );
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
@@ -51,9 +49,7 @@ describe("Odds Winner Feeling", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /Odds Winner Feeling/i })
-    );
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getByText("Team A:")).toBeInTheDocument();
       expect(screen.getByText("Draw:")).toBeInTheDocument();
@@ -77,9 +73,7 @@ describe("Odds Winner Feeling", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /Odds Winner Feeling/i })
-    );
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
     });

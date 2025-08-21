@@ -25,7 +25,7 @@ const TeamsRestStatusComponent = ({
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -38,6 +38,10 @@ const TeamsRestStatusComponent = ({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, fixtureDate, isShown]);
 
   const statusColor = (status?: string) => {
@@ -56,6 +60,7 @@ const TeamsRestStatusComponent = ({
         setExpanded={setIsShown}
         titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
+        onRefresh={fetchData}
       />
     );
 
@@ -67,6 +72,7 @@ const TeamsRestStatusComponent = ({
         setExpanded={setIsShown}
         titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
+        onRefresh={fetchData}
       />
     );
 
@@ -75,6 +81,7 @@ const TeamsRestStatusComponent = ({
       title="Teams Rest Status"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">

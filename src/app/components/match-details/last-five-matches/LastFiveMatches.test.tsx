@@ -28,7 +28,7 @@ describe("LastFiveMatches", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(screen.getByText(/No data available/i)).toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe("LastFiveMatches", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getByText("Team A")).toBeInTheDocument();
       expect(screen.getByText("Team B")).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe("LastFiveMatches", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Last Five Matches/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
     });

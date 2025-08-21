@@ -36,7 +36,7 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
 
@@ -54,7 +54,7 @@ describe("TeamStats", () => {
         apiService={apiService as ApiService}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() =>
       expect(screen.getByText(/No data available/i)).toBeInTheDocument()
     );
@@ -75,7 +75,7 @@ describe("TeamStats", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /stats/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() => {
       expect(screen.getAllByTestId("stat-label").length).toBe(5);

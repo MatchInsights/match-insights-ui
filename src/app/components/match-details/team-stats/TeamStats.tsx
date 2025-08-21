@@ -29,7 +29,7 @@ export default function TeamStats({
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!leagueId && isShown) {
       setLoading(true);
       apiService
@@ -55,6 +55,10 @@ export default function TeamStats({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, isShown]);
 
   if (loading && isShown)
@@ -64,6 +68,7 @@ export default function TeamStats({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -75,6 +80,7 @@ export default function TeamStats({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -118,6 +124,7 @@ export default function TeamStats({
       titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       child={
         <div className="w-full flex flex-col gap-4">
           {categories.map(({ label, home, away, icon }, index) => (

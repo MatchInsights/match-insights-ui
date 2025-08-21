@@ -50,7 +50,7 @@ describe("MatchEvents", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("Test Title"));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(await screen.findByText(/No data available/i)).toBeInTheDocument();
   });
@@ -66,7 +66,7 @@ describe("MatchEvents", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("Test Title"));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(await screen.findByText(/No data available/i)).toBeInTheDocument();
   });
@@ -83,8 +83,7 @@ describe("MatchEvents", () => {
         apiService={mockApiService as any}
       />
     );
-
-    fireEvent.click(screen.getByText("Test Title"));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(await screen.findByText(/No data available/i)).toBeInTheDocument();
   });
@@ -100,7 +99,7 @@ describe("MatchEvents", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("Test Title"));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() => expect(screen.getByText(/Goals/i)).toBeInTheDocument());
 

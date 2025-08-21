@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
 import NoData from "../../components/no-data/NoData";
+import { Link } from "react-router-dom";
 import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
 
@@ -14,7 +15,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
   const { leagueId } = useParams<{ leagueId: string }>();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (leagueId) {
       apiService
         .fetchLeagueStanding(Number(leagueId))
@@ -27,6 +28,10 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
           setStandings([]);
         });
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [leagueId]);
 
   if (loading) return <NoData />;
@@ -34,14 +39,22 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
   if (!loading && standings.length === 0)
     return (
       <div>
-        <SubHeader title="League Standing" />
+        <SubHeader
+          title="League Standing"
+          navigateBack={true}
+          onRefresh={fetchData}
+        />
         <NoData />
       </div>
     );
 
   return (
     <div className="text-brand-white p-4 md:p-6 rounded-2xl shadow-xl mt-6 mx-2 md:mx-8">
-      <SubHeader title="League Standing" />
+      <SubHeader
+        title="League Standing"
+        navigateBack={true}
+        onRefresh={fetchData}
+      />
 
       {standings.length === 0 ? (
         <p className="bg-brand-danger text-center py-4 rounded-lg">

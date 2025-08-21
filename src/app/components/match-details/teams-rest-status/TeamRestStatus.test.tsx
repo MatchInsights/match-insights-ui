@@ -29,7 +29,7 @@ describe("Team Rest Status", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /Teams Rest Status/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
@@ -52,7 +52,7 @@ describe("Team Rest Status", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Teams Rest Status/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getByText("Team A:")).toBeInTheDocument();
       expect(screen.getByText("Team B:")).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe("Team Rest Status", () => {
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByRole("button", { name: /Teams Rest Status/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() => {
       expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
     });

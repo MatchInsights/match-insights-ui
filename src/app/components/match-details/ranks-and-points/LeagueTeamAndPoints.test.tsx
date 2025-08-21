@@ -37,7 +37,7 @@ describe("LeagueTeamAndPoints", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
   });
@@ -60,8 +60,7 @@ describe("LeagueTeamAndPoints", () => {
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
-
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() =>
       expect(screen.getByText(/League Points:/i)).toBeInTheDocument()
     );
@@ -81,8 +80,7 @@ describe("LeagueTeamAndPoints", () => {
         apiService={apiService}
       />
     );
-
-    fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() =>
       expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
@@ -106,9 +104,7 @@ describe("LeagueTeamAndPoints", () => {
         apiService={apiService}
       />
     );
-
-    fireEvent.click(screen.getByRole("button", { name: /Ranks And Points/i }));
-
+    fireEvent.click(screen.getByTestId("expand-icon"));
     await waitFor(() =>
       expect(screen.getByText(/- vs 15/i)).toBeInTheDocument()
     );

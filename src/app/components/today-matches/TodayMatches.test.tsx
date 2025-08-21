@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import TodayMatches from "./TodayMatches";
 import type { TodayMatch } from "../../types/types";
 import { ApiService } from "../../services/apiService";
+import { MemoryRouter } from "react-router-dom";
 
 vi.mock("./match-card/MatchCard", () => ({
   default: ({ todayMatch }: { todayMatch: TodayMatch }) => (
@@ -92,7 +93,12 @@ describe("TodayMatches", () => {
       fetchTodayMatches: vi.fn().mockReturnValue(new Promise(() => {})),
     };
 
-    render(<TodayMatches apiService={apiService as ApiService} />);
+    render(
+      <MemoryRouter>
+        <TodayMatches apiService={apiService as ApiService} />
+      </MemoryRouter>
+    );
+
     expect(screen.getByText("No Data Available")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -105,7 +111,11 @@ describe("TodayMatches", () => {
       fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
     };
 
-    render(<TodayMatches apiService={apiService as ApiService} />);
+    render(
+      <MemoryRouter>
+        <TodayMatches apiService={apiService as ApiService} />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
@@ -116,8 +126,12 @@ describe("TodayMatches", () => {
     const apiService: Partial<ApiService> = {
       fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
     };
-    render(<TodayMatches apiService={apiService as ApiService} />);
 
+    render(
+      <MemoryRouter>
+        <TodayMatches apiService={apiService as ApiService} />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
     });
@@ -136,7 +150,11 @@ describe("TodayMatches", () => {
       fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
     };
 
-    render(<TodayMatches apiService={apiService as ApiService} />);
+    render(
+      <MemoryRouter>
+        <TodayMatches apiService={apiService as ApiService} />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getAllByTestId("match-card")).toHaveLength(2);
@@ -155,7 +173,11 @@ describe("TodayMatches", () => {
       fetchTodayMatches: vi.fn().mockResolvedValue(mockMatches),
     };
 
-    render(<TodayMatches apiService={apiService as ApiService} />);
+    render(
+      <MemoryRouter>
+        <TodayMatches apiService={apiService as ApiService} />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("NOT_STARTED");

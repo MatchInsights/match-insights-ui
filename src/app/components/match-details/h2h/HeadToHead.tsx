@@ -19,7 +19,7 @@ const HeadToHead = ({
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -32,6 +32,10 @@ const HeadToHead = ({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, isShown]);
 
   if (loading && isShown)
@@ -41,6 +45,7 @@ const HeadToHead = ({
         titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -52,6 +57,7 @@ const HeadToHead = ({
         titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -63,6 +69,7 @@ const HeadToHead = ({
       titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       child={
         <div className="w-full flex flex-col gap-4">
           {data.map((match, index) => (

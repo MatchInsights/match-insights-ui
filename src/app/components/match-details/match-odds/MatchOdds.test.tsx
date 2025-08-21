@@ -23,7 +23,7 @@ describe("MatchOdds", () => {
     const apiService = createApiService([]);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() =>
       expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
@@ -45,7 +45,7 @@ describe("MatchOdds", () => {
     const apiService = createApiService(mockOdds);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() =>
       expect(screen.getByText("Full Time Result")).toBeInTheDocument()
@@ -58,7 +58,7 @@ describe("MatchOdds", () => {
     const apiService = createApiService([], true);
     render(<MatchOdds fixtureId={fixtureId} apiService={apiService} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Match Odds/i }));
+    fireEvent.click(screen.getByTestId("expand-icon"));
 
     await waitFor(() =>
       expect(screen.getByText(/No Data Available/i)).toBeInTheDocument()
