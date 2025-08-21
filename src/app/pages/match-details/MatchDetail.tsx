@@ -27,7 +27,7 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
   const [match, setMatch] = useState<MatchDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!id) return;
     apiService
       .fetchMatchDetails(Number(id))
@@ -39,6 +39,9 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
         setLoading(false);
         setMatch(null);
       });
+  };
+  useEffect(() => {
+    fetchData();
   }, [id]);
 
   if (loading) return <NoData />;
@@ -46,7 +49,11 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
   if (!loading && !match)
     return (
       <div>
-        <SubHeader title="Match Details" />
+        <SubHeader
+          title="Match Details"
+          navigateBack={true}
+          onRefresh={fetchData}
+        />
         <NoData />
       </div>
     );
@@ -56,7 +63,11 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
 
   return (
     <div className="text-brand-white p-4 md:p-6 rounded-2xl  mt-6 mx-2 md:mx-8">
-      <SubHeader title="Match Details" />
+      <SubHeader
+        title="Match Details"
+        navigateBack={true}
+        onRefresh={fetchData}
+      />
       <div className="mt-8 space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <DetailsSection

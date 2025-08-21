@@ -3,8 +3,8 @@ import Navbar from "./navigation/Navbar";
 import Footer from "./footer/Footer";
 import HomePage from "../pages/home/Home";
 
-import { apiService } from "../services/apiServiceImplementation";
-//import { apiService } from "../../../testSetup/apiMock";
+//import { apiService } from "../services/apiServiceImplementation";
+import { apiService } from "../../../testSetup/apiMock";
 
 import LeagueStanding from "../pages/league-standing/LeagueStanding";
 import MatchDetail from "../pages/match-details/MatchDetail";

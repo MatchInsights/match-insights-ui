@@ -8,6 +8,7 @@ describe("PreDisplay", () => {
     child: <div>Child Content</div>,
     title: "Test Title",
     expanded: false,
+    onRefresh: vi.fn(),
     setExpanded: vi.fn(),
   };
 
@@ -30,8 +31,20 @@ describe("PreDisplay", () => {
     const setExpanded = vi.fn();
     render(<PreDisplay {...defaultProps} setExpanded={setExpanded} />);
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(screen.getByTestId("expand-icon"));
     expect(setExpanded).toHaveBeenCalledWith(true);
+  });
+
+  it("calls onRefresh when clicked", () => {
+    const onRefresh = vi.fn();
+
+    render(
+      <PreDisplay {...defaultProps} onRefresh={onRefresh} expanded={true} />
+    );
+
+    fireEvent.click(screen.getByTestId("refresh-icon"));
+
+    expect(onRefresh).toHaveBeenCalled();
   });
 
   it("renders child content only when expanded", () => {

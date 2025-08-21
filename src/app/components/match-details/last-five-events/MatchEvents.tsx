@@ -17,7 +17,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -26,6 +26,10 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
         .catch(() => setDetails(null))
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [isShown, teamId, apiService]);
 
   if (loading && isShown)
@@ -35,6 +39,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -46,6 +51,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -56,6 +62,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
       titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-6">
           <div>

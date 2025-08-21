@@ -14,7 +14,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -27,6 +27,10 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [fixtureId, isShown]);
 
   if (loading && isShown)
@@ -35,6 +39,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         title={"Match Odds"}
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -45,6 +50,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         title={"Match Odds"}
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -55,6 +61,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
       titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       child={
         <div className="w-full space-y-4">
           {odds.map((odd, index) => (

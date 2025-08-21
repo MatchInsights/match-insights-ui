@@ -17,7 +17,7 @@ const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
   const [players, setPlayers] = useState<TeamPlayer[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!id) return;
 
     setLoading(true);
@@ -35,13 +35,21 @@ const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
         setPlayers([]);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [id]);
 
   if (loading) return <NoData />;
 
   return (
     <div className="min-h-screen text-brand-white p-4 md:p-8 space-y-8">
-      <SubHeader title="Team Details" />
+      <SubHeader
+        title="Team Details"
+        navigateBack={true}
+        onRefresh={fetchData}
+      />
       {details ? <TeamInfo teamDetails={details} /> : <NoData />}
 
       {players.length > 0 ? <TeamSquad players={players} /> : <NoData />}

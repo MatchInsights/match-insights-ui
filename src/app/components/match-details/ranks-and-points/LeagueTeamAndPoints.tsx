@@ -22,7 +22,7 @@ export const LeagueTeamAndPoints = ({
   const [loadingScoreAndPoints, setLoadingScoreAndPoints] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoadingScoreAndPoints(true);
       apiService
@@ -35,6 +35,9 @@ export const LeagueTeamAndPoints = ({
         })
         .finally(() => setLoadingScoreAndPoints(false));
     }
+  };
+  useEffect(() => {
+    fetchData();
   }, [homeTeamId, awayTeamId, leagueId, isShown]);
 
   if (loadingScoreAndPoints && isShown)
@@ -44,6 +47,7 @@ export const LeagueTeamAndPoints = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -55,6 +59,7 @@ export const LeagueTeamAndPoints = ({
         titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -65,6 +70,7 @@ export const LeagueTeamAndPoints = ({
       expanded={isShown}
       titleClass="text-brand-orange  font-semibold flex-grow text-2xl font-bold"
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       child={
         <div className="space-y-1 text-left">
           <p className="text-base text-brand-lightGray m-2">

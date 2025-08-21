@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import MatchCard from "./match-card/MatchCard";
 import MatchControls from "./match-controls/MatchControls";
 import { TodayMatch } from "../../types/types";
-import FetchStatus from "../no-data/NoData";
 import { ApiService } from "../../services/apiService";
 import NoData from "../no-data/NoData";
+import SubHeader from "../sub-header/SubHeader";
 
 interface TodayMatchesProps {
   apiService: ApiService;
@@ -17,7 +17,7 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
   const [leagueFilter, setLeagueFilter] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = () => {
     apiService
       .fetchTodayMatches(status)
       .then((data) => {
@@ -28,6 +28,10 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
         setLoading(false);
         setMatches([]);
       });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [status]);
 
   const filtered = matches.filter((match) => {
@@ -49,9 +53,11 @@ const TodayMatches = ({ apiService }: TodayMatchesProps) => {
 
   return (
     <div className="w-full mx-auto px-12 py-12">
-      <h1 className="text-4xl md:text-6xl font-bold text-orange-400 mb-4">
-        Today's Matches
-      </h1>
+      <SubHeader
+        navigateBack={false}
+        onRefresh={fetchData}
+        title="Matches of the Day"
+      />
 
       <MatchControls
         status={status}

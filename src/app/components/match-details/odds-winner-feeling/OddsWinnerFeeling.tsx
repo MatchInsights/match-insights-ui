@@ -21,7 +21,7 @@ const OddsWinnerFeelingComponent = ({
   const [loading, setLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (isShown) {
       setLoading(true);
       apiService
@@ -34,6 +34,10 @@ const OddsWinnerFeelingComponent = ({
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [fixtureId, isShown]);
 
   const feelingColor = (status?: string) => {
@@ -49,6 +53,7 @@ const OddsWinnerFeelingComponent = ({
         expanded={isShown}
         setExpanded={setIsShown}
         titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
+        onRefresh={fetchData}
         child={<NoData />}
       />
     );
@@ -59,6 +64,7 @@ const OddsWinnerFeelingComponent = ({
         title="Odds Winner Feeling"
         expanded={isShown}
         setExpanded={setIsShown}
+        onRefresh={fetchData}
         titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
         child={<NoData />}
       />
@@ -69,6 +75,7 @@ const OddsWinnerFeelingComponent = ({
       title="Odds Winner Feeling"
       expanded={isShown}
       setExpanded={setIsShown}
+      onRefresh={fetchData}
       titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
       child={
         <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">
