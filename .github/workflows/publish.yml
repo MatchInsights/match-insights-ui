@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: MatchInsights/match-insights-ui
+  IMAGE_NAME: match-insights/ui
   VERSION: latest
 
 jobs:
