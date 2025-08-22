@@ -2,8 +2,8 @@ import { TodayMatch } from "../src/app/types/types";
 
 const todayMatches: TodayMatch[] = [
   {
+    id: 1,
     date: "2025-07-28T14:00:00Z",
-    timeZone: "UTC",
     venue: {
       name: "Old Trafford",
       city: "Manchester",
@@ -38,8 +38,8 @@ const todayMatches: TodayMatch[] = [
     },
   },
   {
+    id: 2,
     date: "2025-07-28T18:30:00Z",
-    timeZone: "UTC+2",
     venue: {
       name: "Camp Nou",
       city: "Barcelona",
@@ -72,8 +72,8 @@ const todayMatches: TodayMatch[] = [
     },
   },
   {
+    id: 3,
     date: "2025-07-28T21:00:00Z",
-    timeZone: "UTC+3",
     venue: {
       name: "San Siro",
       city: "Milan",

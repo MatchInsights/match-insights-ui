@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../types/types";
-import FetchStatus from "../../no-data/NoData";
 import { ApiService } from "../../../services/apiService";
 import PreDisplay from "../../pre-display/PreDisplay";
 import { FaFutbol, FaShieldAlt, FaSkull } from "react-icons/fa";

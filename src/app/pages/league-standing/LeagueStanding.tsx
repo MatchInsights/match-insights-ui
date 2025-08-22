@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { LeagueStandingInfo } from "../../types/types";
 import { useParams } from "react-router-dom";
 import NoData from "../../components/no-data/NoData";
-import { Link } from "react-router-dom";
 import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
 

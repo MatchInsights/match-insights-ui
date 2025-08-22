@@ -45,16 +45,19 @@ export class MockApiServiceImplementation implements ApiService {
   }
 
   public async fetchTodayMatches(status: string): Promise<TodayMatch[]> {
+    console.log(status);
     return Promise.resolve(mockTodayMatches);
   }
 
   public async fetchLeagueStanding(
     leagueId: Number
   ): Promise<LeagueStandingInfo[]> {
+    console.log(leagueId);
     return Promise.resolve(mockStandings);
   }
 
   public async fetchMatchDetails(matchId: number): Promise<MatchDetails> {
+    console.log(matchId);
     return Promise.resolve(mockMatchDetails);
   }
 
@@ -62,6 +65,7 @@ export class MockApiServiceImplementation implements ApiService {
     homeTeamId: number,
     awayTeamId: number
   ): Promise<TeamForm> {
+    console.log(homeTeamId, awayTeamId);
     return Promise.resolve(lastFiveData);
   }
 
@@ -69,6 +73,7 @@ export class MockApiServiceImplementation implements ApiService {
     homeTeamId: number,
     awayTeamId: number
   ): Promise<H2HDetails[]> {
+    console.log(homeTeamId, awayTeamId);
     return Promise.resolve(mockH2HDetails);
   }
 
@@ -77,6 +82,7 @@ export class MockApiServiceImplementation implements ApiService {
     awayTeamId: number,
     leagueId: number
   ): Promise<TwoTeamStats> {
+    console.log(homeTeamId, awayTeamId, leagueId);
     return Promise.resolve(mockTwoTeamStats);
   }
 
@@ -84,6 +90,7 @@ export class MockApiServiceImplementation implements ApiService {
     homeTeamId: number,
     awayTeamId: number
   ): Promise<TwoTeamStats> {
+    console.log(homeTeamId, awayTeamId);
     return Promise.resolve(mockTwoTeamStats);
   }
 
@@ -92,16 +99,19 @@ export class MockApiServiceImplementation implements ApiService {
     awayTeamId: number,
     leagueId: number
   ): Promise<TeamPositionsAndPoints> {
+    console.log(homeTeamId, awayTeamId, leagueId);
     return Promise.resolve(mockTeamsLeagueStats);
   }
 
   public async fetchOdds(fixtureId: number): Promise<Bet[]> {
+    console.log(fixtureId);
     return Promise.resolve(bets);
   }
 
   public async fetchLastFiveMatchesEvents(
     teamId: number
   ): Promise<LastFiveMatchesEvents> {
+    console.log(teamId);
     return Promise.resolve(lastfiveEvents);
   }
 
@@ -110,6 +120,7 @@ export class MockApiServiceImplementation implements ApiService {
     awayTeamId: number,
     fixtureDate: string
   ): Promise<TeamsRestStatus> {
+    console.log(homeTeamId, awayTeamId, fixtureDate);
     return Promise.resolve(teamRestStatus);
   }
 
@@ -118,20 +129,24 @@ export class MockApiServiceImplementation implements ApiService {
     awayTeamId: number,
     leagueId: number
   ): Promise<TeamsScorePerformance> {
+    console.log(homeTeamId, awayTeamId, leagueId);
     return Promise.resolve(teamScorePerformance);
   }
 
   public async fetchOddWinnerFeeling(
     fixtureId: number
   ): Promise<OddsWinnerFeeling> {
+    console.log(fixtureId);
     return Promise.resolve(oddsWinnerFeeling);
   }
 
   public async fetchTeamDetails(teamId: number): Promise<TeamDetails> {
+    console.log(teamId);
     return Promise.resolve(teamDetails);
   }
 
   public async fetchTeamPlayers(teamId: number): Promise<TeamPlayer[]> {
+    console.log(teamId);
     return Promise.resolve(players);
   }
 }
