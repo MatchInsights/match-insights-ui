@@ -8,7 +8,7 @@ describe("Footer", () => {
 
     expect(
       screen.getByText(
-        `© ${new Date().getFullYear()} Before You Bet. All rights reserved.`
+        `© ${new Date().getFullYear()} MatchInsights. All rights reserved.`
       )
     ).toBeInTheDocument();
   });

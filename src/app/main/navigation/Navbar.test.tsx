@@ -5,10 +5,11 @@ import Navbar from "./Navbar";
 describe("Navbar", () => {
   it("renders the navbar with site title", () => {
     render(<Navbar />);
-    expect(screen.getByText("Before You Bet")).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: "Before You Bet" })
-    ).toHaveAttribute("href", "/");
+    expect(screen.getByText("MatchInsights")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "MatchInsights" })).toHaveAttribute(
+      "href",
+      "/"
+    );
   });
 
   it("renders navigation links with correct hrefs", () => {

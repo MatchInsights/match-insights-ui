@@ -3,7 +3,7 @@ const Navbar = () => {
     <nav className="bg-brand-orange text-black px-6 py-4 shadow-xl flex justify-between items-center">
       <div className="text-xl font-bold text-white">
         <a href="/" className="hover:text-black">
-          Before You Bet
+          MatchInsights
         </a>
       </div>
       <div className="space-x-4 text-sm">
