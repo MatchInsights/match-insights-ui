@@ -7,9 +7,15 @@ describe("Footer", () => {
     render(<Footer />);
 
     expect(
-      screen.getByText(
-        `© ${new Date().getFullYear()} MatchInsights. All rights reserved.`
-      )
+      screen.getByText(`© ${new Date().getFullYear()} MatchInsights.`)
     ).toBeInTheDocument();
+  });
+
+  it("renders Footer social links", () => {
+    render(<Footer />);
+
+    expect(screen.getByTestId("x-link")).toBeInTheDocument();
+    expect(screen.getByTestId("discord-link")).toBeInTheDocument();
+    expect(screen.getByTestId("git-link")).toBeInTheDocument();
   });
 });
