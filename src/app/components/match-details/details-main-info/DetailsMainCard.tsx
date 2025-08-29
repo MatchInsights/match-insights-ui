@@ -24,7 +24,7 @@ export const DetailsMainInfo = ({
 }: DetailsMainInfoProps) => {
   return (
     <div className="flex flex-col lg:flex-row gap-2 w-full">
-      <BallAnimation />
+      <BallAnimation isSubHeader={false} />
 
       <div className="flex flex-col items-center justify-center text-center p-4 gap-4 w-full">
         <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />
@@ -69,7 +69,7 @@ export const DetailsMainInfo = ({
           </div>
         </div>
       </div>
-      <BallAnimation />
+      <BallAnimation isSubHeader={false} />
     </div>
   );
 };

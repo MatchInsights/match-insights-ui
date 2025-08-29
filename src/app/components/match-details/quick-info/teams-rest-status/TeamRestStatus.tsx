@@ -44,7 +44,7 @@ const TeamsRestStatusComponent = ({
   const statusColor = (status?: string) => {
     const s = status?.toLowerCase() || "";
 
-    if (s.includes("severe")) return "bg-brand-danger text-black";
+    if (s.includes("severe")) return "bg-brand-danger text-white";
     if (s.includes("good")) return "bg-brand-success text-black";
     return "bg-brand-yellow text-black";
   };
