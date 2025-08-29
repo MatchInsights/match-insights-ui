@@ -16,27 +16,28 @@ import g15 from "../../gifs/g15.gif";
 
 const gifs = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g14, g15];
 
-export default function NoData() {
+interface NoDataProps {
+  displayedMessage: string;
+}
+
+export default function NoData({ displayedMessage }: NoDataProps) {
   const randomGif = useMemo(
     () => gifs[Math.floor(Math.random() * gifs.length)],
     []
   );
   return (
     <div
-      className={`min-h-[60vh] flex flex-col justify-center items-center px-4 text-center`}
+      className={`flex flex-col justify-left items-left text-left gap-4 m-8`}
     >
       <img
         src={randomGif}
         alt="status gif"
         className="
           w-40 h-40 
-          sm:w-48 sm:h-48 
-          md:w-64 md:h-64 
-          lg:w-[28rem] lg:h-[28rem] 
           object-contain mb-6
         "
       />
-      <p className="text-lg md:text-xl font-medium">No Data Available</p>
+      <p className="text-lg md:text-xl font-medium">{displayedMessage}</p>
     </div>
   );
 }

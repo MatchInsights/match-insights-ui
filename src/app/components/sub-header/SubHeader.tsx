@@ -1,16 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { FiRefreshCw } from "react-icons/fi";
+import { BallAnimation } from "../ball-animation/BallAnimation";
 
 interface SubHeaderProps {
   title: string;
   onRefresh: () => void;
   navigateBack: boolean;
+  displayAnimation: boolean;
 }
 
 export default function SubHeader({
   title,
   onRefresh,
   navigateBack,
+  displayAnimation,
 }: SubHeaderProps) {
   const navigate = useNavigate();
 
@@ -19,7 +22,7 @@ export default function SubHeader({
   };
 
   return (
-    <div className="w-full flex items-center justify-between m-2">
+    <div className="w-full flex-col items-center justify-between m-2">
       <div className="flex items-center gap-4">
         <h2 className="text-brand-orange hover:text-brand-white text-lg md:text-2xl font-semibold">
           {title}
@@ -46,6 +49,7 @@ export default function SubHeader({
           </button>
         )}
       </div>
+      {displayAnimation && <BallAnimation isSubHeader={true} />}
     </div>
   );
 }

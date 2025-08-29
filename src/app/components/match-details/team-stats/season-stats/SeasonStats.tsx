@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { TwoTeamStats } from "../../../types/types";
-import { ApiService } from "../../../services/apiService";
-import PreDisplay from "../../pre-display/PreDisplay";
+import { TwoTeamStats } from "../../../../types/types";
+import { ApiService } from "../../../../services/apiService";
+import PreDisplay from "../../../pre-display/PreDisplay";
 import { FaFutbol, FaShieldAlt, FaSkull } from "react-icons/fa";
-import NoData from "../../no-data/NoData";
+import NoData from "../../../no-data/NoData";
 
 interface TeamStatsProps {
   title: string;
@@ -11,11 +11,11 @@ interface TeamStatsProps {
   awayTeamId: number;
   homeTeamName: string;
   awayTeamName: string;
-  leagueId?: number;
+  leagueId: number;
   apiService: ApiService;
 }
 
-export default function TeamStats({
+export default function SeasonStats({
   title,
   homeTeamId,
   awayTeamId,
@@ -26,61 +26,41 @@ export default function TeamStats({
 }: TeamStatsProps) {
   const [stats, setStats] = useState<TwoTeamStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isShown, setIsShown] = useState(false);
 
   const fetchData = () => {
-    if (!leagueId && isShown) {
-      setLoading(true);
-      apiService
-        .fetchH2HStats(homeTeamId, awayTeamId)
-        .then((result) => {
-          setStats(result);
-        })
-        .catch(() => {
-          setStats(null);
-        })
-        .finally(() => setLoading(false));
-    }
-
-    if (leagueId && isShown) {
-      setLoading(true);
-      apiService
-        .fetchSeasonStats(homeTeamId, awayTeamId, leagueId)
-        .then((result) => {
-          setStats(result);
-        })
-        .catch(() => {
-          setStats(null);
-        })
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    apiService
+      .fetchSeasonStats(homeTeamId, awayTeamId, leagueId)
+      .then((result) => {
+        setStats(result);
+      })
+      .catch(() => {
+        setStats(null);
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchData();
-  }, [homeTeamId, awayTeamId, isShown]);
+  }, [homeTeamId, awayTeamId]);
 
-  if (loading && isShown)
+  if (loading)
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-        expanded={isShown}
-        setExpanded={setIsShown}
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
-        child={<NoData />}
+        child={<NoData displayedMessage="Fetching Season Stats." />}
       />
     );
 
-  if (!loading && !stats && isShown)
+  if (!loading && !stats)
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-        expanded={isShown}
-        setExpanded={setIsShown}
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
-        child={<NoData />}
+        child={<NoData displayedMessage="Failed Fetching Season Stats." />}
       />
     );
 
@@ -120,43 +100,38 @@ export default function TeamStats({
   return (
     <PreDisplay
       title={title}
-      titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-      expanded={isShown}
-      setExpanded={setIsShown}
+      titleClass="text-brand-yellow font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
-        <div className="w-full flex flex-col gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map(({ label, home, away, icon }, index) => (
-            <div
-              key={index}
-              className="bg-brand-card rounded-xl p-4 sm:p-5 flex flex-col gap-4 w-full"
-            >
+            <div key={index} className="flex flex-col gap-4">
               <div
                 data-testid="stat-label"
-                className="flex items-center gap-2 text-brand-yellow font-bold text-lg sm:text-xl"
+                className="flex flex-wrap gap-2 text-brand-yellow font-bold text-md"
               >
-                <span className="text-brand-orange text-2xl m-2">{icon}</span>
+                <span className="text-brand-orange m-2">{icon}</span>
                 {label}
               </div>
 
               <div
                 data-testid="home-away-stats"
-                className="flex flex-col gap-2 text-sm sm:text-base text-left text-brand-white"
+                className="flex flex-col gap-2 text-sm text-left text-brand-white"
               >
                 <p>
-                  <span className="text-brand-white text-1xl md:text-2xl font-semibold">
+                  <span className="text-brand-white font-semibold">
                     {homeTeamName}:
                   </span>{" "}
-                  <span className="text-brand-orange text-2xl font-bold m-2">
+                  <span className="text-brand-orange font-bold m-2">
                     {home}
                   </span>
                 </p>
 
                 <p>
-                  <span className="text-brand-white text-1xl md:text-2xl font-semibold">
+                  <span className="text-brand-white font-semibold">
                     {awayTeamName}:
                   </span>{" "}
-                  <span className="text-brand-orange text-2xl font-bold m-2">
+                  <span className="text-brand-orange font-bold m-2">
                     {away}
                   </span>
                 </p>

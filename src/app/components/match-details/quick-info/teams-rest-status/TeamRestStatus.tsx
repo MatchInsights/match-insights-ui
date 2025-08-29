@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { TeamsRestStatus } from "../../../types/types";
-import NoData from "../../no-data/NoData";
-import { ApiService } from "../../../services/apiService";
-import PreDisplay from "../../pre-display/PreDisplay";
+import { TeamsRestStatus } from "../../../../types/types";
+import NoData from "../../../no-data/NoData";
+import { ApiService } from "../../../../services/apiService";
+import PreDisplay from "../../../pre-display/PreDisplay";
 
 interface LastFiveMatchesProps {
   homeTeamId: number;
@@ -23,26 +23,23 @@ const TeamsRestStatusComponent = ({
 }: LastFiveMatchesProps) => {
   const [data, setData] = useState<TeamsRestStatus | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isShown, setIsShown] = useState(false);
 
   const fetchData = () => {
-    if (isShown) {
-      setLoading(true);
-      apiService
-        .fetchTeamsRestStatus(homeTeamId, awayTeamId, fixtureDate)
-        .then((result: TeamsRestStatus) => {
-          setData(result);
-        })
-        .catch(() => {
-          setData(null);
-        })
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    apiService
+      .fetchTeamsRestStatus(homeTeamId, awayTeamId, fixtureDate)
+      .then((result: TeamsRestStatus) => {
+        setData(result);
+      })
+      .catch(() => {
+        setData(null);
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchData();
-  }, [homeTeamId, awayTeamId, fixtureDate, isShown]);
+  }, [homeTeamId, awayTeamId, fixtureDate]);
 
   const statusColor = (status?: string) => {
     const s = status?.toLowerCase() || "";
@@ -52,26 +49,26 @@ const TeamsRestStatusComponent = ({
     return "bg-brand-yellow text-black";
   };
 
-  if (loading && isShown)
+  if (loading)
     return (
       <PreDisplay
         title="Teams Rest Status"
-        expanded={isShown}
-        setExpanded={setIsShown}
-        titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
-        child={<NoData />}
+        titleClass="text-brand-white font-semibold text-lg font-bold"
+        child={
+          <NoData displayedMessage="Fetching Rest status for both teams." />
+        }
         onRefresh={fetchData}
       />
     );
 
-  if (!loading && !data && isShown)
+  if (!loading && !data)
     return (
       <PreDisplay
         title="Teams Rest Status"
-        expanded={isShown}
-        setExpanded={setIsShown}
-        titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
-        child={<NoData />}
+        titleClass="text-brand-white font-semibold text-lg font-bold"
+        child={
+          <NoData displayedMessage="Failed Fetching Rest status for both teams." />
+        }
         onRefresh={fetchData}
       />
     );
@@ -79,36 +76,30 @@ const TeamsRestStatusComponent = ({
   return (
     <PreDisplay
       title="Teams Rest Status"
-      expanded={isShown}
-      setExpanded={setIsShown}
       onRefresh={fetchData}
-      titleClass="text-brand-white font-semibold flex-grow text-2xl font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="bg-brand-navbar p-6 md:p-8 rounded-2xl w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-brand-white text-base font-medium">
-              {homeTeam}:
-            </p>
             <span
-              className={`px-3 py-1 rounded-full font-semibold ${statusColor(
+              className={`px-3 font-semibold ${statusColor(
                 data?.homeTeamStatus
               )}`}
             >
               {data?.homeTeamStatus}
             </span>
+            <p className="text-brand-white text-sm font-medium">{homeTeam}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-brand-white text-base font-medium">
-              {awayTeam}:
-            </p>
             <span
-              className={`px-3 py-1 rounded-full font-semibold ${statusColor(
+              className={`px-3  font-semibold ${statusColor(
                 data?.awayTeamStatus
               )}`}
             >
               {data?.awayTeamStatus}
             </span>
+            <p className="text-brand-white text-sm font-medium">{awayTeam}</p>
           </div>
         </div>
       }

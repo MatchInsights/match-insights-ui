@@ -18,10 +18,13 @@ const Navbar = () => {
         data-testid="home-about-links"
         className="space-x-4 text-sm font-medium"
       >
-        <Link to="/" className="hover:text-white transition-colors">
+        <Link to="/" className="hover:text-white text-lg transition-colors">
           Home
         </Link>
-        <Link to="/about" className="hover:text-white transition-colors">
+        <Link
+          to="/about"
+          className="hover:text-white text-lg transition-colors"
+        >
           About
         </Link>
       </div>
