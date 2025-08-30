@@ -4,27 +4,18 @@ interface PreDisplayProps {
   child: React.ReactNode;
   title: string;
   titleClass?: string;
-  banner?: string;
   onRefresh: () => void;
 }
 
 const PreDisplay = ({
   child,
   title,
-  banner,
   titleClass,
   onRefresh,
 }: PreDisplayProps) => {
   return (
-    <div className="rounded-4xl w-full p-4 sm:p-6 md:p-8 lg:p-10 mb-6">
+    <div className="w-full p-4 sm:p-6 md:p-8 lg:p-10 mb-6">
       <div className="flex items-center w-full focus:outline-none">
-        {banner && (
-          <img
-            src={banner}
-            alt={`${title} icon`}
-            className="w-6 h-6 mr-3 object-contain"
-          />
-        )}
         <h3
           className={
             titleClass ?? "flex-grow text-brand-white text-2xl font-bold"
