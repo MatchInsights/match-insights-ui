@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MatchDetails } from "../../types/types";
-import NoData from "../../components/no-data/NoData";
-import { DetailsMainInfo } from "../../components/match-details/details-main-info/DetailsMainCard";
-
-import HeadToHead from "../../components/match-details/h2h/HeadToHead";
-
 import { ApiService } from "../../services/apiService";
+import NoData from "../../components/no-data/NoData";
+import { DetailsMainInfo } from "../../components/match-details/details-main-info/DetailsMainInfo";
+import HeadToHead from "../../components/match-details/h2h/HeadToHead";
 import MatchOdds from "../../components/match-details/match-odds/MatchOdds";
 import SubHeader from "../../components/sub-header/SubHeader";
 import QuickInfo from "../../components/match-details/quick-info/QuickInfo";

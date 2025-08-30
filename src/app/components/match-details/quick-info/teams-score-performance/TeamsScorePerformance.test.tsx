@@ -1,86 +1,126 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import TeamsScorePerformanceComponent from "./TeamsScorePerformance";
-import { ApiService } from "../../../services/apiService";
 
-const homeTeamId = 1;
-const awayTeamId = 2;
-const homeTeam = "Team A";
-const awayTeam = "Team B";
+vi.mock("../../../pre-display/PreDisplay", () => ({
+  default: ({ title, child, onRefresh }: any) => (
+    <div data-testid="pre-display">
+      <h2>{title}</h2>
+      <button onClick={onRefresh}>Refresh</button>
+      {child}
+    </div>
+  ),
+}));
 
-describe("Teams Score Performance", () => {
+vi.mock("../../../no-data/NoData", () => ({
+  default: ({ displayedMessage }: { displayedMessage: string }) => (
+    <div data-testid="no-data">{displayedMessage}</div>
+  ),
+}));
+
+describe("TeamsScorePerformanceComponent", () => {
+  const homeTeamId = 1;
+  const awayTeamId = 2;
+  const leagueId = 123;
+  const homeTeam = "Home FC";
+  const awayTeam = "Away United";
+
+  const mockApi = {
+    fetchTeamsScorePerformance: vi.fn(),
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("no data available initially", () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsScorePerformance: () => new Promise(() => {}),
-    };
+  it("shows loading state initially", () => {
+    mockApi.fetchTeamsScorePerformance.mockResolvedValueOnce(null);
 
     render(
       <TeamsScorePerformanceComponent
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        leagueId={1}
+        leagueId={leagueId}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
 
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
+    expect(
+      screen.getByText("Fetching Score Perfomance for both teams.")
+    ).toBeInTheDocument();
   });
 
-  it("renders info after loading", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsScorePerformance: vi.fn().mockResolvedValue({
-        homeTeamPerformance: "Good",
-        awayTeamPerformance: "Poor",
-      }),
-    };
+  it("renders 'failed' state when API returns null", async () => {
+    mockApi.fetchTeamsScorePerformance.mockResolvedValueOnce(null);
 
     render(
       <TeamsScorePerformanceComponent
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        leagueId={1}
+        leagueId={leagueId}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
 
-    fireEvent.click(screen.getByTestId("expand-icon"));
-
-    await waitFor(() => {
-      expect(screen.getByText("Team A:")).toBeInTheDocument();
-      expect(screen.getByText("Team B:")).toBeInTheDocument();
-    });
-
-    expect(screen.getAllByText("Good").length).toBe(1);
-    expect(screen.getAllByText("Poor").length).toBe(1);
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed Fetching Score Perfomance for both teams.")
+      ).toBeInTheDocument()
+    );
   });
 
-  it("renders fallback message when no data is available", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsScorePerformance: vi.fn().mockRejectedValueOnce({}),
-    };
+  it("renders performances with correct color mapping", async () => {
+    mockApi.fetchTeamsScorePerformance.mockResolvedValueOnce({
+      homeTeamPerformance: "Good Attacking",
+      awayTeamPerformance: "Average Defense",
+    });
 
     render(
       <TeamsScorePerformanceComponent
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        leagueId={1}
+        leagueId={leagueId}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    await waitFor(() => {
-      expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
-    });
+
+    const homePerf = await screen.findByText("Good Attacking");
+    const awayPerf = await screen.findByText("Average Defense");
+
+    expect(homePerf).toHaveClass("bg-brand-success");
+    expect(awayPerf).toHaveClass("bg-brand-orange");
+
+    expect(screen.getByText("Home FC")).toBeInTheDocument();
+    expect(screen.getByText("Away United")).toBeInTheDocument();
+  });
+
+  it("calls fetchTeamsScorePerformance again when Refresh is clicked", async () => {
+    mockApi.fetchTeamsScorePerformance.mockResolvedValue(null);
+
+    render(
+      <TeamsScorePerformanceComponent
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+        leagueId={leagueId}
+        homeTeam={homeTeam}
+        awayTeam={awayTeam}
+      />
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed Fetching Score Perfomance for both teams.")
+      ).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByText("Refresh"));
+    expect(mockApi.fetchTeamsScorePerformance).toHaveBeenCalledTimes(2);
   });
 });

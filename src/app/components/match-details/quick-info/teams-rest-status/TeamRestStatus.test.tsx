@@ -1,85 +1,151 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+// TeamsRestStatusComponent.test.tsx
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import TeamRestStaus from "./TeamRestStatus";
-import { ApiService } from "../../../services/apiService";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import TeamsRestStatusComponent from "./TeamRestStatus";
 
-const homeTeamId = 1;
-const awayTeamId = 2;
-const homeTeam = "Team A";
-const awayTeam = "Team B";
+vi.mock("../../../pre-display/PreDisplay", () => ({
+  default: ({ title, child, onRefresh }: any) => (
+    <div data-testid="pre-display">
+      <h2>{title}</h2>
+      <button onClick={onRefresh}>Refresh</button>
+      {child}
+    </div>
+  ),
+}));
 
-describe("Team Rest Status", () => {
+vi.mock("../../../no-data/NoData", () => ({
+  default: ({ displayedMessage }: { displayedMessage: string }) => (
+    <div data-testid="no-data">{displayedMessage}</div>
+  ),
+}));
+
+describe("TeamsRestStatusComponent", () => {
+  const homeTeamId = 1;
+  const awayTeamId = 2;
+  const fixtureDate = "2024-06-01";
+  const homeTeam = "Home FC";
+  const awayTeam = "Away United";
+
+  const mockApi = {
+    fetchTeamsRestStatus: vi.fn(),
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("shows initial state", () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsRestStatus: () => new Promise(() => {}),
-    };
+  it("shows loading state initially", () => {
+    mockApi.fetchTeamsRestStatus.mockResolvedValueOnce(null);
 
     render(
-      <TeamRestStaus
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+      <TeamsRestStatusComponent
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        fixtureDate={"2025-08-03T16:00:00Z"}
+        fixtureDate={fixtureDate}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
 
-    fireEvent.click(screen.getByTestId("expand-icon"));
-
-    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
+    expect(
+      screen.getByText("Fetching Rest status for both teams.")
+    ).toBeInTheDocument();
   });
 
-  it("renders info after loading", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsRestStatus: vi.fn().mockResolvedValue({
-        homeTeamStatus: "Good Rest",
-        awayTeamStatus: "Moderate Congestion",
-      }),
-    };
+  it("renders 'failed' state when API returns null", async () => {
+    mockApi.fetchTeamsRestStatus.mockResolvedValueOnce(null);
 
     render(
-      <TeamRestStaus
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+      <TeamsRestStatusComponent
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        fixtureDate={"2025-08-03T16:00:00Z"}
+        fixtureDate={fixtureDate}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    await waitFor(() => {
-      expect(screen.getByText("Team A:")).toBeInTheDocument();
-      expect(screen.getByText("Team B:")).toBeInTheDocument();
-    });
 
-    expect(screen.getAllByText("Good Rest").length).toBe(1);
-    expect(screen.getAllByText("Moderate Congestion").length).toBe(1);
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed Fetching Rest status for both teams.")
+      ).toBeInTheDocument()
+    );
   });
 
-  it("renders fallback message when no data is available", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchTeamsRestStatus: vi.fn().mockRejectedValueOnce({}),
-    };
+  it("renders statuses with correct color mapping", async () => {
+    mockApi.fetchTeamsRestStatus.mockResolvedValueOnce({
+      homeTeamStatus: "Severe Fatigue",
+      awayTeamStatus: "Good Condition",
+    });
 
     render(
-      <TeamRestStaus
-        apiService={apiService as ApiService}
-        homeTeam={homeTeam}
+      <TeamsRestStatusComponent
+        apiService={mockApi as any}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
-        fixtureDate={"2025-08-03T16:00:00Z"}
+        fixtureDate={fixtureDate}
+        homeTeam={homeTeam}
         awayTeam={awayTeam}
       />
     );
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    await waitFor(() => {
-      expect(screen.getAllByText(/No data available/i)).toHaveLength(1);
+
+    const severeStatus = await screen.findByText("Severe Fatigue");
+    const goodStatus = await screen.findByText("Good Condition");
+
+    expect(severeStatus).toHaveClass("bg-brand-danger");
+    expect(goodStatus).toHaveClass("bg-brand-success");
+
+    expect(screen.getByText("Home FC")).toBeInTheDocument();
+    expect(screen.getByText("Away United")).toBeInTheDocument();
+  });
+
+  it("falls back to yellow style for unknown statuses", async () => {
+    mockApi.fetchTeamsRestStatus.mockResolvedValueOnce({
+      homeTeamStatus: "Neutral",
+      awayTeamStatus: "Rested",
     });
+
+    render(
+      <TeamsRestStatusComponent
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+        fixtureDate={fixtureDate}
+        homeTeam={homeTeam}
+        awayTeam={awayTeam}
+      />
+    );
+
+    const neutral = await screen.findByText("Neutral");
+    const rested = await screen.findByText("Rested");
+
+    expect(neutral).toHaveClass("bg-brand-yellow");
+    expect(rested).toHaveClass("bg-brand-yellow");
+  });
+
+  it("calls fetchTeamsRestStatus again when Refresh is clicked", async () => {
+    mockApi.fetchTeamsRestStatus.mockResolvedValue(null);
+
+    render(
+      <TeamsRestStatusComponent
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+        fixtureDate={fixtureDate}
+        homeTeam={homeTeam}
+        awayTeam={awayTeam}
+      />
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed Fetching Rest status for both teams.")
+      ).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByText("Refresh"));
+    expect(mockApi.fetchTeamsRestStatus).toHaveBeenCalledTimes(2);
   });
 });

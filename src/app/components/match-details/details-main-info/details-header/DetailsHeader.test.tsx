@@ -1,56 +1,49 @@
 import { render, screen } from "@testing-library/react";
-import DetailsHeader from "./DetailsHeader";
-import type { Team } from "../../../../types/types";
+import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import DetailsHeader from "./DetailsHeader";
+
+vi.mock("../../../team-logo/TeamLogo", () => ({
+  default: ({ src }: { src: string }) => <img src={src} alt="team logo" />,
+}));
 
 describe("DetailsHeader", () => {
-  const homeTeam: Team = {
-    id: 1,
-    name: "Home Team",
-    logo: "https://example.com/home-logo.png",
-  };
+  const homeTeam = { id: 1, name: "Home FC", logo: "home-logo.png" };
+  const awayTeam = { id: 2, name: "Away United", logo: "away-logo.png" };
 
-  const awayTeam: Team = {
-    id: 2,
-    name: "Away Team",
-    logo: "https://example.com/away-logo.png",
-  };
-
-  it("renders both team names", () => {
+  const renderComponent = () =>
     render(
       <MemoryRouter>
-        <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />;
+        <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Home Team")).toBeInTheDocument();
-    expect(screen.getByText("Away Team")).toBeInTheDocument();
+  it("renders the home team link with correct text and href", () => {
+    renderComponent();
+
+    const homeLink = screen.getByTestId("home-team-link");
+    expect(homeLink).toHaveAttribute("href", "/team/1");
+    expect(screen.getByText("Home FC")).toBeInTheDocument();
+
+    const homeLogo = screen.getAllByAltText("team logo")[0];
+    expect(homeLogo).toHaveAttribute("src", "home-logo.png");
   });
 
-  it("renders both team logos when provided", () => {
-    render(
-      <MemoryRouter>
-        <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />;
-      </MemoryRouter>
-    );
+  it("renders the away team link with correct text and href", () => {
+    renderComponent();
 
-    expect(screen.getAllByTestId("team-logo").length).toBe(2);
+    const awayLink = screen.getByTestId("away-team-link");
+    expect(awayLink).toHaveAttribute("href", "/team/2");
+    expect(screen.getByText("Away United")).toBeInTheDocument();
+
+    const awayLogo = screen.getAllByAltText("team logo")[1];
+    expect(awayLogo).toHaveAttribute("src", "away-logo.png");
   });
 
-  it("renders links to team details page", () => {
-    render(
-      <MemoryRouter>
-        <DetailsHeader homeTeam={homeTeam} awayTeam={awayTeam} />;
-      </MemoryRouter>
-    );
+  it("renders both team names in the document", () => {
+    renderComponent();
 
-    expect(screen.getByTestId("home-team-link")).toHaveAttribute(
-      "href",
-      "/team/1"
-    );
-    expect(screen.getByTestId("away-team-link")).toHaveAttribute(
-      "href",
-      "/team/2"
-    );
+    expect(screen.getByText("Home FC")).toBeInTheDocument();
+    expect(screen.getByText("Away United")).toBeInTheDocument();
   });
 });
