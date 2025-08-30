@@ -1,70 +1,55 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import MatchControls from "./MatchControls";
-import { statuses } from "./MatchControls";
+import MatchControls, { statuses } from "./MatchControls";
 
-describe("MatchControls", () => {
-  const setup = (
-    status = "NOT_STARTED",
-    teamFilter = "",
-    leagueFilter = ""
-  ) => {
-    const setStatus = vi.fn();
-    const setTeamFilter = vi.fn();
-    const setLeagueFilter = vi.fn();
-
+describe("MatchControls component", () => {
+  it("renders all status options", () => {
     render(
       <MatchControls
-        status={status}
-        setStatus={setStatus}
-        teamFilter={teamFilter}
-        setTeamFilter={setTeamFilter}
-        leagueFilter={leagueFilter}
-        setLeagueFilter={setLeagueFilter}
+        status="NOT_STARTED"
+        setStatus={vi.fn()}
+        teamFilter=""
+        setTeamFilter={vi.fn()}
       />
     );
 
-    return { setStatus, setTeamFilter, setLeagueFilter };
-  };
+    statuses.forEach((statusOption) => {
+      expect(screen.getByText(statusOption.value)).toBeInTheDocument();
+    });
+  });
 
-  it("renders every status option from the list", () => {
-    setup();
-    const options = screen.getAllByRole("option");
-    expect(options).toHaveLength(statuses.length);
-    statuses.forEach(({ value }) =>
-      expect(screen.getByRole("option", { name: value })).toBeInTheDocument()
+  it("calls setStatus when a new status is selected", () => {
+    const setStatusMock = vi.fn();
+    render(
+      <MatchControls
+        status="NOT_STARTED"
+        setStatus={setStatusMock}
+        teamFilter=""
+        setTeamFilter={vi.fn()}
+      />
     );
+
+    fireEvent.change(screen.getByRole("combobox"), {
+      target: { value: "FULL_TIME" },
+    });
+
+    expect(setStatusMock).toHaveBeenCalledWith("FULL_TIME");
   });
 
-  it("reflects the initial selected status", () => {
-    const currentStatus = "LIVE";
-    setup(currentStatus);
-    const select = screen.getByRole("combobox") as HTMLSelectElement;
-    expect(select.value).toBe(currentStatus);
-  });
+  it("calls setTeamFilter when typing in the input", () => {
+    const setTeamFilterMock = vi.fn();
+    render(
+      <MatchControls
+        status="NOT_STARTED"
+        setStatus={vi.fn()}
+        teamFilter=""
+        setTeamFilter={setTeamFilterMock}
+      />
+    );
 
-  it("calls setStatus with the selected value when user changes it", async () => {
-    const { setStatus } = setup("NOT_STARTED");
-    const select = screen.getByRole("combobox");
+    const input = screen.getByPlaceholderText("Filter by team name...");
+    fireEvent.change(input, { target: { value: "Home FC" } });
 
-    await userEvent.selectOptions(select, "FULL_TIME");
-    expect(setStatus).toHaveBeenCalledWith("FULL_TIME");
-  });
-
-  it("calls setTeamFilter when user types in the team filter input", async () => {
-    const { setTeamFilter } = setup();
-    const teamInput = screen.getByPlaceholderText("Filter by team name...");
-
-    await userEvent.type(teamInput, "Barcelona");
-    expect(setTeamFilter).toHaveBeenCalledTimes("Barcelona".length);
-  });
-
-  it("calls setLeagueFilter when user types in the league filter input", async () => {
-    const { setLeagueFilter } = setup();
-    const leagueInput = screen.getByPlaceholderText("Filter by league...");
-
-    await userEvent.type(leagueInput, "La Liga");
-    expect(setLeagueFilter).toHaveBeenCalledTimes("La Liga".length);
+    expect(setTeamFilterMock).toHaveBeenCalledWith("Home FC");
   });
 });

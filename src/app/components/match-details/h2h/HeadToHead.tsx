@@ -17,48 +17,41 @@ const HeadToHead = ({
 }: HeadToHeadProps) => {
   const [data, setData] = useState<H2HDetails[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isShown, setIsShown] = useState(false);
 
   const fetchData = () => {
-    if (isShown) {
-      setLoading(true);
-      apiService
-        .fetchHeadToHead(homeTeamId, awayTeamId)
-        .then((result) => {
-          setData(result);
-        })
-        .catch(() => {
-          setData([]);
-        })
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    apiService
+      .fetchHeadToHead(homeTeamId, awayTeamId)
+      .then((result) => {
+        setData(result);
+      })
+      .catch(() => {
+        setData([]);
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchData();
-  }, [homeTeamId, awayTeamId, isShown]);
+  }, [homeTeamId, awayTeamId]);
 
-  if (loading && isShown)
+  if (loading)
     return (
       <PreDisplay
         title="Head to Head"
-        titleClass="text-brand-yellow font-semibold flex-grow text-2xl font-bold"
-        expanded={isShown}
-        setExpanded={setIsShown}
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
-        child={<NoData />}
+        child={<NoData displayedMessage="Fetching H2H Info." />}
       />
     );
 
-  if (!loading && data.length === 0 && isShown) {
+  if (!loading && data.length === 0) {
     return (
       <PreDisplay
         title="Head to Head"
-        titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
-        expanded={isShown}
-        setExpanded={setIsShown}
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
-        child={<NoData />}
+        child={<NoData displayedMessage="H2H Info is not available." />}
       />
     );
   }
@@ -66,84 +59,68 @@ const HeadToHead = ({
   return (
     <PreDisplay
       title="Head to Head"
-      titleClass="text-brand-yellow  font-semibold flex-grow text-2xl font-bold"
-      expanded={isShown}
-      setExpanded={setIsShown}
+      titleClass="text-brand-yellow font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
-        <div className="w-full flex flex-col gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.map((match, index) => (
             <div
               key={index}
-              className="bg-brand-card rounded-xl p-4 sm:p-5 flex flex-col gap-4 w-full"
+              className="flex flex-col gap-4 p-4  text-sm text-left "
             >
-              <div className="flex flex-col gap-4 text-sm sm:text-base text-left">
-                <div className="space-y-1">
-                  <p>
-                    <span className="text-brand-yellow font-semibold m-2">
-                      Date:
-                    </span>{" "}
-                    {new Date(match.date).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <span className="text-brand-yellow font-semibold m-2">
-                      Venue:
-                    </span>{" "}
-                    {match.venue.name}
-                  </p>
-                  <p>
-                    <span className="text-brand-yellow font-semibold m-2">
-                      League:
-                    </span>{" "}
-                    {match.leagueName}
-                  </p>
-                  <p>
-                    <span className="text-brand-yellow font-semibold m-2">
-                      Season:
-                    </span>{" "}
-                    {match.season}
-                  </p>
-                  {match.round && (
-                    <p>
-                      <span className="text-brand-yellow font-semibold m-2">
-                        Round:
-                      </span>{" "}
-                      {match.round}
-                    </p>
-                  )}
-                </div>
+              <p>
+                <span className="text-brand-yellow font-semibold">Date:</span>{" "}
+                {new Date(match.date).toLocaleDateString()}
+              </p>
+              <p>
+                <span className="text-brand-yellow font-semibold">Venue:</span>{" "}
+                {match.venue.name}
+              </p>
+              <p>
+                <span className="text-brand-yellow font-semibold">League:</span>{" "}
+                {match.leagueName}
+              </p>
+              <p>
+                <span className="text-brand-yellow font-semibold">Season:</span>{" "}
+                {match.season}
+              </p>
+              {match.round && (
+                <p>
+                  <span className="text-brand-yellow font-semibold">
+                    Round:
+                  </span>{" "}
+                  {match.round}
+                </p>
+              )}
 
-                <div className="space-y-1 text-brand-white">
-                  <p>
-                    <span className="text-brand-lightGray font-medium m-2">
-                      Half Time:
-                    </span>{" "}
-                    {match.homeHalfTimeGoal} - {match.awayHalfTimeGoal}
-                  </p>
-                  <p>
-                    <span className="text-brand-lightGray font-medium m-2">
-                      Full Time:
-                    </span>{" "}
-                    {match.homeFullTimeGoal} - {match.awayFullTimeGoal}
-                  </p>
-                  <p>
-                    <span className="text-brand-lightGray font-medium m-2">
-                      Extra Time:
-                    </span>{" "}
-                    {match.homeExtraTimeGoal} - {match.awayExtraTimeGoal}
-                  </p>
-                  <p>
-                    <span className="text-brand-lightGray font-medium m-2 ">
-                      Penalties:
-                    </span>{" "}
-                    {match.homePenalty} - {match.awayPenalty}
-                  </p>
-                </div>
+              <p>
+                <span className="text-brand-lightGray font-medium">
+                  Half Time:
+                </span>{" "}
+                {match.homeHalfTimeGoal} - {match.awayHalfTimeGoal}
+              </p>
+              <p>
+                <span className="text-brand-lightGray font-medium">
+                  Full Time:
+                </span>{" "}
+                {match.homeFullTimeGoal} - {match.awayFullTimeGoal}
+              </p>
+              <p>
+                <span className="text-brand-lightGray font-medium">
+                  Extra Time:
+                </span>{" "}
+                {match.homeExtraTimeGoal} - {match.awayExtraTimeGoal}
+              </p>
+              <p>
+                <span className="text-brand-lightGray font-medium">
+                  Penalties:
+                </span>{" "}
+                {match.homePenalty} - {match.awayPenalty}
+              </p>
 
-                <div className="text-lg font-bold text-brand-success text-left ">
-                  Winner: <span className="text-white">{match.winner}</span>
-                </div>
-              </div>
+              <p className="text-md font-bold text-brand-success">
+                Winner: <span className="text-white">{match.winner}</span>
+              </p>
             </div>
           ))}
         </div>

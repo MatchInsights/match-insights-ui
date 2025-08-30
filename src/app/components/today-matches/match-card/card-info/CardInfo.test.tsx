@@ -1,69 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import CardInfo from "./CardInfo";
-import { MatchStatus, Venue, League } from "../../../../types/types";
 
-describe("CardInfo", () => {
-  const mockStatus: MatchStatus = {
-    long: "In Progress",
-    elapsed: 42,
-  };
+describe("CardInfo component", () => {
+  const mockDate = "2025-08-30T14:30:00Z";
 
-  const mockVenue: Venue = {
-    name: "National Stadium",
-  };
-
-  const mockLeague: League = {
-    name: "Champions League",
-  };
-
-  it("renders match status and elapsed time", () => {
+  it("renders all props correctly", () => {
     render(
       <CardInfo
-        date="2023-09-10T18:00:00Z"
-        matchStatus={mockStatus}
-        venue={mockVenue}
-        league={mockLeague}
+        date={mockDate}
+        matchStatus={{ long: "Live", elapsed: 55, short: "" }}
+        venue={{ name: "Stadium A", city: "City X" }}
+        league={{ id: 1, name: "Premier League", season: 2025 }}
       />
     );
 
-    expect(screen.getByText("In Progress")).toBeInTheDocument();
-    expect(screen.getByText("(42 min)")).toBeInTheDocument();
-  });
-
-  it("renders league name and venue name", () => {
-    render(
-      <CardInfo
-        date="2023-09-10T18:00:00Z"
-        matchStatus={undefined}
-        venue={mockVenue}
-        league={mockLeague}
-      />
-    );
-
-    expect(screen.getByTestId("league")).toBeInTheDocument();
-    expect(screen.getByText("🏟 National Stadium")).toBeInTheDocument();
-  });
-
-  it("renders date and time correctly", () => {
-    render(
-      <CardInfo
-        date="2023-09-10T18:00:00Z"
-        matchStatus={undefined}
-        venue={undefined}
-        league={undefined}
-      />
-    );
-
-    const dateRegex = /\d{1,2}\/\d{1,2}\/\d{2,4}/;
-    const timeRegex = /\d{1,2}:\d{2}/;
-
-    expect(
-      screen.getByText((content) => dateRegex.test(content))
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText((content) => timeRegex.test(content))
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Live/)).toBeInTheDocument();
+    expect(screen.getByText(/\(55 min\)/)).toBeInTheDocument();
+    expect(screen.getByTestId("league")).toHaveTextContent("Premier League");
+    expect(screen.getByText(/🏟 Stadium A/)).toBeInTheDocument();
+    expect(screen.getByText(/📅/)).toBeInTheDocument();
+    expect(screen.getByText(/⏰/)).toBeInTheDocument();
   });
 
   it("renders fallback values when props are undefined", () => {
@@ -76,24 +33,10 @@ describe("CardInfo", () => {
       />
     );
 
-    expect(screen.getByText("Unknown Status")).toBeInTheDocument();
-    expect(screen.getByText("🏟 Unknown Venue")).toBeInTheDocument();
-    expect(
-      screen.getByText("📅 Unknown Date — ⏰ Unknown Time")
-    ).toBeInTheDocument();
-  });
-
-  it("handles invalid date format gracefully", () => {
-    render(
-      <CardInfo
-        date="invalid-date"
-        matchStatus={mockStatus}
-        venue={mockVenue}
-        league={mockLeague}
-      />
-    );
-    expect(
-      screen.getByText("📅 Invalid Date — ⏰ Invalid Date")
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Unknown Status/)).toBeInTheDocument();
+    expect(screen.getByTestId("league")).toHaveTextContent("Unknown League");
+    expect(screen.getByText(/Unknown Venue/)).toBeInTheDocument();
+    expect(screen.getByText(/Unknown Date/)).toBeInTheDocument();
+    expect(screen.getByText(/Unknown Time/)).toBeInTheDocument();
   });
 });

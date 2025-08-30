@@ -1,26 +1,79 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Home from "./Home";
-import type { TodayMatch } from "../../types/types";
-import { ApiService } from "../../services/apiService";
+import { TodayMatch } from "../../types/types";
+import { mockTodayMatches } from "../../../../testSetup/matches";
 
-vi.mock("../../components/today-matches/TodayMatches", () => ({
-  default: ({ apiService: ApiService }: { apiService: ApiService }) => {
-    ApiService.fetchTodayMatches("TEST_STATUS");
-    return <div data-testid="mock-today-matches">Mock TodayMatches</div>;
-  },
-}));
+const mockMatches: TodayMatch[] = mockTodayMatches;
 
-describe("HomePage", () => {
-  it("renders TodayMatches component and passes fetchTodayMatches prop", () => {
-    const apiService: Partial<ApiService> = {
-      fetchTodayMatches: vi.fn().mockResolvedValue([]),
+describe("Home Component", () => {
+  let mockApiService: any;
+
+  beforeEach(() => {
+    mockApiService = {
+      fetchTodayMatches: vi.fn(),
     };
+  });
 
-    render(<Home apiService={apiService as ApiService} />);
+  it("renders loading state initially", () => {
+    mockApiService.fetchTodayMatches.mockReturnValue(new Promise(() => {}));
+    render(
+      <MemoryRouter>
+        <Home apiService={mockApiService} />
+      </MemoryRouter>
+    );
 
-    expect(screen.getByTestId("today-matches")).toBeInTheDocument();
-    expect(screen.getByTestId("mock-today-matches")).toBeInTheDocument();
-    expect(apiService.fetchTodayMatches).toHaveBeenCalledWith("TEST_STATUS");
+    expect(screen.getByText(/Fetching Matches of the Day/i)).toBeDefined();
+  });
+
+  it("renders no matches message when API returns empty array", async () => {
+    mockApiService.fetchTodayMatches.mockResolvedValue([]);
+    render(
+      <MemoryRouter>
+        <Home apiService={mockApiService} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/We could not find any matches/i)).toBeDefined();
+    });
+  });
+
+  it("renders matches when API returns data", async () => {
+    mockApiService.fetchTodayMatches.mockResolvedValue(mockMatches);
+    render(
+      <MemoryRouter>
+        <Home apiService={mockApiService} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
+      expect(screen.getByText(mockMatches[0].awayTeam.name)).toBeDefined();
+    });
+  });
+
+  it("filters matches by team name", async () => {
+    mockApiService.fetchTodayMatches.mockResolvedValue(mockMatches);
+    render(
+      <MemoryRouter>
+        <Home apiService={mockApiService} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
+    });
+
+    const input = screen.getByPlaceholderText(/Filter by team name/i);
+    fireEvent.change(input, {
+      target: { value: mockMatches[0].homeTeam.name },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
+      expect(screen.queryByText(mockMatches[1].homeTeam.name)).toBeNull();
+    });
   });
 });

@@ -1,85 +1,67 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, it, vi, beforeEach } from "vitest";
-import LeagueStanding from "./LeagueStanding";
-import type { LeagueStandingInfo } from "../../types/types";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { ApiService } from "../../services/apiService";
-
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useParams: () => ({ leagueId: "123" }),
-  };
-});
+import LeagueStanding from "./LeagueStanding";
+import { mockStandings } from "../../../../testSetup/leagueInfo";
 
 describe("LeagueStanding Component", () => {
-  const mockStandings: LeagueStandingInfo[] = [
-    {
-      rank: 1,
-      teamName: "Test FC",
-      logo: "https://example.com/logo.png",
-      points: 45,
-      played: 20,
-      won: 14,
-      draw: 3,
-      lost: 3,
-      goalsFor: 40,
-      goalsAgainst: 20,
-      form: "WWDWL",
-    },
-  ];
+  let mockApiService: any;
 
-  it("renders heading and empty message if no standings", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchLeagueStanding: vi.fn().mockResolvedValue([]),
+  beforeEach(() => {
+    mockApiService = {
+      fetchLeagueStanding: vi.fn(),
     };
-
-    render(
-      <MemoryRouter>
-        <LeagueStanding apiService={apiService as ApiService} />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
-
-    await waitFor(() => {
-      expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
-    });
-
-    expect(apiService.fetchLeagueStanding).toHaveBeenCalledWith(123);
   });
 
-  it("renders table rows when standings are available", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchLeagueStanding: vi.fn().mockResolvedValueOnce(mockStandings),
-    };
-
+  const renderComponent = (leagueId: string) =>
     render(
-      <MemoryRouter>
-        <LeagueStanding apiService={apiService as ApiService} />
+      <MemoryRouter initialEntries={[`/league/${leagueId}`]}>
+        <Routes>
+          <Route
+            path="/league/:leagueId"
+            element={<LeagueStanding apiService={mockApiService} />}
+          />
+        </Routes>
       </MemoryRouter>
     );
 
+  it("renders loading state initially", () => {
+    mockApiService.fetchLeagueStanding.mockReturnValue(new Promise(() => {}));
+    renderComponent("1");
+
+    expect(screen.getByText(/Fetching League Details/i)).toBeDefined();
+  });
+
+  it("renders no data message when API returns empty array", async () => {
+    mockApiService.fetchLeagueStanding.mockResolvedValue([]);
+    renderComponent("1");
+
     await waitFor(() => {
-      expect(screen.getByText("Test FC")).toBeInTheDocument();
-      expect(screen.getByText("45")).toBeInTheDocument(); // points
+      expect(screen.getByText(/League Details Not Found/i)).toBeDefined();
     });
   });
 
-  it("calls fetchStandings with correct leagueId", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchLeagueStanding: vi.fn().mockResolvedValueOnce([]),
-    };
-
-    render(
-      <MemoryRouter>
-        <LeagueStanding apiService={apiService as ApiService} />
-      </MemoryRouter>
-    );
+  it("renders league standings table when data is returned", async () => {
+    mockApiService.fetchLeagueStanding.mockResolvedValue(mockStandings);
+    renderComponent("1");
 
     await waitFor(() => {
-      expect(apiService.fetchLeagueStanding).toHaveBeenCalledWith(123);
+      expect(screen.getByText(mockStandings[0].teamName)).toBeDefined();
+      expect(screen.getByText(mockStandings[1].teamName)).toBeDefined();
     });
+  });
+
+  it("calls fetchData again when refresh button is clicked", async () => {
+    mockApiService.fetchLeagueStanding.mockResolvedValue(mockStandings);
+    renderComponent("1");
+
+    await waitFor(() => {
+      expect(screen.getByText(mockStandings[0].teamName)).toBeDefined();
+    });
+
+    const refreshButton = screen.getByTitle("Refresh");
+    fireEvent.click(refreshButton);
+
+    expect(mockApiService.fetchLeagueStanding).toHaveBeenCalledTimes(2);
   });
 });

@@ -1,71 +1,55 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import React from "react";
 import PreDisplay from "./PreDisplay";
 
-describe("PreDisplay", () => {
-  const defaultProps = {
-    child: <div>Child Content</div>,
-    title: "Test Title",
-    expanded: false,
-    onRefresh: vi.fn(),
-    setExpanded: vi.fn(),
-  };
-
-  it("renders the title", () => {
-    render(<PreDisplay {...defaultProps} />);
-    expect(screen.getByText("Test Title")).toBeInTheDocument();
-  });
-
-  it("renders the arrow down icon when collapsed", () => {
-    render(<PreDisplay {...defaultProps} />);
-    expect(screen.getByText("▼")).toBeInTheDocument();
-  });
-
-  it("renders the arrow up icon when expanded", () => {
-    render(<PreDisplay {...defaultProps} expanded={true} />);
-    expect(screen.getByText("▲")).toBeInTheDocument();
-  });
-
-  it("calls setExpanded with correct value when clicked", () => {
-    const setExpanded = vi.fn();
-    render(<PreDisplay {...defaultProps} setExpanded={setExpanded} />);
-
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    expect(setExpanded).toHaveBeenCalledWith(true);
-  });
-
-  it("calls onRefresh when clicked", () => {
-    const onRefresh = vi.fn();
-
+describe("PreDisplay component", () => {
+  it("renders the title and child content", () => {
     render(
-      <PreDisplay {...defaultProps} onRefresh={onRefresh} expanded={true} />
+      <PreDisplay
+        title="Test Title"
+        onRefresh={() => {}}
+        child={<p>Child Content</p>}
+      />
     );
-
-    fireEvent.click(screen.getByTestId("refresh-icon"));
-
-    expect(onRefresh).toHaveBeenCalled();
-  });
-
-  it("renders child content only when expanded", () => {
-    const { rerender } = render(
-      <PreDisplay {...defaultProps} expanded={false} />
-    );
-    expect(screen.queryByText("Child Content")).not.toBeInTheDocument();
-
-    rerender(<PreDisplay {...defaultProps} expanded={true} />);
+    expect(screen.getByText("Test Title")).toBeInTheDocument();
     expect(screen.getByText("Child Content")).toBeInTheDocument();
   });
 
-  it("renders a banner image when banner prop is provided", () => {
-    render(<PreDisplay {...defaultProps} banner="/test.png" expanded={true} />);
-    const img = screen.getByAltText("Test Title icon");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("src", "/test.png");
+  it("calls onRefresh when refresh button is clicked", () => {
+    const mockRefresh = vi.fn();
+    render(
+      <PreDisplay
+        title="Refresh Test"
+        onRefresh={mockRefresh}
+        child={<p>Content</p>}
+      />
+    );
+
+    const button = screen.getByTestId("refresh-icon");
+    fireEvent.click(button);
+    expect(mockRefresh).toHaveBeenCalledTimes(1);
   });
 
-  it("applies custom titleClass when provided", () => {
-    render(<PreDisplay {...defaultProps} titleClass="custom-class" />);
-    expect(screen.getByText("Test Title")).toHaveClass("custom-class");
+  it("uses default title class if none is provided", () => {
+    render(
+      <PreDisplay title="Default Class" onRefresh={() => {}} child={<p />} />
+    );
+    const titleEl = screen.getByText("Default Class");
+    expect(titleEl).toHaveClass(
+      "flex-grow text-brand-white text-2xl font-bold"
+    );
+  });
+
+  it("uses custom title class if provided", () => {
+    render(
+      <PreDisplay
+        title="Custom Class"
+        titleClass="custom-class"
+        onRefresh={() => {}}
+        child={<p />}
+      />
+    );
+    const titleEl = screen.getByText("Custom Class");
+    expect(titleEl).toHaveClass("custom-class");
   });
 });

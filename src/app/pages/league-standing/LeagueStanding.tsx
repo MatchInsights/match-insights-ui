@@ -33,7 +33,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
     fetchData();
   }, [leagueId]);
 
-  if (loading) return <NoData />;
+  if (loading) return <NoData displayedMessage="Fetching League Details." />;
 
   if (!loading && standings.length === 0)
     return (
@@ -42,8 +42,9 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
           title="League Standing"
           navigateBack={true}
           onRefresh={fetchData}
+          displayAnimation={true}
         />
-        <NoData />
+        <NoData displayedMessage="League Details Not Found." />
       </div>
     );
 
@@ -53,6 +54,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         title="League Standing"
         navigateBack={true}
         onRefresh={fetchData}
+        displayAnimation={true}
       />
 
       {standings.length === 0 ? (

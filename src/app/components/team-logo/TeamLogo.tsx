@@ -22,13 +22,11 @@ const TeamLogo = ({
         data-testid="shield-fallback"
         className={
           customIconWrapperClass ??
-          `w-10 h-10 md:w-14 md:h-14 bg-transparent rounded-full flex items-center justify-center`
+          `w-5 h-5 bg-transparent rounded-full flex items-center justify-center`
         }
       >
         <FaShieldAlt
-          className={
-            customIconClass ?? "text-brand-lightGray text-lg md:text-xl"
-          }
+          className={customIconClass ?? "text-brand-lightGray text-md"}
         />
       </div>
     );
@@ -39,7 +37,7 @@ const TeamLogo = ({
       data-testid="team-logo"
       src={src}
       alt={""}
-      className={customImageClass ?? `w-10 h-10 md:w-14 md:h-14 object-contain`}
+      className={customImageClass ?? `w-5 h-5 object-contain`}
       onError={() => setError(true)}
     />
   );

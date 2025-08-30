@@ -41,7 +41,7 @@ const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
     fetchData();
   }, [id]);
 
-  if (loading) return <NoData />;
+  if (loading) return <NoData displayedMessage="Fetching Team Details" />;
 
   return (
     <div className="min-h-screen text-brand-white p-4 md:p-8 space-y-8">
@@ -49,10 +49,19 @@ const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
         title="Team Details"
         navigateBack={true}
         onRefresh={fetchData}
+        displayAnimation={true}
       />
-      {details ? <TeamInfo teamDetails={details} /> : <NoData />}
+      {details ? (
+        <TeamInfo teamDetails={details} />
+      ) : (
+        <NoData displayedMessage="Failed Fetching Team Details" />
+      )}
 
-      {players.length > 0 ? <TeamSquad players={players} /> : <NoData />}
+      {players.length > 0 ? (
+        <TeamSquad players={players} />
+      ) : (
+        <NoData displayedMessage="Failed Fetching Squad Details" />
+      )}
     </div>
   );
 };

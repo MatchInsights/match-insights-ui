@@ -23,7 +23,7 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
     : "Unknown Date";
 
   return (
-    <>
+    <div className="flex flex-col items-center text-sm">
       <div className="text-brand-orange font-semibold">
         {matchStatus?.long || "Unknown Status"}{" "}
         {matchStatus?.elapsed != null && (
@@ -33,7 +33,7 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
         )}
       </div>
 
-      <div className="text-brand-lightGray " data-testid={"league"}>
+      <div className="text-brand-lightGray" data-testid="league">
         🏆 {league?.id ? league?.name : "Unknown League"}
       </div>
 
@@ -44,7 +44,7 @@ const CardInfo = ({ date, matchStatus, venue, league }: CardInfoProps) => {
       <div className="text-brand-yellow">
         📅 {formattedLocalDate} — ⏰ {formattedLocalTime}
       </div>
-    </>
+    </div>
   );
 };
 

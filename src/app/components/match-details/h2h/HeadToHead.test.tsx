@@ -1,87 +1,114 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import HeadToHead from "./HeadToHead";
-import type { H2HDetails } from "../../../types/types";
-import { ApiService } from "../../../services/apiService";
 
-const mockH2HData: H2HDetails[] = [
-  {
-    date: "2023-10-01T18:30:00Z",
-    venue: { name: "Camp Nou" },
-    leagueName: "La Liga",
-    season: 2023,
-    round: "Round 5",
-    winner: "Barcelona",
-    homeHalfTimeGoal: 1,
-    awayHalfTimeGoal: 0,
-    homeFullTimeGoal: 2,
-    awayFullTimeGoal: 1,
-    homeExtraTimeGoal: 0,
-    awayExtraTimeGoal: 0,
-    homePenalty: 0,
-    awayPenalty: 0,
-  },
-];
+vi.mock("../../pre-display/PreDisplay", () => ({
+  default: ({ title, child, onRefresh }: any) => (
+    <div data-testid="pre-display">
+      <h2>{title}</h2>
+      <button onClick={onRefresh}>Refresh</button>
+      {child}
+    </div>
+  ),
+}));
+
+vi.mock("../../no-data/NoData", () => ({
+  default: ({ displayedMessage }: { displayedMessage: string }) => (
+    <div data-testid="no-data">{displayedMessage}</div>
+  ),
+}));
 
 describe("HeadToHead", () => {
-  it("renders initiall state", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchHeadToHead: () => new Promise(() => {}),
-    };
+  const mockApi = {
+    fetchHeadToHead: vi.fn(),
+  };
 
-    render(
-      <HeadToHead
-        homeTeamId={1}
-        awayTeamId={2}
-        apiService={apiService as ApiService}
-      />
-    );
-    fireEvent.click(screen.getByTestId("expand-icon"));
+  const homeTeamId = 1;
+  const awayTeamId = 2;
 
-    expect(screen.getByText(/No Data Available/i)).toBeInTheDocument();
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("renders empty state when no data is returned", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchHeadToHead: vi.fn().mockResolvedValue([]),
-    };
+  it("shows loading state initially", async () => {
+    mockApi.fetchHeadToHead.mockResolvedValueOnce([]);
 
     render(
       <HeadToHead
-        homeTeamId={1}
-        awayTeamId={2}
-        apiService={apiService as ApiService}
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
       />
     );
-    fireEvent.click(screen.getByTestId("expand-icon"));
-    await waitFor(() => {
-      expect(screen.getByText(/No data available/i)).toBeInTheDocument();
-    });
+
+    expect(screen.getByText("Fetching H2H Info.")).toBeInTheDocument();
   });
 
-  it("renders match cards when data is returned", async () => {
-    const apiService: Partial<ApiService> = {
-      fetchHeadToHead: vi.fn().mockResolvedValue(mockH2HData),
-    };
+  it("renders 'no data' when API returns empty array", async () => {
+    mockApi.fetchHeadToHead.mockResolvedValueOnce([]);
 
     render(
       <HeadToHead
-        homeTeamId={1}
-        awayTeamId={2}
-        apiService={apiService as ApiService}
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
       />
     );
-    fireEvent.click(screen.getByTestId("expand-icon"));
 
-    await waitFor(() => {
-      expect(screen.getByText(/Head to Head/i)).toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(screen.getByText("H2H Info is not available.")).toBeInTheDocument()
+    );
+  });
 
-    expect(screen.getByText(/Camp Nou/i)).toBeInTheDocument();
-    expect(screen.getByText(/La Liga/i)).toBeInTheDocument();
-    expect(screen.getByText(/Season:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Round 5/i)).toBeInTheDocument();
-    expect(screen.getByText(/Winner:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Barcelona/i)).toBeInTheDocument();
+  it("renders match details when API returns data", async () => {
+    mockApi.fetchHeadToHead.mockResolvedValueOnce([
+      {
+        date: "2024-03-15T18:00:00Z",
+        venue: { name: "Stadium X" },
+        leagueName: "Super League",
+        season: "2024",
+        round: "Quarterfinal",
+        homeHalfTimeGoal: 1,
+        awayHalfTimeGoal: 0,
+        homeFullTimeGoal: 2,
+        awayFullTimeGoal: 1,
+        homeExtraTimeGoal: 0,
+        awayExtraTimeGoal: 0,
+        homePenalty: 4,
+        awayPenalty: 3,
+        winner: "Home FC",
+      },
+    ]);
+
+    render(
+      <HeadToHead
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+      />
+    );
+
+    expect(await screen.findByText(/Stadium X/)).toBeInTheDocument();
+    expect(screen.getByText(/Super League/)).toBeInTheDocument();
+    expect(screen.getByText(/Quarterfinal/)).toBeInTheDocument();
+    expect(screen.getByText(/Home FC/)).toBeInTheDocument();
+  });
+
+  it("calls fetchData again when Refresh is clicked", async () => {
+    mockApi.fetchHeadToHead.mockResolvedValue([]);
+    render(
+      <HeadToHead
+        apiService={mockApi as any}
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+      />
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText("H2H Info is not available.")).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByText("Refresh"));
+    expect(mockApi.fetchHeadToHead).toHaveBeenCalledTimes(2);
   });
 });
