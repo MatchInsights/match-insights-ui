@@ -4,18 +4,18 @@ import { TeamPositionsAndPoints } from "../../../../types/types";
 import NoData from "../../../no-data/NoData";
 import PreDisplay from "../../../pre-display/PreDisplay";
 
-interface LeagueTeamAndPointsProps {
+interface RanksAndPointsProps {
   homeTeamId: number;
   awayTeamId: number;
   leagueId: number;
   apiService: ApiService;
 }
-export const LeagueTeamAndPoints = ({
+export const RanksAndPoints = ({
   homeTeamId,
   awayTeamId,
   leagueId,
   apiService,
-}: LeagueTeamAndPointsProps) => {
+}: RanksAndPointsProps) => {
   const [teamsLeagueStats, setTeamsLeagueStats] =
     useState<TeamPositionsAndPoints | null>(null);
 

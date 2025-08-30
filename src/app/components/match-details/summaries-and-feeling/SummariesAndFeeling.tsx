@@ -1,7 +1,7 @@
 import { ApiService } from "../../../services/apiService";
-import MatchEvents from "./last-five-events/MatchEvents";
+import MatchEvents from "./match-events/MatchEvents";
 import OddsWinnerFeelingComponent from "./odds-winner-feeling/OddsWinnerFeeling";
-import { LeagueTeamAndPoints } from "./ranks-and-points/LeagueTeamAndPoints";
+import { RanksAndPoints } from "./ranks-and-points/RanksAndPoints";
 
 interface SummariesAndFeelingProps {
   matchId: number;
@@ -36,7 +36,7 @@ export default function SummariesAndFeeling({
         apiService={apiService}
       />
       <div className="flex flex-col gap-4 w-full">
-        <LeagueTeamAndPoints
+        <RanksAndPoints
           homeTeamId={homeTeamId}
           awayTeamId={awayTeamId}
           leagueId={leagueId}
