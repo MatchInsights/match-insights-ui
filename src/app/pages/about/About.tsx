@@ -4,7 +4,7 @@ const About = () => {
       <div className="max-w-5xl mx-auto text-center md:text-left">
         <h2
           data-testid="header-0"
-          className="text-3xl md:text-4xl font-bold text-brand-yellow mb-8"
+          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
         >
           About This App
         </h2>
@@ -21,7 +21,7 @@ const About = () => {
         </p>
         <h2
           data-testid="header-1"
-          className="text-3xl md:text-4xl font-bold text-brand-yellow mb-8"
+          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
         >
           Our Mission
         </h2>
@@ -38,7 +38,7 @@ const About = () => {
         </p>
         <h2
           data-testid="header-2"
-          className="text-3xl md:text-4xl font-bold text-brand-yellow mb-8"
+          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
         >
           Built for Every Fan, Everywhere
         </h2>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-brand-orange text-black px-6 py-4 shadow-xl flex justify-between items-center">
+    <nav className="bg-brand-royalblue text-white px-6 py-2 shadow-xl flex justify-between items-center">
       <div data-testid="brand-link" className="flex items-center ">
         <Link to="/" className="flex items-center rounded-full">
           <img
@@ -18,12 +18,12 @@ const Navbar = () => {
         data-testid="home-about-links"
         className="space-x-4 text-sm font-medium"
       >
-        <Link to="/" className="hover:text-white text-lg transition-colors">
+        <Link to="/" className="hover:text-bluelight text-lg transition-colors">
           Home
         </Link>
         <Link
           to="/about"
-          className="hover:text-white text-lg transition-colors"
+          className="hover:text-bluelight text-lg transition-colors"
         >
           About
         </Link>
@@ -33,3 +33,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

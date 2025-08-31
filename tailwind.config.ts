@@ -6,7 +6,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+        sans: ["Roboto", "sans-serif"],
       },
       colors: {
         secondary: {
@@ -19,7 +19,7 @@ const config: Config = {
         },
         brand: {
           orange: "#FF6B00",
-          yellow: "#FFC107",
+          yellow: "#ffc61a",
           white: "#FFFFFF",
           lightGray: "#B0B0B0",
           card: "#1E1E1E",
@@ -27,7 +27,11 @@ const config: Config = {
           darkBg: "#121212",
           overlay: "rgba(0,0,0,0.7)",
           success: "#00C853",
+          green: "#6faa54",
+          red: "#ff4848",
           danger: "#D50000",
+          royalblue: "#153483",
+          bluelight: "#AEE8FF",
         },
         darkText: "#E4E4E4",
         darkerText: "#121212",

@@ -24,14 +24,14 @@ export default function SubHeader({
   return (
     <div className="w-full flex-col items-center justify-between m-2">
       <div className="flex items-center gap-4">
-        <h2 className="text-brand-orange hover:text-brand-white text-lg md:text-2xl font-semibold">
+        <h2 className="text-brand-white hover:text-brand-bluelight text-lg md:text-2xl font-semibold">
           {title}
         </h2>
 
         <button
           data-testid="refresh-icon"
           onClick={onRefresh}
-          className="p-2 rounded-full flex items-center justify-center hover:bg-brand-yellow hover:text-brand-darkBg"
+          className="p-2 rounded-full flex items-center justify-center hover:bg-brand-bluelight hover:text-brand-darkBg"
           title="Refresh"
         >
           <FiRefreshCw className="w-5 h-5" />
@@ -40,10 +40,10 @@ export default function SubHeader({
         {navigateBack && (
           <button
             onClick={handleBack}
-            className="p-2 rounded-full flex items-center justify-center hover:bg-brand-yellow hover:text-brand-darkBg"
+            className="p-2 rounded-full flex items-center justify-center hover:bg-brand-bluelight hover:text-brand-darkBg"
             title="Go back"
           >
-            <span data-testid="arrow-back-icon" className="text-4xl">
+            <span data-testid="arrow-back-icon" className="text-2xl">
               &larr;
             </span>
           </button>

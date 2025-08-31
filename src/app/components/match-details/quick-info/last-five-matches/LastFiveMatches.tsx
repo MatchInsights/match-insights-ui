@@ -24,9 +24,9 @@ const LastFiveMatches = ({
   const [loading, setLoading] = useState(true);
 
   const colorMap: Record<string, string> = {
-    W: "bg-brand-orange",
+    W: "bg-brand-green",
     D: "bg-brand-yellow",
-    L: "bg-white",
+    L: "bg-brand-red",
   };
 
   const fetchData = () => {
@@ -86,7 +86,7 @@ const LastFiveMatches = ({
                 homeTeamData.map((result, idx) => (
                   <span
                     key={idx}
-                    className={`w-5 h-5 flex items-center justify-center font-bold text-black ${colorMap[result]}`}
+                    className={`w-5 h-5 flex items-center justify-center font-roboto text-xs text-black ${colorMap[result]}`}
                   >
                     {result}
                   </span>
@@ -104,7 +104,7 @@ const LastFiveMatches = ({
                 awayTeamData.map((result, idx) => (
                   <span
                     key={idx}
-                    className={`w-5 h-5 flex items-center justify-center font-bold text-black ${colorMap[result]}`}
+                    className={`w-5 h-5 flex items-center justify-center font-roboto text-xs text-black ${colorMap[result]}`}
                   >
                     {result}
                   </span>
