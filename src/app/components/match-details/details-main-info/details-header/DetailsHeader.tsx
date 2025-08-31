@@ -20,7 +20,7 @@ export default function DetailsHeader({
       >
         <div className="flex items-center gap-2 w-full">
           <TeamLogo src={homeTeam.logo} />
-          <span className="text-brand-orange hover:text-brand-yellow text-md font-bold">
+          <span className="text-brand-orange hover:text-brand-yellow text-xl font-bold">
             {homeTeam.name}
           </span>
         </div>
@@ -33,7 +33,7 @@ export default function DetailsHeader({
       >
         <div className="flex items-center gap-2 w-full">
           <TeamLogo src={awayTeam.logo} />
-          <span className="text-brand-orange hover:text-brand-yellow text-md font-bold">
+          <span className="text-brand-orange hover:text-brand-yellow text-xl font-bold">
             {awayTeam.name}
           </span>
         </div>

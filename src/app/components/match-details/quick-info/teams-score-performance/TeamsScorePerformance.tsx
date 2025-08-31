@@ -43,8 +43,8 @@ const TeamsScorePerformanceComponent = ({
 
   const performanceColor = (status?: string) => {
     const s = status?.toLowerCase() || "";
-    if (s.includes("good")) return "bg-brand-success text-black";
-    return "bg-brand-orange text-white";
+    if (s.includes("good")) return "bg-brand-success text-sm text-black ";
+    return "bg-brand-orange text-sm text-white";
   };
 
   if (loading)

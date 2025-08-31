@@ -56,14 +56,14 @@ export const DetailsMainInfo = ({
 
           <div>
             <p className="text-brand-orange font-semibold">HT</p>
-            <p className="text-lg font-bold">
+            <p className="text-sm font-bold">
               {score.halftime?.home ?? "-"} : {score.halftime?.away ?? "-"}
             </p>
           </div>
 
           <div>
             <p className="text-brand-orange font-semibold">FT</p>
-            <p className="text-lg font-bold">
+            <p className="text-sm font-bold">
               {score.fulltime?.home ?? "-"} : {score.fulltime?.away ?? "-"}
             </p>
           </div>

@@ -2,8 +2,8 @@ import { FaXTwitter, FaDiscord, FaGithub } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-brand-orange text-white text-sm py-6 mt-12">
-      <div className="bg-brand-orange text-black px-6 py-4 gap-4 flex justify-between items-center">
+    <footer className="bg-brand-royalblue text-white text-sm py-6 mt-12">
+      <div className="bg-brand-royalblue text-white px-6 py-2 gap-4 flex justify-between items-center">
         <p className="text-center md:text-left">
           © {new Date().getFullYear()} MatchInsights.
         </p>
@@ -14,7 +14,7 @@ const Footer = () => {
             href="https://x.com/FootMInsights"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition-colors"
+            className="hover:text-brand-bluelight transition-colors"
             aria-label="Follow us on X"
           >
             <FaXTwitter size={20} />
@@ -24,7 +24,7 @@ const Footer = () => {
             href=" https://discord.gg/7nJ8E75YjD"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition-colors"
+            className="hover:text-brand-bluelight transition-colors"
             aria-label="Join our Discord"
           >
             <FaDiscord size={22} />
@@ -34,7 +34,7 @@ const Footer = () => {
             href="https://github.com/MatchInsights"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition-colors"
+            className="hover:text-brand-bluelight transition-colors"
             aria-label="View our GitHub"
           >
             <FaGithub size={22} />

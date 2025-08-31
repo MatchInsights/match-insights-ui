@@ -37,7 +37,7 @@ const TeamLogo = ({
       data-testid="team-logo"
       src={src}
       alt={""}
-      className={customImageClass ?? `w-5 h-5 object-contain`}
+      className={customImageClass ?? `w-7 h-7 object-contain`}
       onError={() => setError(true)}
     />
   );
