@@ -12,7 +12,7 @@ import {
   TeamsScorePerformance,
   OddsWinnerFeeling,
   TeamDetails,
-  TeamPlayer,
+  PlayerSummary,
 } from "../types/types";
 import apiFetch from "./apiConfig";
 import { ApiService } from "./apiService";
@@ -157,8 +157,8 @@ export class ApiServiceImplementation implements ApiService {
     return response.data;
   }
 
-  public async fetchTeamPlayers(teamId: number): Promise<TeamPlayer[]> {
-    const response = await apiFetch.get<TeamPlayer[]>(
+  public async fetchTeamPlayers(teamId: number): Promise<PlayerSummary[]> {
+    const response = await apiFetch.get<PlayerSummary[]>(
       `/api/teams/${teamId}/players`
     );
     return response.data;

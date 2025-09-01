@@ -12,7 +12,7 @@ import {
   TeamsScorePerformance,
   OddsWinnerFeeling,
   TeamDetails,
-  TeamPlayer,
+  PlayerSummary,
 } from "../src/app/types/types";
 
 import {
@@ -145,7 +145,7 @@ export class MockApiServiceImplementation implements ApiService {
     return Promise.resolve(teamDetails);
   }
 
-  public async fetchTeamPlayers(teamId: number): Promise<TeamPlayer[]> {
+  public async fetchTeamPlayers(teamId: number): Promise<PlayerSummary[]> {
     console.log(teamId);
     return Promise.resolve(players);
   }
