@@ -25,13 +25,26 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
     : "Unknown Date";
 
   return (
-    <div className="relative py-4 px-4 rounded-3xl w-55 my-4 shadow-xl">
-      <div className="flex items-center absolute rounded-full py-4 px-4 left-2 -top-6">
-        <TeamLogo src={homeTeam?.logo} />
+    <div className="relative py-4 px-4 rounded-3xl w-60 my-4 shadow-xl">
+      <div className="flex items-row justify-between">
+        <div className="flex flex-wrap">
+          <TeamLogo src={homeTeam?.logo} />
+          <TeamLogo src={awayTeam?.logo} />
+        </div>
+        <div className="flex flex-col">
+          <p className="mx-1 font-semibold text-xs text-brand-orange">
+            {matchStatus?.long || "Unknown Status"}
+          </p>
+          <p className="mx-1 text-xs text-brand-yellow">
+            {matchStatus?.elapsed != null && (
+              <span className="text-brand-white">
+                ({matchStatus.elapsed} min)
+              </span>
+            )}
+          </p>
+        </div>
       </div>
-      <div className="flex items-center absolute rounded-full py-4 px-4 left-16  -top-6">
-        <TeamLogo src={awayTeam?.logo} />
-      </div>
+
       <div className="mt-4 flex flex-col">
         <p className="flex flex-wrap my-1">
           <span className="text-xs font-semibold">Home:</span>
@@ -70,25 +83,11 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
           <div className="flex items-left mx-1 my-1 p-1">
             <Link
               to={`/match/${id}`}
-              className="text-brand-white text-xs hover:text-brand-yellow  hover:-translate-y-1
+              className="text-brand-orange text-xs hover:text-brand-yellow  hover:-translate-y-1
               transition-all duration-300 ease-in-out cursor-pointer"
             >
               <button>More Info</button>
             </Link>
-          </div>
-          <div className="flex items-left mx-1 my-1 p-1">
-            <p className="font-semibold text-xs text-brand-orange">
-              {matchStatus?.long || "Unknown Status"}
-            </p>
-            <div className="text-xs font-semibold">
-              <p className="mx-1">
-                {matchStatus?.elapsed != null && (
-                  <span className="text-brand-white">
-                    ({matchStatus.elapsed} min)
-                  </span>
-                )}
-              </p>
-            </div>
           </div>
         </div>
       </div>

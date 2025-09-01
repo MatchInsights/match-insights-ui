@@ -22,7 +22,7 @@ const TeamLogo = ({
         data-testid="shield-fallback"
         className={
           customIconWrapperClass ??
-          `w-5 h-5 bg-transparent rounded-full flex items-center justify-center`
+          `w-5 h-5 bg-transparent rounded-full flex items-center justify-center mx-2`
         }
       >
         <FaShieldAlt
@@ -37,7 +37,7 @@ const TeamLogo = ({
       data-testid="team-logo"
       src={src}
       alt={""}
-      className={customImageClass ?? `w-7 h-7 object-contain`}
+      className={customImageClass ?? `w-7 h-7 object-contain mx-2`}
       onError={() => setError(true)}
     />
   );
