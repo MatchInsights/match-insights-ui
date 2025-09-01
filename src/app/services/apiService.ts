@@ -12,7 +12,7 @@ import {
   TeamsScorePerformance,
   OddsWinnerFeeling,
   TeamDetails,
-  TeamPlayer,
+  PlayerSummary,
 } from "../types/types";
 
 export interface ApiService {
@@ -57,5 +57,5 @@ export interface ApiService {
 
   fetchOddWinnerFeeling(fixtureId: number): Promise<OddsWinnerFeeling>;
   fetchTeamDetails(teamId: number): Promise<TeamDetails>;
-  fetchTeamPlayers(teamId: number): Promise<TeamPlayer[]>;
+  fetchTeamPlayers(teamId: number): Promise<PlayerSummary[]>;
 }

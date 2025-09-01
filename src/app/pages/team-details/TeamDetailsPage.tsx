@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TeamDetails, TeamPlayer } from "../../types/types";
+import { TeamDetails, PlayerSummary } from "../../types/types";
 import TeamInfo from "../../components/team-details/team-info/TeamInfo";
 import { TeamSquad } from "../../components/team-details/team-squad/TeamSquad";
 import { ApiService } from "../../services/apiService";
@@ -14,7 +14,7 @@ interface TeamDetailsPageProps {
 const TeamDetailsPage = ({ apiService }: TeamDetailsPageProps) => {
   const { id } = useParams<{ id: string }>();
   const [details, setDetails] = useState<TeamDetails | null>(null);
-  const [players, setPlayers] = useState<TeamPlayer[]>([]);
+  const [players, setPlayers] = useState<PlayerSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = () => {

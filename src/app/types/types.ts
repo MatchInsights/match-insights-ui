@@ -166,9 +166,15 @@ export interface TeamDetails {
   coachAge: number;
 }
 
-export interface TeamPlayer {
+export interface PlayerSummary {
   name: string;
   age: number;
-  nationality: string;
+  height: string;
+  weight: string;
   position: string;
+  goals: number;
+  yellowCards: number;
+  redCards: number;
+  penaltiesSaved: number;
+  penaltiesScored: number;
 }
