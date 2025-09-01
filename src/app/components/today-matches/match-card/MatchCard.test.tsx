@@ -29,8 +29,6 @@ describe("MatchCard component", () => {
     expect(screen.getByText(/Live/)).toBeInTheDocument();
     expect(screen.getByText(/\(30 min\)/)).toBeInTheDocument();
 
-    expect(screen.getByText(/Stadium/)).toBeInTheDocument();
-
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "/match/123");
   });

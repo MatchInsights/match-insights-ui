@@ -1,34 +1,98 @@
 import { Link } from "react-router-dom";
 import { TodayMatch } from "../../../types/types";
-import CardInfo from "./card-info/CardInfo";
-import CardHeader from "./header/CardHeader";
+import TeamLogo from "../../team-logo/TeamLogo";
 
 interface MatchCardProps {
   todayMatch: TodayMatch;
 }
 
 const MatchCard = ({ todayMatch }: MatchCardProps) => {
-  const { homeTeam, awayTeam, date, matchStatus, venue, league, id } =
-    todayMatch;
+  const { homeTeam, awayTeam, date, matchStatus, league, id } = todayMatch;
+
+  let localDate: Date | null = null;
+
+  if (date) {
+    const utcDate = new Date(date);
+    localDate = utcDate;
+  }
+
+  const formattedLocalTime = localDate
+    ? localDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    : "Unknown Time";
+
+  const formattedLocalDate = localDate
+    ? localDate.toLocaleDateString()
+    : "Unknown Date";
 
   return (
-    <Link
-      to={`/match/${id}`}
-      className="block p-4 text-brand-white text-sm 
-    hover:bg-brand-navbar hover:shadow-lg hover:-translate-y-1 
-    hover:ring-2 hover:ring-brand-yellow
-    transition-all duration-300 ease-in-out cursor-pointer"
-    >
-      <div className="flex flex-col items-center justify-center gap-4 text-center">
-        <CardHeader hometeam={homeTeam} awayteam={awayTeam} />
-        <CardInfo
-          date={date}
-          matchStatus={matchStatus}
-          venue={venue}
-          league={league}
-        />
+    <div className="relative py-4 px-4 rounded-3xl w-55 my-4 shadow-xl">
+      <div className="flex items-center absolute rounded-full py-4 px-4 left-2 -top-6">
+        <TeamLogo src={homeTeam?.logo} />
       </div>
-    </Link>
+      <div className="flex items-center absolute rounded-full py-4 px-4 left-16  -top-6">
+        <TeamLogo src={awayTeam?.logo} />
+      </div>
+      <div className="mt-4 flex flex-col">
+        <p className="flex flex-wrap my-1">
+          <span className="text-xs font-semibold">Home:</span>
+          <span className="mx-1 text-xs text-brand-lightGray">
+            {homeTeam?.name || "Unknown"}
+          </span>
+        </p>
+        <p className="flex flex-wrap my-1">
+          <span className="text-xs font-semibold">Away:</span>
+          <span className="mx-1 text-xs text-brand-lightGray">
+            {awayTeam?.name || "Unknown"}
+          </span>
+        </p>
+        <div className="flex flex-col mt-1">
+          <p className="flex flex-wrap my-1">
+            <span className="text-xs">📅</span>
+            <span className="text-brand-white mx-1 text-xs">
+              {formattedLocalDate}
+            </span>
+          </p>
+          <p className="flex flex-wrap my-1">
+            <span className="text-xs">⏰</span>{" "}
+            <span className="text-brand-white mx-1 text-xs">
+              {formattedLocalTime}
+            </span>
+          </p>
+          <p className="flex flex-wrap my-1">
+            <span className="text-xs">🏆</span>{" "}
+            <span className="text-brand-white mx-1 text-xs">
+              {league?.id ? league?.name : "Unknown League"}
+            </span>
+          </p>
+        </div>
+
+        <div className="mt-2 flex flex-wrap justify-between">
+          <div className="flex items-left mx-1 my-1 p-1">
+            <Link
+              to={`/match/${id}`}
+              className="text-brand-white text-xs hover:text-brand-yellow  hover:-translate-y-1
+              transition-all duration-300 ease-in-out cursor-pointer"
+            >
+              <button>More Info</button>
+            </Link>
+          </div>
+          <div className="flex items-left mx-1 my-1 p-1">
+            <p className="font-semibold text-xs text-brand-orange">
+              {matchStatus?.long || "Unknown Status"}
+            </p>
+            <div className="text-xs font-semibold">
+              <p className="mx-1">
+                {matchStatus?.elapsed != null && (
+                  <span className="text-brand-white">
+                    ({matchStatus.elapsed} min)
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
