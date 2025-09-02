@@ -3,6 +3,7 @@ import { TeamsRestStatus } from "../../../../types/types";
 import NoData from "../../../no-data/NoData";
 import { ApiService } from "../../../../services/apiService";
 import PreDisplay from "../../../pre-display/PreDisplay";
+import { ArrowStatusTile } from "../../../status-tile/ArrowStatusTile";
 
 interface LastFiveMatchesProps {
   homeTeamId: number;
@@ -41,12 +42,17 @@ const TeamsRestStatusComponent = ({
     fetchData();
   }, [homeTeamId, awayTeamId, fixtureDate]);
 
-  const statusColor = (status?: string) => {
+  const isUp = (status?: string) => {
     const s = status?.toLowerCase() || "";
+    if (s.includes("good")) return true;
+    return false;
+  };
 
-    if (s.includes("severe")) return "bg-brand-danger text-white";
-    if (s.includes("good")) return "bg-brand-success text-black";
-    return "bg-brand-yellow text-black";
+  const isFlat = (status?: string) => {
+    const s = status?.toLowerCase() || "";
+    if (s.includes("moderate") || s.includes("unknown") || s.length == 0)
+      return true;
+    return false;
   };
 
   if (loading)
@@ -79,28 +85,19 @@ const TeamsRestStatusComponent = ({
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="w-full flex flex-col gap-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`px-3 font-semibold ${statusColor(
-                data?.homeTeamStatus
-              )}`}
-            >
-              {data?.homeTeamStatus}
-            </span>
-            <p className="text-brand-white text-sm font-medium">{homeTeam}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`px-3  font-semibold ${statusColor(
-                data?.awayTeamStatus
-              )}`}
-            >
-              {data?.awayTeamStatus}
-            </span>
-            <p className="text-brand-white text-sm font-medium">{awayTeam}</p>
-          </div>
+        <div className="grid grid-cols-1 gap-2 w-full">
+          <ArrowStatusTile
+            isUp={isUp(data?.homeTeamStatus)}
+            description={homeTeam}
+            status={data?.homeTeamStatus ?? ""}
+            isFlat={isFlat(data?.homeTeamStatus ?? "")}
+          />
+          <ArrowStatusTile
+            isUp={isUp(data?.awayTeamStatus)}
+            description={awayTeam}
+            status={data?.awayTeamStatus ?? ""}
+            isFlat={isFlat(data?.awayTeamStatus)}
+          />
         </div>
       }
     />

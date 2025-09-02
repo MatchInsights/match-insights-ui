@@ -3,6 +3,7 @@ import { TeamsScorePerformance } from "../../../../types/types";
 import NoData from "../../../no-data/NoData";
 import { ApiService } from "../../../../services/apiService";
 import PreDisplay from "../../../pre-display/PreDisplay";
+import { ArrowStatusTile } from "../../../status-tile/ArrowStatusTile";
 
 interface TeamsScorePerformanceProps {
   homeTeamId: number;
@@ -41,10 +42,16 @@ const TeamsScorePerformanceComponent = ({
     fetchData();
   }, [homeTeamId, awayTeamId, leagueId]);
 
-  const performanceColor = (status?: string) => {
+  const isUp = (status?: string) => {
     const s = status?.toLowerCase() || "";
-    if (s.includes("good")) return "bg-brand-success text-sm text-black ";
-    return "bg-brand-orange text-sm text-white";
+    if (s.includes("good")) return true;
+    return false;
+  };
+
+  const isFlat = (status?: string) => {
+    const s = status?.toLowerCase() || "";
+    if (s.includes("data") || s.length === 0) return true;
+    return false;
   };
 
   if (loading)
@@ -77,28 +84,19 @@ const TeamsScorePerformanceComponent = ({
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="w-full flex flex-col gap-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`px-2 font-bold ${performanceColor(
-                data?.homeTeamPerformance
-              )}`}
-            >
-              {data?.homeTeamPerformance}
-            </span>{" "}
-            <p className="text-brand-white text-sm">{homeTeam}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`px-2 font-semibold ${performanceColor(
-                data?.awayTeamPerformance
-              )}`}
-            >
-              {data?.awayTeamPerformance}
-            </span>
-            <p className="text-brand-white text-sm">{awayTeam}</p>
-          </div>
+        <div className="grid grid-cols-1 gap-2 w-full">
+          <ArrowStatusTile
+            isUp={isUp(data?.homeTeamPerformance)}
+            description={homeTeam}
+            status={data?.homeTeamPerformance ?? ""}
+            isFlat={isFlat(data?.homeTeamPerformance ?? "")}
+          />
+          <ArrowStatusTile
+            isUp={isUp(data?.awayTeamPerformance)}
+            description={awayTeam}
+            status={data?.awayTeamPerformance ?? ""}
+            isFlat={isFlat(data?.awayTeamPerformance)}
+          />
         </div>
       }
     />

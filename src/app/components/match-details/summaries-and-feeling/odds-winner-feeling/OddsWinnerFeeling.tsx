@@ -3,6 +3,7 @@ import { OddsWinnerFeeling } from "../../../../types/types";
 import NoData from "../../../no-data/NoData";
 import { ApiService } from "../../../../services/apiService";
 import PreDisplay from "../../../pre-display/PreDisplay";
+import { ArrowStatusTile } from "../../../status-tile/ArrowStatusTile";
 
 interface OddsWinnerFeelingProps {
   homeTeam: string;
@@ -37,10 +38,16 @@ const OddsWinnerFeelingComponent = ({
     fetchData();
   }, [fixtureId]);
 
-  const feelingColor = (status?: string) => {
+  const isUp = (status?: string) => {
     const s = status?.toLowerCase() || "";
-    if (s.includes("strong")) return "bg-brand-success text-black";
-    return "bg-brand-white text-black";
+    if (s.includes("strong")) return true;
+    return false;
+  };
+
+  const isFlat = (status?: string) => {
+    const s = status?.toLowerCase() || "";
+    if (s.includes("data") || s.length === 0) return true;
+    return false;
   };
 
   if (loading)
@@ -71,29 +78,25 @@ const OddsWinnerFeelingComponent = ({
       onRefresh={fetchData}
       titleClass="text-brand-orange font-semibold text-lg font-bold"
       child={
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={`px-3 font-semibold ${feelingColor(data?.home)}`}>
-              {data?.home}
-            </span>
-            <p className="text-brand-white text-sm font-medium">{homeTeam}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={`px-3 font-semibold ${feelingColor(data?.draw)}`}>
-              {data?.draw}
-            </span>
-            <p className="text-brand-white text-sm font-medium">Draw</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`px-3 py-1 font-semibold ${feelingColor(data?.away)}`}
-            >
-              {data?.away}
-            </span>
-            <p className="text-brand-white text-sm font-medium">{awayTeam}</p>
-          </div>
+        <div className="grid grid-cols-1 gap-2 w-full">
+          <ArrowStatusTile
+            isUp={isUp(data?.home)}
+            description={data?.home ?? ""}
+            status={homeTeam}
+            isFlat={isFlat(data?.home ?? "")}
+          />
+          <ArrowStatusTile
+            isUp={isUp(data?.away)}
+            description={data?.away ?? ""}
+            status={awayTeam}
+            isFlat={isFlat(data?.away)}
+          />
+          <ArrowStatusTile
+            isUp={isUp(data?.draw)}
+            description={data?.draw ?? ""}
+            status={"draw"}
+            isFlat={isFlat(data?.draw)}
+          />
         </div>
       }
     />
