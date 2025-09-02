@@ -48,7 +48,7 @@ const Home = ({ apiService }: HomeProps) => {
       <SubHeader
         navigateBack={false}
         onRefresh={fetchData}
-        title="Matches of the Day"
+        title="MATCHES OF THE DAY"
         displayAnimation={true}
       />
 

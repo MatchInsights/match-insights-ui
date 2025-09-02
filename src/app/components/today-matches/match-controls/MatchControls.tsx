@@ -78,14 +78,14 @@ const MatchControls = ({
   setTeamFilter,
 }: MatchControlsProps) => {
   return (
-    <div className="flex flex-col justify-left items-left text-left md:flex-row  gap-4 m-8">
+    <div className="flex flex-col justify-left items-left text-left md:flex-row  gap-4 m-2">
       <select
         value={status}
         onChange={(e) => setStatus(e.target.value)}
-        className="bg-white text-black p-4 rounded w-full md:w-auto"
+        className="bg-white text-brand-blueintense p-1 rounded w-full md:w-auto"
       >
         {statuses.map((statusOption) => (
-          <option key={statusOption.key} value={statusOption.key}>
+          <option key={statusOption.key} value={statusOption.key} className="text-brand-blueintense">
             {statusOption.value}
           </option>
         ))}
@@ -96,7 +96,7 @@ const MatchControls = ({
         placeholder="Filter by team name..."
         value={teamFilter}
         onChange={(e) => setTeamFilter(e.target.value)}
-        className="bg-white text-black p-4 rounded w-full md:w-auto"
+        className="bg-white text-brand-blueintense p-4 rounded w-full md:w-auto"
       />
     </div>
   );
