@@ -25,17 +25,18 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
     : "Unknown Date";
 
   return (
-    <div className="relative py-4 px-4 rounded-3xl w-60 my-4 shadow-xl">
-      <div className="flex items-row justify-between">
-        <div className="flex flex-wrap">
+    <div className="py-4 px-4 rounded-3xl w-full my-4 shadow-xl">
+      <div className="flex flex-col md:flex-row justify-center md:justify-between items-center">
+        <div className="flex flex-row items-center text-center">
           <TeamLogo src={homeTeam?.logo} />
           <TeamLogo src={awayTeam?.logo} />
         </div>
-        <div className="flex flex-col">
-          <p className="mx-1 font-semibold text-xs text-brand-orange">
+
+        <div className="flex flex-col mt-4 md:mt-0 justify-center items-center text-center">
+          <p className="font-semibold text-xs text-brand-orange">
             {matchStatus?.long || "Unknown Status"}
           </p>
-          <p className="mx-1 text-xs text-brand-yellow">
+          <p className="mt-1 text-xs text-brand-yellow">
             {matchStatus?.elapsed != null && (
               <span className="text-brand-white">
                 ({matchStatus.elapsed} min)
