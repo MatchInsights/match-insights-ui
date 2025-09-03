@@ -6,7 +6,6 @@ import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
 import { CategoryPills } from "../../components/CategoryPills/CategoryPills";
 import { LeagueTable } from "../../components/league-table/LeagueTable";
-import Logo from "../../components/logo/Logo";
 
 interface LeagueStandingProps {
   apiService: ApiService;
