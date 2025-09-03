@@ -56,7 +56,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
       titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
-        <div className="w-full flex flex-wrap gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {odds.map((odd, index) => (
             <div key={index} className="p-4 text-sm text-brand-white">
               <p className="text-brand-orange font-semibold m-2">

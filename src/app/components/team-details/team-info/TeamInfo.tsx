@@ -8,15 +8,14 @@ interface TeamDetailsComponentProps {
 export const TeamInfo = ({ teamDetails }: TeamDetailsComponentProps) => {
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-        <TeamLogo
-          src={teamDetails.teamLogo}
-          customImageClass="w-24 h-24 md:w-28 md:h-28  bg-transparent "
-          customIconWrapperClass="w-24 h-24 md:w-28 md:h-28  bg-transparent flex items-center justify-center"
-          customIconClass="w-2/3 h-2/3 text-brand-lightGray"
-        />
-
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="text-center md:text-left m-2 p-2">
+          <TeamLogo
+            src={teamDetails.teamLogo}
+            customImageClass="w-24 h-24 md:w-28 md:h-28  bg-transparent "
+            customIconWrapperClass="w-24 h-24 md:w-28 md:h-28  bg-transparent flex items-center justify-center"
+            customIconClass="w-2/3 h-2/3 text-brand-lightGray"
+          />
           <h1 className="text-lg font-bold text-brand-yellow">
             {teamDetails.teamName}
           </h1>

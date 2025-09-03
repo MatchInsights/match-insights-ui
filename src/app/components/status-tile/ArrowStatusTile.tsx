@@ -18,10 +18,10 @@ export const ArrowStatusTile = ({
   };
 
   return (
-    <div className="grid grid-cols-1 gap-2 w-full">
-      <div className="flex rounded">
+    <div className="grid grid-cols-1 w-full">
+      <div className="flex flex-row items-left justify-left rounded">
         <div
-          className={`flex flex-shrink-0 items-center  justify-center h-10 w-10 rounded
+          className={`flex flex-shrink-0 items-center m-2 justify-center h-10 w-10 rounded
             ${arrowColor()}`}
         >
           {isUp && !isFlat && (
@@ -60,11 +60,11 @@ export const ArrowStatusTile = ({
             </svg>
           )}
         </div>
-        <div className="flex-grow flex flex-col ml-2">
+        <div className="flex-grow flex flex-col m-2">
           <span className="text-md ml-1 font-bold text-brand-orange">
             {status}
           </span>
-          <div className="flex ml-1 items-center justify-between">
+          <div className="flex items-center justify-between">
             <span className="text-brand-white text-xs">{description}</span>
           </div>
         </div>

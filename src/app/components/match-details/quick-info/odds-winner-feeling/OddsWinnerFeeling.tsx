@@ -54,7 +54,7 @@ const OddsWinnerFeelingComponent = ({
     return (
       <PreDisplay
         title="Winner Feeling"
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching Odds Winner Feeling." />}
       />
@@ -65,7 +65,7 @@ const OddsWinnerFeelingComponent = ({
       <PreDisplay
         title="Winner Feeling"
         onRefresh={fetchData}
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
           <NoData displayedMessage="Failed Fetching Odds Winner Feeling." />
         }
@@ -76,7 +76,7 @@ const OddsWinnerFeelingComponent = ({
     <PreDisplay
       title="Winner Feeling"
       onRefresh={fetchData}
-      titleClass="text-brand-orange font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
         <div className="grid grid-cols-1 gap-2 w-full">
           <ArrowStatusTile

@@ -1,10 +1,8 @@
 import { ApiService } from "../../../services/apiService";
 import MatchEvents from "./match-events/MatchEvents";
-import OddsWinnerFeelingComponent from "./odds-winner-feeling/OddsWinnerFeeling";
 import { RanksAndPoints } from "./ranks-and-points/RanksAndPoints";
 
 interface SummariesAndFeelingProps {
-  matchId: number;
   apiService: ApiService;
   homeTeamId: number;
   homeTeam: string;
@@ -13,17 +11,16 @@ interface SummariesAndFeelingProps {
   leagueId: number;
 }
 
-export default function SummariesAndFeeling({
+export default function MatchSummaries({
   apiService,
   homeTeamId,
   homeTeam,
   awayTeamId,
   awayTeam,
   leagueId,
-  matchId,
 }: SummariesAndFeelingProps) {
   return (
-    <div className="flex flex-col md:flex-row gap-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <MatchEvents
         title={`${homeTeam} Last Five Matches Summary`}
         teamId={homeTeamId}
@@ -35,20 +32,13 @@ export default function SummariesAndFeeling({
         teamId={awayTeamId}
         apiService={apiService}
       />
-      <div className="flex flex-col gap-4 w-full">
-        <RanksAndPoints
-          homeTeamId={homeTeamId}
-          awayTeamId={awayTeamId}
-          leagueId={leagueId}
-          apiService={apiService}
-        />
-        <OddsWinnerFeelingComponent
-          apiService={apiService}
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-          fixtureId={matchId}
-        />
-      </div>
+
+      <RanksAndPoints
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+        leagueId={leagueId}
+        apiService={apiService}
+      />
     </div>
   );
 }

@@ -23,7 +23,7 @@ export const DetailsMainInfo = ({
   score,
 }: DetailsMainInfoProps) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-2 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-3 mx-4 gap-4">
       <BallAnimation isSubHeader={false} />
 
       <div className="flex flex-col items-center justify-center text-center p-4 gap-4 w-full">

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import SummariesAndFeeling from "./SummariesAndFeeling";
+import MatchSummaries from "./MatchSummaries";
 
 vi.mock("./match-events/MatchEvents", () => ({
   default: vi.fn(({ title, teamId }) => (
@@ -41,7 +41,7 @@ describe("SummariesAndFeeling", () => {
   });
 
   it("renders all children with correct props", () => {
-    render(<SummariesAndFeeling {...props} />);
+    render(<MatchSummaries {...props} />);
 
     expect(
       screen.getByTestId(`match-events-${props.homeTeamId}`)
