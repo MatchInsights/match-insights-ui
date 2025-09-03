@@ -9,7 +9,7 @@ export const PlayerCard = ({ playerSummary }: PlayerCardProps) => {
     <>
       <div
         key={playerSummary.name}
-        className="overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl h-60 w-60 md:w-60 cursor-pointer m-auto"
+        className="overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-5 hover:shadow-2xl w-60 md:w-60 cursor-pointer m-auto"
       >
         <div className="w-full block h-full">
           <div className="w-full p-4">
