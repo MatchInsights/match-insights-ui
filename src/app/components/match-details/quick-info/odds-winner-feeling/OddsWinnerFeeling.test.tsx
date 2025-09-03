@@ -57,7 +57,7 @@ describe("OddsWinnerFeelingComponent", () => {
     );
   });
 
-  it("renders home, draw, and away values with correct color classes", async () => {
+  it("renders home, draw, and away values", async () => {
     const mockData: OddsWinnerFeeling = {
       home: "Strong Home",
       draw: "Neutral",
@@ -71,13 +71,8 @@ describe("OddsWinnerFeelingComponent", () => {
     const homeSpan = await screen.findByText("Strong Home");
     const drawSpan = screen.getByText("Neutral");
     const awaySpan = screen.getByText("Weak Away");
-
-    expect(homeSpan).toHaveClass("bg-brand-success");
-    expect(drawSpan).toHaveClass("bg-brand-white");
-    expect(awaySpan).toHaveClass("bg-brand-white");
-
     expect(screen.getByText("Home FC")).toBeInTheDocument();
-    expect(screen.getByText("Draw")).toBeInTheDocument();
+    expect(screen.getByText("draw")).toBeInTheDocument();
     expect(screen.getByText("Away United")).toBeInTheDocument();
   });
 

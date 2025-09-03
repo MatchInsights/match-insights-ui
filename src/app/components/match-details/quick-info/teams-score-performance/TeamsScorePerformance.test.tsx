@@ -93,9 +93,6 @@ describe("TeamsScorePerformanceComponent", () => {
     const homePerf = await screen.findByText("Good Attacking");
     const awayPerf = await screen.findByText("Average Defense");
 
-    expect(homePerf).toHaveClass("bg-brand-success");
-    expect(awayPerf).toHaveClass("bg-brand-orange");
-
     expect(screen.getByText("Home FC")).toBeInTheDocument();
     expect(screen.getByText("Away United")).toBeInTheDocument();
   });

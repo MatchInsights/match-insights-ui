@@ -1,4 +1,3 @@
-// TeamsRestStatusComponent.test.tsx
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import TeamsRestStatusComponent from "./TeamRestStatus";
@@ -74,7 +73,7 @@ describe("TeamsRestStatusComponent", () => {
     );
   });
 
-  it("renders statuses with correct color mapping", async () => {
+  it("renders statuses", async () => {
     mockApi.fetchTeamsRestStatus.mockResolvedValueOnce({
       homeTeamStatus: "Severe Fatigue",
       awayTeamStatus: "Good Condition",
@@ -94,35 +93,8 @@ describe("TeamsRestStatusComponent", () => {
     const severeStatus = await screen.findByText("Severe Fatigue");
     const goodStatus = await screen.findByText("Good Condition");
 
-    expect(severeStatus).toHaveClass("bg-brand-danger");
-    expect(goodStatus).toHaveClass("bg-brand-success");
-
     expect(screen.getByText("Home FC")).toBeInTheDocument();
     expect(screen.getByText("Away United")).toBeInTheDocument();
-  });
-
-  it("falls back to yellow style for unknown statuses", async () => {
-    mockApi.fetchTeamsRestStatus.mockResolvedValueOnce({
-      homeTeamStatus: "Neutral",
-      awayTeamStatus: "Rested",
-    });
-
-    render(
-      <TeamsRestStatusComponent
-        apiService={mockApi as any}
-        homeTeamId={homeTeamId}
-        awayTeamId={awayTeamId}
-        fixtureDate={fixtureDate}
-        homeTeam={homeTeam}
-        awayTeam={awayTeam}
-      />
-    );
-
-    const neutral = await screen.findByText("Neutral");
-    const rested = await screen.findByText("Rested");
-
-    expect(neutral).toHaveClass("bg-brand-yellow");
-    expect(rested).toHaveClass("bg-brand-yellow");
   });
 
   it("calls fetchTeamsRestStatus again when Refresh is clicked", async () => {

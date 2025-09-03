@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import SummariesAndFeeling from "./SummariesAndFeeling";
+import MatchSummaries from "./MatchSummaries";
 
 vi.mock("./match-events/MatchEvents", () => ({
   default: vi.fn(({ title, teamId }) => (
@@ -12,14 +12,6 @@ vi.mock("./ranks-and-points/RanksAndPoints", () => ({
   RanksAndPoints: vi.fn(({ homeTeamId, awayTeamId }) => (
     <div data-testid="ranks-and-points">
       RanksAndPoints: {homeTeamId} vs {awayTeamId}
-    </div>
-  )),
-}));
-
-vi.mock("./odds-winner-feeling/OddsWinnerFeeling", () => ({
-  default: vi.fn(({ homeTeam, awayTeam, fixtureId }) => (
-    <div data-testid="odds-winner-feeling">
-      OddsWinnerFeeling: {homeTeam} vs {awayTeam} ({fixtureId})
     </div>
   )),
 }));
@@ -41,7 +33,7 @@ describe("SummariesAndFeeling", () => {
   });
 
   it("renders all children with correct props", () => {
-    render(<SummariesAndFeeling {...props} />);
+    render(<MatchSummaries {...props} />);
 
     expect(
       screen.getByTestId(`match-events-${props.homeTeamId}`)
@@ -53,10 +45,6 @@ describe("SummariesAndFeeling", () => {
 
     expect(screen.getByTestId("ranks-and-points")).toHaveTextContent(
       "RanksAndPoints: 1 vs 2"
-    );
-
-    expect(screen.getByTestId("odds-winner-feeling")).toHaveTextContent(
-      "OddsWinnerFeeling: Home FC vs Away United (123)"
     );
   });
 });

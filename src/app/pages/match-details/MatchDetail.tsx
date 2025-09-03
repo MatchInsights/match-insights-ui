@@ -8,7 +8,7 @@ import HeadToHead from "../../components/match-details/h2h/HeadToHead";
 import MatchOdds from "../../components/match-details/match-odds/MatchOdds";
 import SubHeader from "../../components/sub-header/SubHeader";
 import QuickInfo from "../../components/match-details/quick-info/QuickInfo";
-import SummariesAndFeeling from "../../components/match-details/summaries-and-feeling/SummariesAndFeeling";
+import MatchSummaries from "../../components/match-details/summaries/MatchSummaries";
 import SeasonStats from "../../components/match-details/team-stats/season-stats/SeasonStats";
 import H2hStats from "../../components/match-details/team-stats/h2h-stats/H2hStats";
 
@@ -82,15 +82,15 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           awayTeamId={awayTeam.id}
           leagueId={league.id}
           fixtureDate={date}
+          matchId={Number(id)}
         />
-        <SummariesAndFeeling
+        <MatchSummaries
           apiService={apiService}
           homeTeam={homeTeam.name}
           homeTeamId={homeTeam.id}
           awayTeam={awayTeam.name}
           awayTeamId={awayTeam.id}
           leagueId={league.id}
-          matchId={Number(id)}
         />
         <SeasonStats
           title="Both teams Season Stats"
