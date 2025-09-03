@@ -53,7 +53,7 @@ const OddsWinnerFeelingComponent = ({
   if (loading)
     return (
       <PreDisplay
-        title="Odds Winner Feeling"
+        title="Winner Feeling"
         titleClass="text-brand-orange font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching Odds Winner Feeling." />}
@@ -63,7 +63,7 @@ const OddsWinnerFeelingComponent = ({
   if (!loading && !data)
     return (
       <PreDisplay
-        title="Odds Winner Feeling"
+        title="Winner Feeling"
         onRefresh={fetchData}
         titleClass="text-brand-orange font-semibold text-lg font-bold"
         child={
@@ -74,7 +74,7 @@ const OddsWinnerFeelingComponent = ({
 
   return (
     <PreDisplay
-      title="Odds Winner Feeling"
+      title="Winner Feeling"
       onRefresh={fetchData}
       titleClass="text-brand-orange font-semibold text-lg font-bold"
       child={

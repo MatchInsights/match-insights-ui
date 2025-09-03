@@ -58,7 +58,7 @@ const TeamsRestStatusComponent = ({
   if (loading)
     return (
       <PreDisplay
-        title="Teams Rest Status"
+        title="Rest Status"
         titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
           <NoData displayedMessage="Fetching Rest status for both teams." />
@@ -70,7 +70,7 @@ const TeamsRestStatusComponent = ({
   if (!loading && !data)
     return (
       <PreDisplay
-        title="Teams Rest Status"
+        title="Rest Status"
         titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
           <NoData displayedMessage="Failed Fetching Rest status for both teams." />
@@ -81,7 +81,7 @@ const TeamsRestStatusComponent = ({
 
   return (
     <PreDisplay
-      title="Teams Rest Status"
+      title="Rest Status"
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={

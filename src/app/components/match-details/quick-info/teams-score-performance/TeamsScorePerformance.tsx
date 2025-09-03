@@ -57,7 +57,7 @@ const TeamsScorePerformanceComponent = ({
   if (loading)
     return (
       <PreDisplay
-        title="Teams Score Performance"
+        title="Score Performance"
         onRefresh={fetchData}
         titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
@@ -69,7 +69,7 @@ const TeamsScorePerformanceComponent = ({
   if (!loading && !data)
     return (
       <PreDisplay
-        title="Teams Score Performance"
+        title="Score Performance"
         onRefresh={fetchData}
         titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
@@ -80,7 +80,7 @@ const TeamsScorePerformanceComponent = ({
 
   return (
     <PreDisplay
-      title="Teams Score Performance"
+      title="Score Performance"
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
