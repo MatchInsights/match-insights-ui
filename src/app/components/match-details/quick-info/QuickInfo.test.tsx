@@ -26,6 +26,14 @@ vi.mock("./teams-score-performance/TeamsScorePerformance", () => ({
   )),
 }));
 
+vi.mock("./odds-winner-feeling/OddsWinnerFeeling", () => ({
+  default: vi.fn(({ homeTeam, awayTeam }) => (
+    <div data-testid="odds-winner-feeling">
+      OddsWinnerFeeling: {homeTeam} vs {awayTeam}
+    </div>
+  )),
+}));
+
 describe("QuickInfo", () => {
   const mockApi = {} as any;
   const props = {
@@ -53,6 +61,9 @@ describe("QuickInfo", () => {
     );
     expect(screen.getByTestId("teams-rest-status")).toHaveTextContent(
       "RestStatus: Home FC vs Away United"
+    );
+    expect(screen.getByTestId("odds-winner-feeling")).toHaveTextContent(
+      "OddsWinnerFeeling: Home FC vs Away United"
     );
   });
 });

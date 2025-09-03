@@ -21,6 +21,7 @@ export const ArrowStatusTile = ({
     <div className="grid grid-cols-1 w-full">
       <div className="flex flex-row items-left justify-left rounded">
         <div
+          data-testid="arrow-icon"
           className={`flex flex-shrink-0 items-center m-2 justify-center h-10 w-10 rounded
             ${arrowColor()}`}
         >
