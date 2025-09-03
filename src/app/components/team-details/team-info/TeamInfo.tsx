@@ -1,5 +1,5 @@
 import { TeamDetails } from "../../../types/types";
-import TeamLogo from "../../team-logo/TeamLogo";
+import Logo from "../../logo/Logo";
 
 interface TeamDetailsComponentProps {
   teamDetails: TeamDetails;
@@ -10,7 +10,7 @@ export const TeamInfo = ({ teamDetails }: TeamDetailsComponentProps) => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="text-center md:text-left m-2 p-2">
-          <TeamLogo
+          <Logo
             src={teamDetails.teamLogo}
             customImageClass="w-24 h-24 md:w-28 md:h-28  bg-transparent "
             customIconWrapperClass="w-24 h-24 md:w-28 md:h-28  bg-transparent flex items-center justify-center"

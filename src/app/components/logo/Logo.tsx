@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { FaShieldAlt } from "react-icons/fa";
 
-interface TeamLogoProps {
+interface LogoProps {
   src?: string;
   customIconClass?: string;
   customImageClass?: string;
   customIconWrapperClass?: string;
 }
 
-const TeamLogo = ({
+const Logo = ({
   src,
   customIconWrapperClass,
   customIconClass,
   customImageClass,
-}: TeamLogoProps) => {
+}: LogoProps) => {
   const [error, setError] = useState(false);
 
   if (!src || error) {
@@ -43,4 +43,4 @@ const TeamLogo = ({
   );
 };
 
-export default TeamLogo;
+export default Logo;

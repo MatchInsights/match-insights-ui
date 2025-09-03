@@ -1,30 +1,67 @@
 import { useEffect, useState } from "react";
-import { LeagueStandingInfo } from "../../types/types";
+import { LeagueInfo, LeagueTeamInfo } from "../../types/league-types";
 import { useParams } from "react-router-dom";
 import NoData from "../../components/no-data/NoData";
 import SubHeader from "../../components/sub-header/SubHeader";
 import { ApiService } from "../../services/apiService";
+import { CategoryPills } from "../../components/CategoryPills/CategoryPills";
+import { LeagueTable } from "../../components/league-table/LeagueTable";
+import Logo from "../../components/logo/Logo";
 
 interface LeagueStandingProps {
   apiService: ApiService;
 }
 
 export default function LeagueStanding({ apiService }: LeagueStandingProps) {
-  const [standings, setStandings] = useState<LeagueStandingInfo[]>([]);
+  const [leagueInfo, setLeagueInfo] = useState<LeagueInfo | null>(null);
   const { leagueId } = useParams<{ leagueId: string }>();
   const [loading, setLoading] = useState(true);
+
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  const [categories, setCategories] = useState<string[]>([]);
+
+  const [teams, setTeams] = useState<LeagueTeamInfo[]>([]);
+
+  const getCategories = (data: LeagueInfo): string[] => {
+    return [
+      ...Array.from(new Set(data.group.map((it) => it.label ?? "default"))),
+    ];
+  };
+
+  const setTeamsByCategory = (category: string) => {
+    const selectedGroup = leagueInfo?.group.filter(
+      (it) => it.label === category
+    );
+
+    setSelectedCategory(category);
+    if (selectedGroup && selectedGroup.length > 0) {
+      setTeams(selectedGroup[0].teams);
+    } else {
+      setTeams(leagueInfo?.group[0].teams ?? []);
+    }
+  };
 
   const fetchData = () => {
     if (leagueId) {
       apiService
         .fetchLeagueStanding(Number(leagueId))
         .then((data) => {
-          setStandings(data);
+          const categories = getCategories(data);
+          const firstCategory = categories[0];
+          const selectedGroup = data.group.find(
+            (g) => g.label === firstCategory
+          );
+
+          setLeagueInfo(data);
+          setCategories(categories);
+          setSelectedCategory(firstCategory);
+          setTeams(selectedGroup ? selectedGroup.teams : data.group[0].teams);
           setLoading(false);
         })
         .catch(() => {
           setLoading(false);
-          setStandings([]);
+          setLeagueInfo(null);
         });
     }
   };
@@ -35,7 +72,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
 
   if (loading) return <NoData displayedMessage="Fetching League Details." />;
 
-  if (!loading && standings.length === 0)
+  if (!loading && !leagueInfo)
     return (
       <div>
         <SubHeader
@@ -56,57 +93,24 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         onRefresh={fetchData}
         displayAnimation={true}
       />
-
-      {standings.length === 0 ? (
-        <p className="bg-brand-danger text-center py-4 rounded-lg">
-          No League Info.
-        </p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse text-sm md:text-base">
-            <thead>
-              <tr className="bg-brand-navbar text-brand-lightGray">
-                <th className="p-2 text-center">#</th>
-                <th className="p-2 text-left">Team</th>
-                <th className="p-2 text-center">Pts</th>
-                <th className="p-2 text-center">P</th>
-                <th className="p-2 text-center">W</th>
-                <th className="p-2 text-center">D</th>
-                <th className="p-2 text-center">L</th>
-                <th className="p-2 text-center">GF</th>
-                <th className="p-2 text-center">GA</th>
-                <th className="p-2 text-center">Form</th>
-              </tr>
-            </thead>
-            <tbody>
-              {standings.map((team) => (
-                <tr
-                  key={team.rank}
-                  className="border-b border-brand-card hover:bg-brand-card transition-colors"
-                >
-                  <td className="text-center py-2">{team.rank}</td>
-                  <td className="flex items-center gap-2 py-2">
-                    <img
-                      src={team.logo}
-                      alt={""}
-                      className="w-5 h-5 md:w-6 md:h-6"
-                    />
-                    <span>{team.teamName}</span>
-                  </td>
-                  <td className="text-center">{team.points}</td>
-                  <td className="text-center">{team.played}</td>
-                  <td className="text-center">{team.won}</td>
-                  <td className="text-center">{team.draw}</td>
-                  <td className="text-center">{team.lost}</td>
-                  <td className="text-center">{team.goalsFor}</td>
-                  <td className="text-center">{team.goalsAgainst}</td>
-                  <td className="text-center">{team.form}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="text-center md:text-left m-2 p-2">
+          <h1
+            data-testid="h1-category"
+            className="text-lg font-bold text-brand-yellow"
+          >
+            {selectedCategory} - {leagueInfo?.season}
+          </h1>
         </div>
-      )}
+      </div>
+      <div className="sticky top-0 bg-black z-10 p-1">
+        <CategoryPills
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelect={setTeamsByCategory}
+        />
+      </div>
+      <LeagueTable teams={teams} />
     </div>
   );
 }

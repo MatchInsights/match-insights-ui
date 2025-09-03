@@ -34,6 +34,8 @@ export default function MatchSummaries({
       />
 
       <RanksAndPoints
+        homeTeam={homeTeam}
+        awayTeam={awayTeam}
         homeTeamId={homeTeamId}
         awayTeamId={awayTeamId}
         leagueId={leagueId}

@@ -1,11 +1,9 @@
 import {
   TodayMatch,
-  LeagueStandingInfo,
   MatchDetails,
   TeamForm,
   H2HDetails,
   TwoTeamStats,
-  TeamPositionsAndPoints,
   Bet,
   LastFiveMatchesEvents,
   TeamsRestStatus,
@@ -15,9 +13,11 @@ import {
   PlayerSummary,
 } from "../types/types";
 
+import { LeagueInfo, TeamPositionsAndPoints } from "../types/league-types";
+
 export interface ApiService {
   fetchTodayMatches(status: string): Promise<TodayMatch[]>;
-  fetchLeagueStanding(leagueId: number): Promise<LeagueStandingInfo[]>;
+  fetchLeagueStanding(leagueId: number): Promise<LeagueInfo>;
   fetchMatchDetails(matchId: number): Promise<MatchDetails>;
   fetchLastFiveMatches(
     homeTeamId: number,

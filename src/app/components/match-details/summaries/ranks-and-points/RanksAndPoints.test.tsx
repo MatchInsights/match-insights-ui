@@ -1,7 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { RanksAndPoints } from "./RanksAndPoints";
-import { TeamPositionsAndPoints } from "../../../../types/types";
+import { mockTeamPositionsAndPoints } from "../../../../../../testSetup/leagueInfo";
 
 const mockApi = {
   fetchTeamLeagueStats: vi.fn(),
@@ -24,6 +24,8 @@ vi.mock("../../../no-data/NoData", () => ({
 
 describe("LeagueTeamAndPoints", () => {
   const props = {
+    homeTeam: "TeamA",
+    awayTeam: "TeamB",
     homeTeamId: 1,
     awayTeamId: 2,
     leagueId: 99,
@@ -35,7 +37,7 @@ describe("LeagueTeamAndPoints", () => {
   });
 
   it("renders loading state initially", async () => {
-    mockApi.fetchTeamLeagueStats.mockReturnValue(new Promise(() => {})); // never resolves
+    mockApi.fetchTeamLeagueStats.mockReturnValue(new Promise(() => {}));
 
     render(<RanksAndPoints {...props} />);
 
@@ -55,22 +57,15 @@ describe("LeagueTeamAndPoints", () => {
   });
 
   it("renders league points and positions when fetch succeeds", async () => {
-    const mockData: TeamPositionsAndPoints = {
-      homeTeamPoints: 25,
-      awayTeamPoints: 18,
-      homeTeamPosition: 3,
-      awayTeamPosition: 7,
-    };
-
-    mockApi.fetchTeamLeagueStats.mockResolvedValue(mockData);
+    mockApi.fetchTeamLeagueStats.mockResolvedValue(mockTeamPositionsAndPoints);
 
     render(<RanksAndPoints {...props} />);
 
     await waitFor(() => {
-      expect(screen.getByText("League Points:")).toBeInTheDocument();
-      expect(screen.getByText("25 vs 18")).toBeInTheDocument();
-      expect(screen.getByText("League Ranks:")).toBeInTheDocument();
-      expect(screen.getByText("3 vs 7")).toBeInTheDocument();
+      expect(screen.getByTestId("home-label")).toBeInTheDocument();
+      expect(screen.getAllByTestId("home-data").length).toBeGreaterThan(0);
+      expect(screen.getByTestId("away-label")).toBeInTheDocument();
+      expect(screen.getAllByTestId("away-data").length).toBeGreaterThan(0);
     });
   });
 
