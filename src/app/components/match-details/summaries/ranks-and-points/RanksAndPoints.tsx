@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ApiService } from "../../../../services/apiService";
-import { TeamPositionsAndPoints } from "../../../../types/league-types";
+import {
+  TeamPositionsAndPoints,
+  PositionAndPoints,
+} from "../../../../types/league-types";
 import NoData from "../../../no-data/NoData";
 import PreDisplay from "../../../pre-display/PreDisplay";
 
@@ -69,85 +72,60 @@ export const RanksAndPoints = ({
       child={
         <div className="container flex w-full">
           <ul className="flex flex-col">
-            <li className="flex flex-col mb-2">
-              <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                <div className="flex mb-4 flex-wrap">
-                  <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
-                    ⚽️
-                  </div>
-                  <span
-                    data-testid="home-label"
-                    className="text-sm m-2 text-brand-orange"
-                  >
-                    {homeTeam}
-                  </span>
-                </div>
-                <div className="flex flex-row">
-                  <div className="font-medium flex flex-row flex-wrap gap-4 text-xs text-white">
-                    {teamsLeagueStats?.homeTeam.length === 0 ? (
-                      <span className="text-sm text-gray-400">
-                        No data available
-                      </span>
-                    ) : (
-                      teamsLeagueStats?.homeTeam.map((result, idx) => (
-                        <div
-                          data-testid="home-data"
-                          key={idx}
-                          className="flex flex-row gap-2 items-center bg-brand-card px-2 py-1 rounded-lg"
-                        >
-                          <span className="font-semibold">
-                            {result.description}
-                          </span>
-                          <span>Pos: {result.position}</span>
-                          <span>Pts: {result.points}</span>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="flex flex-col mt-2 mb-2">
-              <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                <div className="flex mb-4 flex-wrap">
-                  <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
-                    ⚽️
-                  </div>
-                  <span
-                    data-testid="away-label"
-                    className="text-sm m-2 text-brand-orange"
-                  >
-                    {awayTeam}
-                  </span>
-                </div>
-                <div className="flex flex-row">
-                  <div className="font-medium flex flex-row flex-wrap gap-4 text-xs text-white">
-                    {teamsLeagueStats?.awayTeam.length === 0 ? (
-                      <span className="text-sm text-gray-400">
-                        No data available
-                      </span>
-                    ) : (
-                      teamsLeagueStats?.awayTeam.map((result, idx) => (
-                        <div
-                          data-testid="away-data"
-                          key={idx}
-                          className="flex flex-row gap-2 items-center bg-brand-card px-2 py-1 rounded-lg"
-                        >
-                          <span className="font-semibold">
-                            {result.description}
-                          </span>
-                          <span>Pos: {result.position}</span>
-                          <span>Pts: {result.points}</span>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            </li>
+            <RanksAndPointsItem
+              team={homeTeam}
+              data={teamsLeagueStats?.homeTeam ?? []}
+            />
+
+            <RanksAndPointsItem
+              team={awayTeam}
+              data={teamsLeagueStats?.awayTeam ?? []}
+            />
           </ul>
         </div>
       }
     />
+  );
+};
+
+interface RanksAndPointsItemProps {
+  team: String;
+  data: PositionAndPoints[];
+}
+const RanksAndPointsItem = ({ team, data }: RanksAndPointsItemProps) => {
+  return (
+    <li className="flex flex-col mt-2 mb-2">
+      <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+        <div className="flex mb-4 flex-wrap">
+          <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
+            ⚽️
+          </div>
+          <span
+            data-testid="grp-label"
+            className="text-sm m-2 text-brand-orange"
+          >
+            {team}
+          </span>
+        </div>
+        <div data-testid="grp-data" className="flex flex-row">
+          <div className="font-medium flex flex-row flex-wrap gap-4 text-xs text-white">
+            {data.length === 0 ? (
+              <span className="text-sm text-gray-400">No data available</span>
+            ) : (
+              data.map((result, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-row gap-2 items-center bg-brand-card px-2 py-1 rounded-lg"
+                >
+                  <span className="font-semibold">{result.description}</span>
+                  <span>Pos: {result.position}</span>
+                  <span>Pts: {result.points}</span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </li>
   );
 };

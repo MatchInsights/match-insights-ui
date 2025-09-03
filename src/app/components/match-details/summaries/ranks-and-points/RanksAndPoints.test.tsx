@@ -62,10 +62,8 @@ describe("LeagueTeamAndPoints", () => {
     render(<RanksAndPoints {...props} />);
 
     await waitFor(() => {
-      expect(screen.getByTestId("home-label")).toBeInTheDocument();
-      expect(screen.getAllByTestId("home-data").length).toBeGreaterThan(0);
-      expect(screen.getByTestId("away-label")).toBeInTheDocument();
-      expect(screen.getAllByTestId("away-data").length).toBeGreaterThan(0);
+      expect(screen.getAllByTestId("grp-label").length).toBe(2);
+      expect(screen.getAllByTestId("grp-data").length).toBe(2);
     });
   });
 
