@@ -1,11 +1,9 @@
 import {
   TodayMatch,
-  LeagueStandingInfo,
   MatchDetails,
   TeamForm,
   H2HDetails,
   TwoTeamStats,
-  TeamPositionsAndPoints,
   Bet,
   LastFiveMatchesEvents,
   TeamsRestStatus,
@@ -14,6 +12,9 @@ import {
   TeamDetails,
   PlayerSummary,
 } from "../types/types";
+
+import { LeagueInfo, TeamPositionsAndPoints } from "../types/league-types";
+
 import apiFetch from "./apiConfig";
 import { ApiService } from "./apiService";
 
@@ -36,10 +37,8 @@ export class ApiServiceImplementation implements ApiService {
     return response.data;
   }
 
-  public async fetchLeagueStanding(
-    leagueId: Number
-  ): Promise<LeagueStandingInfo[]> {
-    const response = await apiFetch.get<LeagueStandingInfo[]>(
+  public async fetchLeagueStanding(leagueId: Number): Promise<LeagueInfo> {
+    const response = await apiFetch.get<LeagueInfo>(
       `/api/league/standing/${leagueId}`
     );
     return response.data;

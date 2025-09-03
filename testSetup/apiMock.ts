@@ -1,11 +1,9 @@
 import {
   TodayMatch,
-  LeagueStandingInfo,
   MatchDetails,
   TeamForm,
   H2HDetails,
   TwoTeamStats,
-  TeamPositionsAndPoints,
   Bet,
   LastFiveMatchesEvents,
   TeamsRestStatus,
@@ -16,19 +14,23 @@ import {
 } from "../src/app/types/types";
 
 import {
+  LeagueInfo,
+  TeamPositionsAndPoints,
+} from "../src/app/types/league-types";
+import {
   oddsWinnerFeeling,
   teamRestStatus,
   teamScorePerformance,
 } from "./mockdata";
 import { mockTodayMatches } from "./matches";
-import { mockStandings } from "./leagueInfo";
+import { mockLeagueInfo, mockTeamPositionsAndPoints } from "./leagueInfo";
 import { mockMatchDetails } from "./matchDetails";
 import { lastFiveData } from "./teamsform";
 import { mockH2HDetails } from "./head2head";
 import { bets } from "./odds";
 import { lastfiveEvents } from "./lastfivematchesevents";
 import { players, teamDetails } from "./team";
-import { mockTwoTeamStats, mockTeamsLeagueStats } from "./twoteamsstats";
+import { mockTwoTeamStats } from "./twoteamsstats";
 import { ApiService } from "../src/app/services/apiService";
 
 export class MockApiServiceImplementation implements ApiService {
@@ -49,11 +51,9 @@ export class MockApiServiceImplementation implements ApiService {
     return Promise.resolve(mockTodayMatches);
   }
 
-  public async fetchLeagueStanding(
-    leagueId: Number
-  ): Promise<LeagueStandingInfo[]> {
+  public async fetchLeagueStanding(leagueId: Number): Promise<LeagueInfo> {
     console.log(leagueId);
-    return Promise.resolve(mockStandings);
+    return Promise.resolve(mockLeagueInfo);
   }
 
   public async fetchMatchDetails(matchId: number): Promise<MatchDetails> {
@@ -100,7 +100,7 @@ export class MockApiServiceImplementation implements ApiService {
     leagueId: number
   ): Promise<TeamPositionsAndPoints> {
     console.log(homeTeamId, awayTeamId, leagueId);
-    return Promise.resolve(mockTeamsLeagueStats);
+    return Promise.resolve(mockTeamPositionsAndPoints);
   }
 
   public async fetchOdds(fixtureId: number): Promise<Bet[]> {

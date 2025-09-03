@@ -59,20 +59,6 @@ export interface TodayMatch {
   awayTeam: Team;
 }
 
-export interface LeagueStandingInfo {
-  rank: number;
-  teamName: string;
-  logo: string;
-  points: number;
-  played: number;
-  won: number;
-  draw: number;
-  lost: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  form: string;
-}
-
 export interface TeamForm {
   homeTeamLastFive: string[];
   awayTeamLastFive: string[];
@@ -106,13 +92,6 @@ export interface TeamStats {
 export interface TwoTeamStats {
   team0: TeamStats;
   team1: TeamStats;
-}
-
-export interface TeamPositionsAndPoints {
-  homeTeamPosition?: number;
-  awayTeamPosition?: number;
-  homeTeamPoints?: number;
-  awayTeamPoints?: number;
 }
 
 export interface Odd {

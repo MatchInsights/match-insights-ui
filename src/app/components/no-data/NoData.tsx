@@ -27,17 +27,17 @@ export default function NoData({ displayedMessage }: NoDataProps) {
   );
   return (
     <div
-      className={`flex flex-col justify-left items-left text-left gap-4 m-8`}
+      className={`flex flex-col justify-left items-left text-left gap-1 m-2`}
     >
       <img
         src={randomGif}
         alt="status gif"
         className="
           w-40 h-40 
-          object-contain mb-6
+          object-contain mb-2
         "
       />
-      <p className="text-lg md:text-xl font-medium">{displayedMessage}</p>
+      <p className="text-xs font-medium">{displayedMessage}</p>
     </div>
   );
 }

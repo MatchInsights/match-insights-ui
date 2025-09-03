@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import DetailsHeader from "./DetailsHeader";
 
-vi.mock("../../../team-logo/TeamLogo", () => ({
+vi.mock("../../../logo/Logo", () => ({
   default: ({ src }: { src: string }) => <img src={src} alt="team logo" />,
 }));
 

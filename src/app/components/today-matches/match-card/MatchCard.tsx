@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { TodayMatch } from "../../../types/types";
-import TeamLogo from "../../team-logo/TeamLogo";
+import Logo from "../../logo/Logo";
 
 interface MatchCardProps {
   todayMatch: TodayMatch;
@@ -28,8 +28,8 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
     <div className="py-4 px-4 rounded-3xl w-full my-4 shadow-xl">
       <div className="flex flex-col md:flex-row justify-center md:justify-between items-center">
         <div className="flex flex-row items-center text-center">
-          <TeamLogo src={homeTeam?.logo} />
-          <TeamLogo src={awayTeam?.logo} />
+          <Logo src={homeTeam?.logo} />
+          <Logo src={awayTeam?.logo} />
         </div>
 
         <div className="flex flex-col mt-4 md:mt-0 justify-center items-center text-center">

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Team } from "../../../../types/types";
-import TeamLogo from "../../../team-logo/TeamLogo";
+import Logo from "../../../logo/Logo";
 
 interface DetailHeaderProps {
   homeTeam: Team;
@@ -19,7 +19,7 @@ export default function DetailsHeader({
         className=" hover:text-brand-white hover:underline transition duration-300"
       >
         <div className="flex items-center gap-2 w-full">
-          <TeamLogo src={homeTeam.logo} />
+          <Logo src={homeTeam.logo} />
           <span className="text-brand-orange hover:text-brand-yellow text-xl font-bold">
             {homeTeam.name}
           </span>
@@ -32,7 +32,7 @@ export default function DetailsHeader({
         className=" hover:text-brand-white hover:underline transition duration-300"
       >
         <div className="flex items-center gap-2 w-full">
-          <TeamLogo src={awayTeam.logo} />
+          <Logo src={awayTeam.logo} />
           <span className="text-brand-orange hover:text-brand-yellow text-xl font-bold">
             {awayTeam.name}
           </span>

@@ -38,9 +38,11 @@ export const DetailsMainInfo = ({
         </Link>
 
         <div className="text-sm">
-          <p className="text-brand-lightGray">
-            📍 {venue.name}, {venue.city}
-          </p>
+          {venue.name && venue.city && (
+            <p className="text-brand-lightGray">
+              📍 {venue.name}, {venue.city}
+            </p>
+          )}
 
           <p className="text-brand-yellow m-2">
             📅 {new Date(date).toLocaleString()}

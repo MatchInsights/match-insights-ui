@@ -1,67 +1,137 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import LeagueStanding from "./LeagueStanding";
-import { mockStandings } from "../../../../testSetup/leagueInfo";
+import { LeagueInfo } from "../../types/league-types";
 
-describe("LeagueStanding Component", () => {
-  let mockApiService: any;
+vi.mock("../../components/no-data/NoData", () => ({
+  default: ({ displayedMessage }: { displayedMessage: string }) => (
+    <div data-testid="no-data">{displayedMessage}</div>
+  ),
+}));
+
+vi.mock("../../components/sub-header/SubHeader", () => ({
+  default: ({ title }: { title: string }) => (
+    <div data-testid="sub-header">{title}</div>
+  ),
+}));
+
+vi.mock("../../components/CategoryPills/CategoryPills", () => ({
+  CategoryPills: ({
+    categories,
+    selectedCategory,
+  }: {
+    categories: string[];
+    selectedCategory: string;
+  }) => (
+    <div data-testid="category-pills">
+      {categories.join(",")} - {selectedCategory}
+    </div>
+  ),
+}));
+
+vi.mock("../../components/league-table/LeagueTable", () => ({
+  LeagueTable: ({ teams }: { teams: any[] }) => (
+    <div data-testid="league-table">{teams.length} teams</div>
+  ),
+}));
+
+vi.mock("../../components/logo/Logo", () => ({
+  default: ({ src }: { src: string }) => (
+    <img data-testid="logo" src={src} alt="logo" />
+  ),
+}));
+
+const mockLeagueInfo: LeagueInfo = {
+  id: 1,
+  name: "Mock League",
+  country: "Mockland",
+  logo: "https://mock-logo.png",
+  flag: "https://mock-flag.png",
+  season: 2025,
+  group: [
+    {
+      label: "Group A",
+      teams: [
+        {
+          teamId: 1,
+          rank: 1,
+          teamName: "Team A",
+          logo: "https://team-a.png",
+          points: 10,
+          played: 5,
+          won: 3,
+          draw: 1,
+          lost: 1,
+          goalsFor: 8,
+          goalsAgainst: 4,
+          form: "WWDLW",
+          update: "2025-02-01",
+        },
+      ],
+    },
+  ],
+};
+
+function renderWithRouter(ui: React.ReactNode, leagueId: string) {
+  return render(
+    <MemoryRouter initialEntries={[`/league/${leagueId}`]}>
+      <Routes>
+        <Route path="/league/:leagueId" element={ui} />
+      </Routes>
+    </MemoryRouter>
+  );
+}
+
+describe("LeagueStanding", () => {
+  let apiService: any;
 
   beforeEach(() => {
-    mockApiService = {
+    apiService = {
       fetchLeagueStanding: vi.fn(),
     };
   });
 
-  const renderComponent = (leagueId: string) =>
-    render(
-      <MemoryRouter initialEntries={[`/league/${leagueId}`]}>
-        <Routes>
-          <Route
-            path="/league/:leagueId"
-            element={<LeagueStanding apiService={mockApiService} />}
-          />
-        </Routes>
-      </MemoryRouter>
+  it("renders loading state initially", () => {
+    apiService.fetchLeagueStanding.mockReturnValue(new Promise(() => {}));
+
+    renderWithRouter(<LeagueStanding apiService={apiService} />, "1");
+
+    expect(screen.getByTestId("no-data")).toHaveTextContent(
+      "Fetching League Details."
+    );
+  });
+
+  it("renders error state when API fails", async () => {
+    apiService.fetchLeagueStanding.mockRejectedValue(new Error("API Error"));
+
+    renderWithRouter(<LeagueStanding apiService={apiService} />, "1");
+
+    await waitFor(() =>
+      expect(screen.getByTestId("no-data")).toHaveTextContent(
+        "League Details Not Found."
+      )
+    );
+  });
+  it("renders league info on success", async () => {
+    apiService.fetchLeagueStanding.mockResolvedValue(mockLeagueInfo);
+
+    renderWithRouter(<LeagueStanding apiService={apiService} />, "1");
+
+    expect(await screen.findByTestId("sub-header")).toHaveTextContent(
+      "League Standing"
     );
 
-  it("renders loading state initially", () => {
-    mockApiService.fetchLeagueStanding.mockReturnValue(new Promise(() => {}));
-    renderComponent("1");
+    expect(await screen.getByTestId("h1-category")).toHaveTextContent(
+      "Group A - 2025"
+    );
 
-    expect(screen.getByText(/Fetching League Details/i)).toBeDefined();
-  });
+    expect(await screen.findByTestId("category-pills")).toHaveTextContent(
+      "Group A - Group A"
+    );
 
-  it("renders no data message when API returns empty array", async () => {
-    mockApiService.fetchLeagueStanding.mockResolvedValue([]);
-    renderComponent("1");
-
-    await waitFor(() => {
-      expect(screen.getByText(/League Details Not Found/i)).toBeDefined();
-    });
-  });
-
-  it("renders league standings table when data is returned", async () => {
-    mockApiService.fetchLeagueStanding.mockResolvedValue(mockStandings);
-    renderComponent("1");
-
-    await waitFor(() => {
-      expect(screen.getByText(mockStandings[0].teamName)).toBeDefined();
-      expect(screen.getByText(mockStandings[1].teamName)).toBeDefined();
-    });
-  });
-
-  it("calls fetchData again when refresh button is clicked", async () => {
-    mockApiService.fetchLeagueStanding.mockResolvedValue(mockStandings);
-    renderComponent("1");
-
-    await waitFor(() => {
-      expect(screen.getByText(mockStandings[0].teamName)).toBeDefined();
-    });
-
-    const refreshButton = screen.getByTitle("Refresh");
-    fireEvent.click(refreshButton);
-
-    expect(mockApiService.fetchLeagueStanding).toHaveBeenCalledTimes(2);
+    expect(await screen.findByTestId("league-table")).toHaveTextContent(
+      "1 teams"
+    );
   });
 });
