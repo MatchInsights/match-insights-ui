@@ -84,12 +84,12 @@ export const RanksAndPoints = ({
                 </div>
                 <div className="flex flex-row">
                   <div className="font-medium flex flex-row flex-wrap gap-4 text-xs text-white">
-                    {teamsLeagueStats?.awayTeam.length === 0 ? (
+                    {teamsLeagueStats?.homeTeam.length === 0 ? (
                       <span className="text-sm text-gray-400">
                         No data available
                       </span>
                     ) : (
-                      teamsLeagueStats?.awayTeam.map((result, idx) => (
+                      teamsLeagueStats?.homeTeam.map((result, idx) => (
                         <div
                           data-testid="home-data"
                           key={idx}
