@@ -96,7 +96,7 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         <div className="text-center md:text-left m-2 p-2">
           <h1
             data-testid="h1-category"
-            className="text-lg font-bold text-brand-yellow"
+            className="text-lg font-bold text-brand-orange"
           >
             {selectedCategory} - {leagueInfo?.season}
           </h1>

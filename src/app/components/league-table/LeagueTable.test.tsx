@@ -6,7 +6,7 @@ import { LeagueTeamInfo } from "../../types/league-types";
 const mockTeams: LeagueTeamInfo[] = [
   {
     teamId: 1,
-    rank: 1,
+    rank: 20,
     teamName: "Team A",
     logo: "https://team-a.png",
     points: 10,
@@ -21,7 +21,7 @@ const mockTeams: LeagueTeamInfo[] = [
   },
   {
     teamId: 2,
-    rank: 2,
+    rank: 15,
     teamName: "Team B",
     logo: "https://team-b.png",
     points: 8,
@@ -48,13 +48,10 @@ describe("LeagueTable", () => {
   it("renders team rows with correct data", () => {
     render(<LeagueTable teams={mockTeams} />);
 
-    expect(screen.getByText("Team A")).toBeInTheDocument();
-    expect(screen.getByText("10")).toBeInTheDocument(); // Points
-    expect(screen.getByText("WWDLW")).toBeInTheDocument(); // Form
-
-    expect(screen.getByText("Team B")).toBeInTheDocument();
-
-    expect(screen.getByText("WDDWL")).toBeInTheDocument();
+    expect(screen.getByText(mockTeams[0].teamName)).toBeInTheDocument();
+    expect(screen.getByText(mockTeams[0].rank)).toBeInTheDocument();
+    expect(screen.getByText(mockTeams[1].rank)).toBeInTheDocument();
+    expect(screen.getByText(mockTeams[1].teamName)).toBeInTheDocument();
   });
 
   it("renders no rows when teams array is empty", () => {

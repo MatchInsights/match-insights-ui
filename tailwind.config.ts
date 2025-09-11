@@ -19,6 +19,7 @@ const config: Config = {
         },
         brand: {
           orange: "#FF6B00",
+          aqua: "#0b6860ff",
           yellow: "#ffc61a",
           white: "#FFFFFF",
           lightGray: "#B0B0B0",
@@ -30,7 +31,9 @@ const config: Config = {
           green: "#6faa54",
           red: "#ff4848",
           danger: "#D50000",
-          royalblue: "#153483",
+          royalblue: "#0d2769ff",
+          royalblue_old: "#153483",
+          blueintense: "#0f2150ff",
           bluelight: "#AEE8FF",
         },
         darkText: "#E4E4E4",

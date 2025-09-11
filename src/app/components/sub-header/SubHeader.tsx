@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FiRefreshCw } from "react-icons/fi";
 import { BallAnimation } from "../ball-animation/BallAnimation";
+import { FiArrowLeft } from "react-icons/fi";
 
 interface SubHeaderProps {
   title: string;
@@ -43,9 +44,7 @@ export default function SubHeader({
             className="p-2 rounded-full flex items-center justify-center hover:bg-brand-bluelight hover:text-brand-darkBg"
             title="Go back"
           >
-            <span data-testid="arrow-back-icon" className="text-2xl">
-              &larr;
-            </span>
+          <FiArrowLeft className="w-5 h-5" />
           </button>
         )}
       </div>
