@@ -4,11 +4,11 @@ const About = () => {
       <div className="max-w-5xl mx-auto text-center md:text-left">
         <h2
           data-testid="header-0"
-          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
+          className="text-2xl md:text-2xl font-bold text-brand-white mb-8"
         >
           About This App
         </h2>
-        <p data-testid="text-0" className="text-xl leading-relaxed mb-6">
+        <p data-testid="text-0" className="text-l leading-relaxed mb-6">
           This Football App is designed for passionate fans who want to stay
           connected to the game they love anytime, anywhere. From thrilling live
           matches to deep dives into past performances, the app offers a
@@ -21,11 +21,11 @@ const About = () => {
         </p>
         <h2
           data-testid="header-1"
-          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
+          className="text-2xl md:text-2xl font-bold text-brand-white mb-8"
         >
           Our Mission
         </h2>
-        <p data-testid="text-1" className="text-xl leading-relaxed mb-6">
+        <p data-testid="text-1" className="text-l leading-relaxed mb-6">
           The heart of this project is all about making the world of football
           easier to explore and more enjoyable to experience. We believe that
           every fan should have quick access to the stories behind the scores
@@ -38,11 +38,11 @@ const About = () => {
         </p>
         <h2
           data-testid="header-2"
-          className="text-3xl md:text-4xl font-bold text-brand-white mb-8"
+          className="text-2xl md:text-2xl font-bold text-brand-white mb-8"
         >
           Built for Every Fan, Everywhere
         </h2>
-        <p data-testid="text-2" className="text-xl leading-relaxed mb-6">
+        <p data-testid="text-2" className="text-l leading-relaxed mb-6">
           This app is designed to fit seamlessly into your life, whether you're
           checking scores on your phone during a commute, browsing match history
           on a tablet, or diving into league tables from your laptop. No matter

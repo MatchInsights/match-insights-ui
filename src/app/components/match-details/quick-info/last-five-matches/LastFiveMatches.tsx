@@ -99,7 +99,7 @@ const LastFiveMatches = ({
                       homeTeamData.map((result, idx) => (
                         <span
                           key={idx}
-                          className={`w-8 h-8 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
+                          className={`w-6 h-6 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
                         >
                           {result}
                         </span>
@@ -129,7 +129,7 @@ const LastFiveMatches = ({
                       awayTeamData.map((result, idx) => (
                         <span
                           key={idx}
-                          className={`w-8 h-8 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
+                          className={`w-6 h-6 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
                         >
                           {result}
                         </span>

@@ -2,10 +2,10 @@ import { VariantProps, cva } from "class-variance-authority";
 import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-export const buttonStyles = cva(["transition-colors"], {
+export const buttonStyles = cva(["transition-colors", "font-roboto"], {
   variants: {
     variant: {
-      default: ["text-brand-white", "hover:bg-brand-orange"],
+      default: ["text-brand-white", "hover:bg-brand-aqua"],
       dark: ["bg-brand-navbar", "text-brand-white"],
     },
     size: {
