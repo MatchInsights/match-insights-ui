@@ -7,7 +7,7 @@ describe("CategoryButton", () => {
     render(<CategoryButton>Click me</CategoryButton>);
     const button = screen.getByRole("button", { name: /click me/i });
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass("hover:bg-brand-orange");
+    expect(button).toHaveClass("hover:bg-brand-aqua");
     expect(button).toHaveClass("p-2");
   });
 

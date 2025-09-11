@@ -5,6 +5,12 @@ interface LeagueTableProps {
 }
 
 export const LeagueTable = ({ teams }: LeagueTableProps) => {
+  const formBgColor = (data: string): string => {
+    if (data === "W") return "bg-green-500";
+    if (data === "D") return "bg-yellow-400";
+    return "bg-red-500";
+  };
+
   return (
     <div className="overflow-x-auto bg-gray-900 p-4 rounded-lg shadow-lg">
       <table className="w-full table-auto border-collapse text-sm md:text-sm">
@@ -28,12 +34,10 @@ export const LeagueTable = ({ teams }: LeagueTableProps) => {
               key={team.rank}
               className="border border-white even:bg-gray-800 odd:bg-gray-900 hover:bg-gray-700 transition-colors"
             >
-              {/* POSICIÓN EN NEGRITA */}
               <td className="text-center py-2 border border-white font-bold">
                 {team.rank}
               </td>
 
-              {/* EQUIPO EN NEGRITA */}
               <td className="flex items-center gap-2 py-2 border border-white font-bold">
                 <img
                   src={team.logo}
@@ -43,7 +47,6 @@ export const LeagueTable = ({ teams }: LeagueTableProps) => {
                 <span>{team.teamName}</span>
               </td>
 
-              {/* PUNTOS EN NEGRITA */}
               <td className="text-center border border-white font-bold">
                 {team.points}
               </td>
@@ -52,25 +55,24 @@ export const LeagueTable = ({ teams }: LeagueTableProps) => {
               <td className="text-center border border-white">{team.won}</td>
               <td className="text-center border border-white">{team.draw}</td>
               <td className="text-center border border-white">{team.lost}</td>
-              <td className="text-center border border-white">{team.goalsFor}</td>
-              <td className="text-center border border-white">{team.goalsAgainst}</td>
+              <td className="text-center border border-white">
+                {team.goalsFor}
+              </td>
+              <td className="text-center border border-white">
+                {team.goalsAgainst}
+              </td>
               <td className="border border-white py-2">
                 <div className="flex justify-center items-center gap-1">
-                  {team.form.split("").map((f, index) => {
-                    let bgColor = "";
-                    let textColor = "text-black";
-
-                    if (f === "W") bgColor = "bg-green-500";
-                    else if (f === "D") bgColor = "bg-yellow-400";
-                    else if (f === "L") bgColor = "bg-red-500";
-
+                  {team.form.split("").map((data, index) => {
                     return (
                       <span
                         key={index}
-                        className={`w-4 h-4 md:w-5 md:h-5 ${bgColor} flex items-center justify-center rounded-sm text-xs md:text-sm font-bold ${textColor}`}
-                        title={f}
+                        className={`w-4 h-4 md:w-5 md:h-5 ${formBgColor(
+                          data
+                        )} flex items-center justify-center rounded-sm text-xs md:text-sm font-bold text-black`}
+                        title={data}
                       >
-                        {f}
+                        {data}
                       </span>
                     );
                   })}
