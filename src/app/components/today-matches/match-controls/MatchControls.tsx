@@ -1,3 +1,5 @@
+import { LeaguesMenu } from "../../leagues-menu/LeaguesMenu";
+
 export const statuses: StatusOption[] = [
   {
     key: "NOT_STARTED",
@@ -78,26 +80,30 @@ const MatchControls = ({
   setTeamFilter,
 }: MatchControlsProps) => {
   return (
-    <div className="flex flex-col justify-left items-left text-left md:flex-row  gap-4 m-8">
-      <select
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-        className="bg-white text-black p-4 rounded w-full md:w-auto"
-      >
-        {statuses.map((statusOption) => (
-          <option key={statusOption.key} value={statusOption.key}>
-            {statusOption.value}
-          </option>
-        ))}
-      </select>
+    <div className="p-4 flex justify-between items-center shadow-md">
+      <div className="flex flex-col justify-left items-left text-left md:flex-row  gap-4 m-8">
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="bg-white text-black p-4 rounded w-full md:w-auto"
+        >
+          {statuses.map((statusOption) => (
+            <option key={statusOption.key} value={statusOption.key}>
+              {statusOption.value}
+            </option>
+          ))}
+        </select>
 
-      <input
-        type="text"
-        placeholder="Filter by team name..."
-        value={teamFilter}
-        onChange={(e) => setTeamFilter(e.target.value)}
-        className="bg-white text-black p-4 rounded w-full md:w-auto"
-      />
+        <input
+          type="text"
+          placeholder="Filter by team name..."
+          value={teamFilter}
+          onChange={(e) => setTeamFilter(e.target.value)}
+          className="bg-white text-black p-4 rounded w-full md:w-auto"
+        />
+      </div>
+
+      <LeaguesMenu />
     </div>
   );
 };
