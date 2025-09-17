@@ -15,6 +15,7 @@ interface RanksAndPointsProps {
   leagueId: number;
   apiService: ApiService;
 }
+
 export const RanksAndPoints = ({
   homeTeam,
   awayTeam,
@@ -25,7 +26,6 @@ export const RanksAndPoints = ({
 }: RanksAndPointsProps) => {
   const [teamsLeagueStats, setTeamsLeagueStats] =
     useState<TeamPositionsAndPoints | null>(null);
-
   const [loadingScoreAndPoints, setLoadingScoreAndPoints] = useState(true);
 
   const fetchData = () => {
@@ -35,11 +35,10 @@ export const RanksAndPoints = ({
       .then((details: TeamPositionsAndPoints) => {
         setTeamsLeagueStats(details);
       })
-      .catch(() => {
-        setTeamsLeagueStats(null);
-      })
+      .catch(() => setTeamsLeagueStats(null))
       .finally(() => setLoadingScoreAndPoints(false));
   };
+
   useEffect(() => {
     fetchData();
   }, [homeTeamId, awayTeamId, leagueId]);
@@ -48,7 +47,7 @@ export const RanksAndPoints = ({
     return (
       <PreDisplay
         title="Ranks And Points"
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching ranks and points." />}
       />
@@ -58,7 +57,7 @@ export const RanksAndPoints = ({
     return (
       <PreDisplay
         title="Ranks And Points"
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Failed Fetching ranks and points." />}
       />
@@ -67,7 +66,7 @@ export const RanksAndPoints = ({
   return (
     <PreDisplay
       title="Ranks And Points"
-      titleClass="text-brand-orange font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
         <div className="container flex w-full">
@@ -89,26 +88,27 @@ export const RanksAndPoints = ({
 };
 
 interface RanksAndPointsItemProps {
-  team: String;
+  team: string;
   data: PositionAndPoints[];
 }
+
 const RanksAndPointsItem = ({ team, data }: RanksAndPointsItemProps) => {
   return (
     <li className="flex flex-col mt-2 mb-2">
       <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-        <div className="flex mb-4 flex-wrap">
-          <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
-            ⚽️
+        <div className="flex mb-1 flex-wrap">
+          <div className="flex flex-wrap items-center justify-center rounded-md w-6 h-6 bg-brand-royalblue">
+          🏆
           </div>
           <span
             data-testid="grp-label"
-            className="text-sm m-2 text-brand-orange"
+            className="text-sm text-brand-white m-1 font-semibold text-md flex items-left gap-1"
           >
             {team}
           </span>
         </div>
         <div data-testid="grp-data" className="flex flex-row">
-          <div className="font-medium flex flex-row flex-wrap gap-4 text-xs text-white">
+          <div className="font-medium flex flex-row flex-wrap gap-1 text-xs text-white">
             {data.length === 0 ? (
               <span className="text-sm text-gray-400">No data available</span>
             ) : (
@@ -117,9 +117,15 @@ const RanksAndPointsItem = ({ team, data }: RanksAndPointsItemProps) => {
                   key={idx}
                   className="flex flex-row gap-2 items-center bg-brand-card px-2 py-1 rounded-lg"
                 >
-                  <span className="font-semibold">{result.description}</span>
-                  <span>Pos: {result.position}</span>
-                  <span>Pts: {result.points}</span>
+                  <span className="text-xs font-semibold text-brand-green uppercase leading-5">
+                    {result.description}
+                  </span>
+                  <span className="text-xs text-brand-white m-1 font-semibold text-md flex items-left gap-1">
+                    Pos: {result.position}
+                  </span>
+                  <span className="text-xs text-brand-white m-1 font-semibold text-md flex items-left gap-1">
+                    Pts: {result.points}
+                  </span>
                 </div>
               ))
             )}

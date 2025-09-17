@@ -54,7 +54,7 @@ const OddsWinnerFeelingComponent = ({
     return (
       <PreDisplay
         title="Winner Feeling"
-        titleClass="text-brand-white font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching Odds Winner Feeling." />}
       />
@@ -94,7 +94,7 @@ const OddsWinnerFeelingComponent = ({
           <ArrowStatusTile
             isUp={isUp(data?.draw)}
             description={data?.draw ?? ""}
-            status={"draw"}
+            status={"Draw"}
             isFlat={isFlat(data?.draw)}
           />
         </div>

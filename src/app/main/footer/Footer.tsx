@@ -2,12 +2,14 @@ import { FaXTwitter, FaDiscord, FaGithub } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-brand-royalblue text-white text-sm py-6 mt-12">
-      <div className="bg-brand-royalblue text-white px-6 py-2 gap-4 flex justify-between items-center">
+    <footer className="bg-brand-blueintense text-white text-sm py-6 mt-12">
+      <div className="bg-brand-blueintense text-white px-6 py-2 flex justify-between items-center gap-4">
+        {/* Copyright */}
         <p className="text-center md:text-left">
           © {new Date().getFullYear()} MatchInsights.
         </p>
 
+        {/* Social Links */}
         <div className="flex items-center gap-6">
           <a
             data-testid="x-link"
@@ -21,7 +23,7 @@ const Footer = () => {
           </a>
           <a
             data-testid="discord-link"
-            href=" https://discord.gg/7nJ8E75YjD"
+            href="https://discord.gg/7nJ8E75YjD"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-brand-bluelight transition-colors"

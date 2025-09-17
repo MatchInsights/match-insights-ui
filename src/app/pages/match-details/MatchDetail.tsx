@@ -34,13 +34,14 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
         setMatch(null);
       });
   };
+
   useEffect(() => {
     fetchData();
   }, [id]);
 
   if (loading) return <NoData displayedMessage="Fetching Match Details." />;
 
-  if (!loading && !match)
+  if (!match)
     return (
       <div>
         <SubHeader
@@ -56,15 +57,19 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
   const { homeTeam, awayTeam, date, venue, league, goals, score } =
     match as MatchDetails;
 
+  const cardClass =
+    "w-full bg-brand-card rounded-2xl p-4 shadow-md";
+
   return (
-    <div className="text-brand-white p-4 md:p-6 rounded-2xl  mt-6 mx-2 md:mx-8">
+    <div className="text-brand-white p-4 md:p-6 rounded-2xl mt-6 mx-2 md:mx-8 space-y-6">
       <SubHeader
         title="Match Details"
         navigateBack={true}
         onRefresh={fetchData}
-        displayAnimation={false}
+        displayAnimation={true}
       />
-      <div className="mt-8 space-y-6">
+
+      <div className={cardClass}>
         <DetailsMainInfo
           homeTeam={homeTeam}
           awayTeam={awayTeam}
@@ -74,6 +79,9 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           score={score}
           goals={goals}
         />
+      </div>
+
+      <div className={cardClass}>
         <QuickInfo
           apiService={apiService}
           homeTeam={homeTeam.name}
@@ -84,6 +92,9 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           fixtureDate={date}
           matchId={Number(id)}
         />
+      </div>
+
+      <div className={cardClass}>
         <MatchSummaries
           apiService={apiService}
           homeTeam={homeTeam.name}
@@ -92,6 +103,9 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           awayTeamId={awayTeam.id}
           leagueId={league.id}
         />
+      </div>
+
+      <div className={cardClass}>
         <SeasonStats
           title="Both teams Season Stats"
           homeTeamId={homeTeam.id}
@@ -101,6 +115,9 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           awayTeamName={awayTeam.name}
           apiService={apiService}
         />
+      </div>
+
+      <div className={cardClass}>
         <H2hStats
           title="H2H Stats"
           homeTeamId={homeTeam.id}
@@ -109,11 +126,17 @@ export default function MatchDetail({ apiService }: MatchDetailProps) {
           awayTeamName={awayTeam.name}
           apiService={apiService}
         />
+      </div>
+
+      <div className={cardClass}>
         <HeadToHead
           homeTeamId={homeTeam.id}
           awayTeamId={awayTeam.id}
           apiService={apiService}
         />
+      </div>
+
+      <div className={cardClass}>
         <MatchOdds fixtureId={Number(id)} apiService={apiService} />
       </div>
     </div>

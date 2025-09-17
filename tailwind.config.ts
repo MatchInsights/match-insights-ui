@@ -9,6 +9,7 @@ const config: Config = {
         sans: ["Roboto", "sans-serif"],
       },
       colors: {
+        // Colores secundarios
         secondary: {
           DEFAULT: colors.neutral[200],
           hover: colors.neutral[300],
@@ -17,10 +18,13 @@ const config: Config = {
           dark: colors.neutral[800],
           "dark-hover": colors.neutral[900],
         },
+
+        // Colores de la marca
         brand: {
           orange: "#FF6B00",
-          aqua: "#0b6860ff",
           yellow: "#ffc61a",
+          aqua: "#0b6860ff",
+          aqualight: "#85f1e8ff",
           white: "#FFFFFF",
           lightGray: "#B0B0B0",
           card: "#1E1E1E",
@@ -36,6 +40,8 @@ const config: Config = {
           blueintense: "#0f2150ff",
           bluelight: "#AEE8FF",
         },
+
+        // Textos y fondos generales
         darkText: "#E4E4E4",
         darkerText: "#121212",
         lightText: "#222222",

@@ -57,9 +57,9 @@ const TeamsScorePerformanceComponent = ({
   if (loading)
     return (
       <PreDisplay
-        title="Score Performance"
+        title="Performance"
         onRefresh={fetchData}
-        titleClass="text-brand-white font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         child={
           <NoData displayedMessage="Fetching Score Perfomance for both teams." />
         }
@@ -69,7 +69,7 @@ const TeamsScorePerformanceComponent = ({
   if (!loading && !data)
     return (
       <PreDisplay
-        title="Score Performance"
+        title="Performance"
         onRefresh={fetchData}
         titleClass="text-brand-white font-semibold text-lg font-bold"
         child={
@@ -80,16 +80,16 @@ const TeamsScorePerformanceComponent = ({
 
   return (
     <PreDisplay
-      title="Score Performance"
+      title="Performance"
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="grid grid-cols-1 gap-2 w-full">
+        <div className="grid grid-cols-1 gap-1 w-full text- font-bold ">
           <ArrowStatusTile
-            isUp={isUp(data?.homeTeamPerformance)}
-            description={homeTeam}
             status={data?.homeTeamPerformance ?? ""}
             isFlat={isFlat(data?.homeTeamPerformance ?? "")}
+            isUp={isUp(data?.homeTeamPerformance)}
+            description={homeTeam}
           />
           <ArrowStatusTile
             isUp={isUp(data?.awayTeamPerformance)}
