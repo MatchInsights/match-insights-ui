@@ -29,7 +29,7 @@ const PreDisplay = ({
           <button
             data-testid="refresh-icon"
             onClick={() => onRefresh()}
-            className="animate-spin [animation-duration:3s] w-5 h-5 m-2 p-0 items-center text-center text-base rounded-full hover:text-brand-orange flex items-center justify-center"
+            className="animate-spin [animation-duration:3s] w-5 h-5 m-2 p-0 items-center text-center text-base rounded-full hover:text-brand-yellow flex items-center justify-center"
             title="Refresh"
           >
             <FiRefreshCw className="w-5 h-5" />

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../../types/types";
 import { ApiService } from "../../../../services/apiService";
 import PreDisplay from "../../../pre-display/PreDisplay";
-import { FaFutbol, FaShieldAlt, FaSkull } from "react-icons/fa";
 import NoData from "../../../no-data/NoData";
 
 interface TeamStatsProps {
@@ -27,14 +26,11 @@ export default function H2hStats({
 
   const fetchData = () => {
     setLoading(true);
+
     apiService
       .fetchH2HStats(homeTeamId, awayTeamId)
-      .then((result) => {
-        setStats(result);
-      })
-      .catch(() => {
-        setStats(null);
-      })
+      .then((result) => setStats(result))
+      .catch(() => setStats(null))
       .finally(() => setLoading(false));
   };
 
@@ -56,100 +52,103 @@ export default function H2hStats({
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-yellow font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Failed Fetching H2H Stats." />}
       />
     );
 
-  const categories = [
-    {
-      icon: <FaFutbol className="text-brand-orange" />,
-      label: "Goals For",
-      home: stats?.team0.goalsFor,
-      away: stats?.team1.goalsFor,
-    },
-    {
-      icon: <FaSkull className="text-brand-orange" />,
-      label: "Goals Against",
-      home: stats?.team0.goalsAgainst,
-      away: stats?.team1.goalsAgainst,
-    },
-    {
-      icon: <FaShieldAlt className="text-brand-orange" />,
-      label: "Clean Sheet",
-      home: stats?.team0.cleanSheet,
-      away: stats?.team1.cleanSheet,
-    },
-    {
-      icon: <FaFutbol className="text-brand-orange" />,
-      label: "Scored In",
-      home: stats?.team0.scoredIn,
-      away: stats?.team1.scoredIn,
-    },
-    {
-      icon: <FaSkull className="text-brand-orange" />,
-      label: "Conceded In",
-      home: stats?.team0.concededIn,
-      away: stats?.team1.concededIn,
-    },
-  ];
+  const getCategories = () => {
+    const twoTeamStats: TwoTeamStats = stats as TwoTeamStats;
+    return [
+      {
+        icon: "⚽️",
+        label: "Goals For",
+        labelId: 0,
+        home: twoTeamStats.team0.goalsFor,
+        away: twoTeamStats.team1.goalsFor,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        labelId: 1,
+        label: "Goals Against",
+        home: twoTeamStats.team0.goalsAgainst,
+        away: twoTeamStats.team1.goalsAgainst,
+        bg: "bg-brand-red",
+      },
+      {
+        icon: "🛡️",
+        label: "Clean Sheet",
+        labelId: 2,
+        home: twoTeamStats.team0.cleanSheet,
+        away: twoTeamStats.team1.cleanSheet,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "⚽️",
+        label: "Scored In",
+        labelId: 3,
+        home: twoTeamStats.team0.scoredIn,
+        away: twoTeamStats.team1.scoredIn,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        label: "Conceded In",
+        labelId: 4,
+        home: twoTeamStats.team0.concededIn,
+        away: twoTeamStats.team1.concededIn,
+        bg: "bg-brand-red",
+      },
+    ];
+  };
 
   const homeAwaySimbol = (home: number, away: number): string => {
-    if (home === away) {
-      return "=";
-    }
-    if (home > away) {
-      return ">";
-    }
+    if (home === away) return "=";
+    if (home > away) return ">";
     return "<";
   };
 
   return (
     <PreDisplay
       title={title}
-      titleClass="text-brand-yellow font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map(({ label, home, away, icon }, index) => (
+          {getCategories().map(({ label, home, away, icon, bg, labelId }) => (
             <div
-              key={index}
+              key={labelId}
               className="flex flex-col gap-2 text-brand-yellow font-bold text-md"
             >
               <div
-                data-testid="stat-label"
-                className="flex flex-wrap gap-2 text-brand-yellow font-bold text-md"
+                data-testid={`stat-label-${labelId}`}
+                className="flex items-center gap-2 text-sm font-semibold text-brand-white"
               >
-                <span className="text-brand-orange m-2">{icon}</span>
+                <span
+                  className={`inline-flex items-center justify-center w-6 h-6 rounded-md ${bg}`}
+                >
+                  {icon}
+                </span>
                 {label}
               </div>
 
               <div
-                data-testid="home-away-stats"
-                className="flex flex-col gap-2 text-sm text-left text-brand-white"
+                data-testid={`stat-data-${labelId}`}
+                className="flex flex-col gap-1 text-sm text-left text-brand-white"
               >
-                {(home === undefined ||
-                  home === null ||
-                  away === undefined ||
-                  away === null) && <p>Unknown</p>}
-
-                {home !== null &&
-                  home !== undefined &&
-                  away !== null &&
-                  away !== undefined && (
-                    <p>
-                      <span className="text-brand-white  font-semibold">
-                        {homeTeamName}
-                      </span>{" "}
-                      <span className="text-brand-orange  font-bold m-2">
-                        {homeAwaySimbol(home, away)}
-                      </span>
-                      <span className="text-brand-white font-semibold">
-                        {awayTeamName}
-                      </span>{" "}
-                    </p>
-                  )}
+                <p className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-brand-green uppercase leading-5">
+                    {homeTeamName}
+                  </span>
+                  <span className="text-xs font-semibold text-brand-red uppercase leading-5">
+                    {homeAwaySimbol(home, away)}
+                  </span>
+                  <span className="text-xs font-semibold text-brand-green uppercase leading-5">
+                    {awayTeamName}
+                  </span>
+                </p>
               </div>
             </div>
           ))}

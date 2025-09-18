@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { TwoTeamStats } from "../../../../types/types";
 import { ApiService } from "../../../../services/apiService";
 import PreDisplay from "../../../pre-display/PreDisplay";
-import { FaFutbol, FaShieldAlt, FaSkull } from "react-icons/fa";
 import NoData from "../../../no-data/NoData";
 
 interface TeamStatsProps {
@@ -31,12 +30,8 @@ export default function SeasonStats({
     setLoading(true);
     apiService
       .fetchSeasonStats(homeTeamId, awayTeamId, leagueId)
-      .then((result) => {
-        setStats(result);
-      })
-      .catch(() => {
-        setStats(null);
-      })
+      .then((result) => setStats(result))
+      .catch(() => setStats(null))
       .finally(() => setLoading(false));
   };
 
@@ -58,82 +53,98 @@ export default function SeasonStats({
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-yellow font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Failed Fetching Season Stats." />}
       />
     );
 
-  const categories = [
-    {
-      icon: <FaFutbol className="text-brand-orange" />,
-      label: "Goals For",
-      home: stats?.team0.goalsFor,
-      away: stats?.team1.goalsFor,
-    },
-    {
-      icon: <FaSkull className="text-brand-orange" />,
-      label: "Goals Against",
-      home: stats?.team0.goalsAgainst,
-      away: stats?.team1.goalsAgainst,
-    },
-    {
-      icon: <FaShieldAlt className="text-brand-orange" />,
-      label: "Clean Sheet",
-      home: stats?.team0.cleanSheet,
-      away: stats?.team1.cleanSheet,
-    },
-    {
-      icon: <FaFutbol className="text-brand-orange" />,
-      label: "Scored In",
-      home: stats?.team0.scoredIn,
-      away: stats?.team1.scoredIn,
-    },
-    {
-      icon: <FaSkull className="text-brand-orange" />,
-      label: "Conceded In",
-      home: stats?.team0.concededIn,
-      away: stats?.team1.concededIn,
-    },
-  ];
+  const categories = () => {
+    const seasonStats: TwoTeamStats = stats as TwoTeamStats;
+
+    return [
+      {
+        icon: "⚽️",
+        label: "Goals For",
+        labelId: 0,
+        home: seasonStats.team0.goalsFor,
+        away: seasonStats.team1.goalsFor,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        label: "Goals Against",
+        labelId: 1,
+        home: seasonStats.team0.goalsAgainst,
+        away: seasonStats.team1.goalsAgainst,
+        bg: "bg-brand-red",
+      },
+      {
+        icon: "🛡️",
+        label: "Clean Sheet",
+        labelId: 2,
+        home: seasonStats.team0.cleanSheet,
+        away: seasonStats.team1.cleanSheet,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "⚽️",
+        label: "Scored In",
+        labelId: 3,
+        home: seasonStats.team0.scoredIn,
+        away: seasonStats.team1.scoredIn,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        label: "Conceded In",
+        labelId: 4,
+        home: seasonStats.team0.concededIn,
+        away: seasonStats.team1.concededIn,
+        bg: "bg-brand-red",
+      },
+    ];
+  };
 
   return (
     <PreDisplay
       title={title}
-      titleClass="text-brand-yellow font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map(({ label, home, away, icon }, index) => (
-            <div key={index} className="flex flex-col gap-4">
-              <div
-                data-testid="stat-label"
-                className="flex flex-wrap gap-2 text-brand-yellow font-bold text-md"
-              >
-                <span className="text-brand-orange m-2">{icon}</span>
-                {label}
-              </div>
+          {categories().map(({ icon, label, labelId, home, away, bg }) => (
+            <div
+              data-testid={`stat-label-${labelId}`}
+              key={labelId}
+              className="flex flex-col gap-1"
+            >
+              <ul className="list-none p-0 m-0">
+                <li className="flex items-center gap-2 text-sm font-semibold text-brand-white">
+                  <span
+                    className={`inline-flex items-center justify-center w-6 h-6 rounded-md ${bg}`}
+                  >
+                    {icon}
+                  </span>
+                  <span>{label}</span>
+                </li>
+              </ul>
 
               <div
-                data-testid="home-away-stats"
-                className="flex flex-col gap-2 text-sm text-left text-brand-white"
+                data-testid={`stat-data-${labelId}`}
+                className="flex flex-col text-sm text-left text-brand-white"
               >
                 <p>
-                  <span className="text-brand-white font-semibold">
+                  <span className="text-xs font-semibold text-brand-green uppercase leading-5">
                     {homeTeamName}:
                   </span>{" "}
-                  <span className="text-brand-orange font-bold m-2">
-                    {home}
-                  </span>
+                  <span className="text-xs text-brand-white">{home}</span>
                 </p>
-
                 <p>
-                  <span className="text-brand-white font-semibold">
+                  <span className="text-xs font-semibold text-brand-green uppercase leading-5">
                     {awayTeamName}:
                   </span>{" "}
-                  <span className="text-brand-orange font-bold m-2">
-                    {away}
-                  </span>
+                  <span className="text-xs text-brand-white">{away}</span>
                 </p>
               </div>
             </div>

@@ -54,7 +54,7 @@ const LastFiveMatches = ({
       <PreDisplay
         title="Last Five Results"
         onRefresh={fetchData}
-        titleClass="text-brand-white font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         child={<NoData displayedMessage="Fetching Last Five Matches." />}
       />
     );
@@ -71,74 +71,49 @@ const LastFiveMatches = ({
       />
     );
 
+  const renderRow = (teamName: string, data: string[]) => (
+    <li className="flex flex-row items-center justify-between py-2 border-b border-gray-700 w-full">
+      {/* Bloque nombre + pelota */}
+      <div className="flex items-center gap-2 min-w-[100px] flex-shrink-2">
+        <div className="flex items-center justify-center w-7 h-7 bg-brand-royalblue rounded-md">
+          ⚽️
+        </div>
+        <span
+          className="text-brand-white font-semibold text-sm font-bold truncate"
+          title={teamName}
+        >
+          {teamName}
+        </span>
+      </div>
+
+      {/* Resultados en la misma fila */}
+      <div className="flex gap-1 ml-1">
+        {data.length === 0 ? (
+          <span className="text-base text-white">No data</span>
+        ) : (
+          data.map((result, idx) => (
+            <span
+              key={idx}
+              className={`w-5 h-5 flex items-center justify-center font-bold text-sm text-black ${colorMap[result]}`}
+            >
+              {result}
+            </span>
+          ))
+        )}
+      </div>
+    </li>
+  );
+
   return (
     <PreDisplay
       title="Last Five Results"
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="container flex w-full">
-          <ul className="flex flex-col">
-            <li className="flex flex-col mb-2">
-              <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                <div className="flex mb-4 flex-wrap">
-                  <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
-                    ⚽️
-                  </div>
-                  <span className="text-sm m-2 text-brand-orange">
-                    {homeTeam}
-                  </span>
-                </div>
-                <div className="flex flex-row">
-                  <div className="font-medium flex flex-row">
-                    {homeTeamData.length === 0 ? (
-                      <span className="text-base text-white">
-                        No data available
-                      </span>
-                    ) : (
-                      homeTeamData.map((result, idx) => (
-                        <span
-                          key={idx}
-                          className={`w-6 h-6 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
-                        >
-                          {result}
-                        </span>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="flex flex-col mt-2 mb-2">
-              <div className="select-none cursor-pointer rounded-md flex flex-col transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                <div className="flex mb-4 flex-wrap">
-                  <div className="flex flex-wrap items-center justify-center rounded-md w-8 h-8 bg-brand-royalblue">
-                    ⚽️
-                  </div>
-                  <span className="text-sm m-2 text-brand-orange">
-                    {awayTeam}
-                  </span>
-                </div>
-                <div className="flex flex-row">
-                  <div className="font-medium flex flex-row">
-                    {homeTeamData.length === 0 ? (
-                      <span className="text-base text-white">
-                        No data available
-                      </span>
-                    ) : (
-                      awayTeamData.map((result, idx) => (
-                        <span
-                          key={idx}
-                          className={`w-6 h-6 flex flex-wrap items-center justify-center font-roboto text-sm text-black ${colorMap[result]}`}
-                        >
-                          {result}
-                        </span>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            </li>
+        <div className="container w-full">
+          <ul className="flex flex-col w-full">
+            {renderRow(homeTeam, homeTeamData)}
+            {renderRow(awayTeam, awayTeamData)}
           </ul>
         </div>
       }

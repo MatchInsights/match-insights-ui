@@ -10,10 +10,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <div>
         <div
-          className="fixed inset-0 pointer-events-none animate-pulseLiveAppBg"
+          className="bg-brand-card fixed inset-0 pointer-events-none animate-pulseLiveAppBg"
           style={{
             background:
-              "linear-gradient(5deg, rgba(20, 33, 68, 1) 40%, rgba(15, 65, 130, 1) 40%, transparent 100%)",
+              "linear-gradient(5deg, rgba(20, 33, 68, 1) 40%, rgba(14, 42, 78, 1) 40%, transparent 100%)",
 
             filter: "blur(40px)",
             opacity: 0.25,
