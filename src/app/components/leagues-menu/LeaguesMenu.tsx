@@ -14,17 +14,15 @@ const leaguesdata = [
 ];
 
 export const LeaguesMenu = () => {
+  const [leagueSearch, setLeagueSearch] = useState("");
+
   const [leagues, setLeagues] = useState(leaguesdata);
 
   const [isDisplayed, setIsDisplayed] = useState(false);
 
-  const filterArticles = (value: string) => {
-    const filteredLeagues = leagues.filter((it) =>
-      it.name.toLowerCase().includes(value.toLowerCase())
-    );
-
-    setLeagues(filteredLeagues);
-  };
+  const filteredLeagues = leagues.filter((it) =>
+    it.name.toLowerCase().includes(leagueSearch.toLowerCase())
+  );
 
   const onDisplayClick = (isDisplayedValue: boolean) => {
     setIsDisplayed(isDisplayedValue);
@@ -51,8 +49,8 @@ export const LeaguesMenu = () => {
             <input
               type="text"
               placeholder="Search"
-              className="text-brand-white placeholder-brand-orange  rounded w-full focus:outline-none ml-0 p-3 border rounded"
-              onChange={(e) => filterArticles(e.target.value)}
+              className="placeholder-brand-orange text-brand-royalblue rounded w-full focus:outline-none ml-0 p-3 border rounded"
+              onChange={(e) => setLeagueSearch(e.target.value)}
             />
 
             <X
@@ -63,7 +61,7 @@ export const LeaguesMenu = () => {
           </div>
 
           <ul className="mt-8 overflow-auto">
-            {leagues.map((it) => (
+            {filteredLeagues.map((it) => (
               <li key={it.id} className="mb-4">
                 {it.name}
               </li>
