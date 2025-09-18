@@ -11,7 +11,6 @@ export const LeagueTable = ({ teams }: LeagueTableProps) => {
         return "bg-green-500";
       case "D":
         return "bg-yellow-400";
-      case "L":
       default:
         return "bg-red-500";
     }
@@ -63,8 +62,12 @@ export const LeagueTable = ({ teams }: LeagueTableProps) => {
               <td className="text-center border border-white">{team.won}</td>
               <td className="text-center border border-white">{team.draw}</td>
               <td className="text-center border border-white">{team.lost}</td>
-              <td className="text-center border border-white">{team.goalsFor}</td>
-              <td className="text-center border border-white">{team.goalsAgainst}</td>
+              <td className="text-center border border-white">
+                {team.goalsFor}
+              </td>
+              <td className="text-center border border-white">
+                {team.goalsAgainst}
+              </td>
 
               <td className="border border-white py-2">
                 <div className="flex justify-center items-center gap-1">
