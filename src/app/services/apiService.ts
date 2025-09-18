@@ -14,9 +14,11 @@ import {
 } from "../types/types";
 
 import { LeagueInfo, TeamPositionsAndPoints } from "../types/league-types";
+import { LeaguesGroups } from "../types/league-groups";
 
 export interface ApiService {
-  fetchTodayMatches(status: string): Promise<TodayMatch[]>;
+  fetchLeaguesGroups(): Promise<LeaguesGroups>;
+  fetchTodayMatches(status: string, leagueId?: number): Promise<TodayMatch[]>;
   fetchLeagueStanding(leagueId: number): Promise<LeagueInfo>;
   fetchMatchDetails(matchId: number): Promise<MatchDetails>;
   fetchLastFiveMatches(

@@ -5,6 +5,7 @@ import TodayMatches from "../../components/today-matches/TodayMatches";
 import { ApiService } from "../../services/apiService";
 import { TodayMatch } from "../../types/types";
 import NoData from "../../components/no-data/NoData";
+import { LeagueBasicInfo } from "../../types/league-groups";
 
 interface HomeProps {
   apiService: ApiService;
@@ -14,12 +15,15 @@ const Home = ({ apiService }: HomeProps) => {
   const [status, setStatus] = useState("NOT_STARTED");
   const [matches, setMatches] = useState<TodayMatch[]>([]);
   const [teamFilter, setTeamFilter] = useState("");
+  const [selectedLeague, setSelectedLeague] = useState<LeagueBasicInfo | null>(
+    null
+  );
 
   const [loading, setLoading] = useState(true);
 
   const fetchData = () => {
     apiService
-      .fetchTodayMatches(status)
+      .fetchTodayMatches(status, selectedLeague?.id)
       .then((data) => {
         setMatches(data);
         setLoading(false);
@@ -32,7 +36,7 @@ const Home = ({ apiService }: HomeProps) => {
 
   useEffect(() => {
     fetchData();
-  }, [status]);
+  }, [status, selectedLeague]);
 
   const filtered = matches.filter((match) => {
     const teamMatch =
@@ -57,6 +61,9 @@ const Home = ({ apiService }: HomeProps) => {
         setStatus={setStatus}
         teamFilter={teamFilter}
         setTeamFilter={setTeamFilter}
+        selectedLeague={selectedLeague}
+        setSelectedLeague={setSelectedLeague}
+        apiService={apiService}
       />
 
       {loading && <NoData displayedMessage="Fetching Matches of the Day." />}

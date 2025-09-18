@@ -17,6 +17,7 @@ import { LeagueInfo, TeamPositionsAndPoints } from "../types/league-types";
 
 import apiFetch from "./apiConfig";
 import { ApiService } from "./apiService";
+import { LeaguesGroups } from "../types/league-groups";
 
 export class ApiServiceImplementation implements ApiService {
   private static instance: ApiService;
@@ -30,10 +31,23 @@ export class ApiServiceImplementation implements ApiService {
     return ApiServiceImplementation.instance;
   }
 
-  public async fetchTodayMatches(status: string): Promise<TodayMatch[]> {
-    const response = await apiFetch.get<TodayMatch[]>(
-      `/api/matches/today/${status}`
-    );
+  public async fetchLeaguesGroups(): Promise<LeaguesGroups> {
+    const response = await apiFetch.get<LeaguesGroups>(`/api/league/all`);
+    return response.data;
+  }
+
+  public async fetchTodayMatches(
+    status: string,
+    leagueId?: number
+  ): Promise<TodayMatch[]> {
+    let endpoint = `/api/matches/today/${status}`;
+
+    if (leagueId) {
+      endpoint += `?leagueId=${leagueId}`;
+    }
+
+    const response = await apiFetch.get<TodayMatch[]>(endpoint);
+
     return response.data;
   }
 

@@ -56,7 +56,7 @@ export const DetailsMainInfo = ({
           <Link
             data-testid="league-link"
             to={`/league/${league.id}`}
-            className="text-s font-semibold text-brand-white hover:text-brand-orange hover:underline transition"
+            className="text-sm font-semibold text-brand-white hover:text-brand-orange hover:underline transition"
           >
             🏆 {league?.id ? league.name : "Unknown League"}
           </Link>

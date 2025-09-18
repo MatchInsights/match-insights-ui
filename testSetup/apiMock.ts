@@ -32,6 +32,8 @@ import { lastfiveEvents } from "./lastfivematchesevents";
 import { players, teamDetails } from "./team";
 import { mockTwoTeamStats } from "./twoteamsstats";
 import { ApiService } from "../src/app/services/apiService";
+import { mockLeaguesGroups } from "./leaguegroups";
+import { LeaguesGroups } from "../src/app/types/league-groups";
 
 export class MockApiServiceImplementation implements ApiService {
   private static instance: MockApiServiceImplementation;
@@ -46,7 +48,13 @@ export class MockApiServiceImplementation implements ApiService {
     return MockApiServiceImplementation.instance;
   }
 
-  public async fetchTodayMatches(status: string): Promise<TodayMatch[]> {
+  public async fetchLeaguesGroups(): Promise<LeaguesGroups> {
+    return Promise.resolve(mockLeaguesGroups);
+  }
+  public async fetchTodayMatches(
+    status: string,
+    leagueId?: number
+  ): Promise<TodayMatch[]> {
     console.log(status);
     return Promise.resolve(mockTodayMatches);
   }

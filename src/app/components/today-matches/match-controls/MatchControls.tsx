@@ -1,4 +1,10 @@
 import { LeaguesMenu } from "../../leagues-menu/LeaguesMenu";
+import { LeagueBasicInfo } from "../../../types/league-groups";
+
+import { Link } from "react-router-dom";
+import { X } from "lucide-react";
+import { ApiService } from "../../../services/apiService";
+import { FiArrowRight } from "react-icons/fi";
 
 export const statuses: StatusOption[] = [
   {
@@ -71,6 +77,9 @@ interface MatchControlsProps {
   setStatus: (status: string) => void;
   teamFilter: string;
   setTeamFilter: (team: string) => void;
+  selectedLeague: LeagueBasicInfo | null;
+  setSelectedLeague: (league: LeagueBasicInfo | null) => void;
+  apiService: ApiService;
 }
 
 const MatchControls = ({
@@ -78,6 +87,9 @@ const MatchControls = ({
   setStatus,
   teamFilter,
   setTeamFilter,
+  selectedLeague,
+  setSelectedLeague,
+  apiService,
 }: MatchControlsProps) => {
   return (
     <div className="p-4 flex justify-between items-center shadow-md">
@@ -99,11 +111,36 @@ const MatchControls = ({
           placeholder="Filter by team name..."
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
-          className="bg-white text-black p-4 rounded w-full md:w-auto"
+          className="bg-white text-black p-2 rounded w-full md:w-auto"
         />
+
+        {!selectedLeague && (
+          <div className="p-2 text-brand-orange rounded w-full md:w-auto flex items-center">
+            <span>ALL LEAGUES</span>
+          </div>
+        )}
+        {selectedLeague && (
+          <div className="flex items-center gap-2 text-brand-white p-2 rounded">
+            🏆 {selectedLeague.name}
+            <Link
+              data-testid="league-link"
+              to={`/league/${selectedLeague.id}`}
+              className="text-sm font-semibold text-brand-orange "
+            >
+              <span className="p-2 rounded-full flex items-center justify-center hover:bg-brand-bluelight hover:text-brand-darkBg">
+                <FiArrowRight className="w-5 h-5" />
+              </span>
+            </Link>
+            <X
+              className="cursor-pointer m-4 text-brand-white hover:text-brand-danger"
+              onClick={() => setSelectedLeague(null)}
+              data-testid="close-icon"
+            />
+          </div>
+        )}
       </div>
 
-      <LeaguesMenu />
+      <LeaguesMenu setLeague={setSelectedLeague} apiService={apiService} />
     </div>
   );
 };
