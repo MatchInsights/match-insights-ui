@@ -4,12 +4,10 @@ const Footer = () => {
   return (
     <footer className="bg-brand-blueintense text-white text-sm py-6 mt-12">
       <div className="bg-brand-blueintense text-white px-6 py-2 flex justify-between items-center gap-4">
-        {/* Copyright */}
         <p className="text-center md:text-left">
           © {new Date().getFullYear()} MatchInsights.
         </p>
 
-        {/* Social Links */}
         <div className="flex items-center gap-6">
           <a
             data-testid="x-link"

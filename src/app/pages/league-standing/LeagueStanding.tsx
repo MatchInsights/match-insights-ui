@@ -78,7 +78,6 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         displayAnimation
       />
 
-      {/* Categoría y temporada */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="m-2 p-2 text-center md:text-left">
           <h1
@@ -90,7 +89,6 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         </div>
       </div>
 
-      {/* Filtro de categorías */}
       <div className="sticky top-0 z-10 p-1 bg-brand-darkBg">
         <CategoryPills
           categories={categories}
@@ -99,7 +97,6 @@ export default function LeagueStanding({ apiService }: LeagueStandingProps) {
         />
       </div>
 
-      {/* Tabla de equipos */}
       <LeagueTable teams={teams} />
     </div>
   );

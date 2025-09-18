@@ -9,7 +9,6 @@ const config: Config = {
         sans: ["Roboto", "sans-serif"],
       },
       colors: {
-        // Colores secundarios
         secondary: {
           DEFAULT: colors.neutral[200],
           hover: colors.neutral[300],
@@ -19,7 +18,6 @@ const config: Config = {
           "dark-hover": colors.neutral[900],
         },
 
-        // Colores de la marca
         brand: {
           orange: "#FF6B00",
           yellow: "#ffc61a",
@@ -41,7 +39,6 @@ const config: Config = {
           bluelight: "#AEE8FF",
         },
 
-        // Textos y fondos generales
         darkText: "#E4E4E4",
         darkerText: "#121212",
         lightText: "#222222",
