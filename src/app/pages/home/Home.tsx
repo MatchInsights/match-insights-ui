@@ -44,7 +44,7 @@ const Home = ({ apiService }: HomeProps) => {
   });
 
   return (
-    <div className="w-full justify-between px-12 py-12">
+    <div className="w-full justify-between px-12 py-12 ">
       <SubHeader
         navigateBack={false}
         onRefresh={fetchData}

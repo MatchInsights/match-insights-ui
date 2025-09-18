@@ -25,7 +25,7 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
     : "Unknown Date";
 
   return (
-    <div className="py-4 px-4 rounded-3xl w-full my-4 shadow-xl">
+    <div className="py-4 px-4 w-full my-4 shadow-xl bg-brand-card rounded-2xl">
       <div className="flex flex-col md:flex-row justify-center md:justify-between items-center">
         <div className="flex flex-row items-center text-center">
           <Logo src={homeTeam?.logo} />
@@ -33,7 +33,7 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
         </div>
 
         <div className="flex flex-col mt-4 md:mt-0 justify-center items-center text-center">
-          <p className="font-semibold text-xs text-brand-orange">
+          <p className="font-semibold uppercase text-xs text-brand-green">
             {matchStatus?.long || "Unknown Status"}
           </p>
           <p className="mt-1 text-xs text-brand-yellow">
@@ -67,13 +67,13 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
             </span>
           </p>
           <p className="flex flex-wrap my-1">
-            <span className="text-xs">⏰</span>{" "}
+            <span className="text-xs">⏰</span>
             <span className="text-brand-white mx-1 text-xs">
               {formattedLocalTime}
             </span>
           </p>
           <p className="flex flex-wrap my-1">
-            <span className="text-xs">🏆</span>{" "}
+            <span className="text-xs">🏆</span>
             <span className="text-brand-white mx-1 text-xs">
               {league?.id ? league?.name : "Unknown League"}
             </span>
@@ -82,12 +82,10 @@ const MatchCard = ({ todayMatch }: MatchCardProps) => {
 
         <div className="mt-2 flex flex-wrap justify-between">
           <div className="flex items-left mx-1 my-1 p-1">
-            <Link
-              to={`/match/${id}`}
-              className="text-brand-orange text-xs hover:text-brand-yellow  hover:-translate-y-1
-              transition-all duration-300 ease-in-out cursor-pointer"
-            >
-              <button>More Info</button>
+            <Link to={`/match/${id}`}>
+              <button className="text-brand-orange font-semibold uppercase text-xs hover:text-brand-yellow hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer">
+                More Info
+              </button>
             </Link>
           </div>
         </div>

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-brand-royalblue text-white px-6 py-2 shadow-xl flex justify-between items-center">
-      <div data-testid="brand-link" className="flex items-center ">
+    <nav className="bg-brand-blueintense text-white px-6 py-2 shadow-xl flex justify-between items-center">
+      <div data-testid="brand-link" className="flex items-center">
         <Link to="/" className="flex items-center rounded-full">
           <img
             src={logo}
@@ -13,17 +13,19 @@ const Navbar = () => {
           />
         </Link>
       </div>
-
       <div
         data-testid="home-about-links"
         className="space-x-4 text-sm font-medium"
       >
-        <Link to="/" className="hover:text-bluelight text-lg transition-colors">
+        <Link
+          to="/"
+          className="text-lg hover:text-brand-bluelight transition-colors"
+        >
           Home
         </Link>
         <Link
           to="/about"
-          className="hover:text-bluelight text-lg transition-colors"
+          className="text-lg hover:text-brand-bluelight transition-colors"
         >
           About
         </Link>

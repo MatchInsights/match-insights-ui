@@ -3,7 +3,7 @@ import NoData from "../../../no-data/NoData";
 import PreDisplay from "../../../pre-display/PreDisplay";
 import { ApiService } from "../../../../services/apiService";
 
-import { FaFutbol, FaSquare, FaSquareFull } from "react-icons/fa";
+import {FaSquare, FaSquareFull } from "react-icons/fa";
 import { LastFiveMatchesEvents } from "../../../../types/types";
 
 interface Props {
@@ -33,7 +33,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching Previous Matches info." />}
       />
@@ -43,7 +43,7 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
     return (
       <PreDisplay
         title={title}
-        titleClass="text-brand-orange font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={
           <NoData displayedMessage="Failed Fetching Previous Matches info." />
@@ -54,60 +54,68 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
   return (
     <PreDisplay
       title={title}
-      titleClass="text-brand-orange font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
         <div className="w-full flex flex-col gap-6">
           <div>
-            <h3 className="text-brand-yellow m-2 font-semibold text-md flex items-left gap-2">
-              <FaFutbol className="text-brand-orange" /> Goals
-            </h3>
-            <div className="flex flex-col gap-2 text-sm text-brand-white">
+        <div className="flex mb-1 flex-wrap">
+          <div className="flex flex-wrap items-center justify-center rounded-md w-6 h-6 bg-brand-royalblue">
+            ⚽️ 
+          </div>
+          <span
+            data-testid="grp-label"
+            className="text-sm text-brand-white m-1 font-semibold text-md flex items-left gap-1"
+          >
+          Goals
+          </span>
+        </div>
+            <div className="text-xs font-semibold text-brand-green uppercase leading-5">
               <p>
                 First Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.firstHalfGoals}
                 </span>
               </p>
               <p>
                 Second Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.secondHalfGoals}
                 </span>
               </p>
               <p>
                 Extra Time:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.extraTimeGoals}
                 </span>
               </p>
               <p>
                 Penalties:{" "}
-                <span className="text-brand-orange">{details?.penalties}</span>
+                <span className="text-brand-white">{details?.penalties}</span>
               </p>
             </div>
           </div>
 
           <div data-testid="goals-data">
-            <h3 className="text-brand-yellow font-semibold text-md m-2 flex items-left gap-2">
-              <FaSquare className="text-brand-yellow" /> Yellow Cards
+            <h3 className="flex items-center text-sm text-brand-white font-semibold ml-0 mt-0 mb-1 gap-1">
+              <FaSquare size={17} className="text-brand-yellow mr-1" /> Yellow Cards
             </h3>
-            <div className="flex flex-col gap-2 text-sm text-brand-white">
+            <div className="text-xs font-semibold text-brand-green uppercase leading-5">
               <p>
                 First Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.firstHalfYellowCards}
                 </span>
               </p>
               <p>
                 Second Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.secondHalfYellowCards}
                 </span>
               </p>
               <p>
                 Extra Time:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.extraTimeYellowCards}
                 </span>
               </p>
@@ -115,25 +123,25 @@ const MatchEvents = ({ title, teamId, apiService }: Props) => {
           </div>
 
           <div data-testid="cards-data">
-            <h3 className="text-brand-yellow font-semibold text-md m-2 flex items-left gap-2">
-              <FaSquareFull className="text-brand-danger" /> Red Cards
+            <h3 className="flex items-center text-sm text-brand-white font-semibold ml-0 mt-0 mb-1 gap-1">
+              <FaSquareFull size={15} className="text-brand-danger mr-1" /> Red Cards
             </h3>
-            <div className="flex flex-col gap-2 text-sm text-brand-white">
+            <div className="text-xs font-semibold text-brand-green uppercase leading-5">
               <p>
                 First Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.firstHalfRedCards}
                 </span>
               </p>
               <p>
                 Second Half:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.secondHalfRedCards}
                 </span>
               </p>
               <p>
                 Extra Time:{" "}
-                <span className="text-brand-orange">
+                <span className="text-brand-white">
                   {details?.extraTimeRedCards}
                 </span>
               </p>

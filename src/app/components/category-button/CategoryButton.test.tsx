@@ -14,7 +14,7 @@ describe("CategoryButton", () => {
   it("renders with 'dark' variant", () => {
     render(<CategoryButton variant="dark">Dark Mode</CategoryButton>);
     const button = screen.getByRole("button", { name: /dark mode/i });
-    expect(button).toHaveClass("bg-brand-navbar");
+    expect(button).toHaveClass("bg-brand-card");
     expect(button).toHaveClass("text-brand-white");
   });
 

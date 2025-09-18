@@ -6,7 +6,7 @@ export const buttonStyles = cva(["transition-colors", "font-roboto"], {
   variants: {
     variant: {
       default: ["text-brand-white", "hover:bg-brand-aqua"],
-      dark: ["bg-brand-navbar", "text-brand-white"],
+      dark: ["bg-brand-card", "text-brand-white"],
     },
     size: {
       default: [" rounded", "p-2"],

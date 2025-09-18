@@ -37,7 +37,7 @@ describe("CategoryPills", () => {
     );
 
     const selectedButton = screen.getByRole("button", { name: "b" });
-    expect(selectedButton).toHaveClass("bg-brand-navbar");
+    expect(selectedButton).toHaveClass("bg-brand-card");
   });
 
   it("calls onSelect with correct category when a button is clicked", () => {

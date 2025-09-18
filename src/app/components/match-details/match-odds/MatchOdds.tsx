@@ -36,7 +36,7 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         title={"Match Odds"}
         onRefresh={fetchData}
         child={<NoData displayedMessage="Fetching Match Odds." />}
-        titleClass="text-brand-white font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
       />
     );
 
@@ -59,18 +59,18 @@ export default function MatchOdds({ fixtureId, apiService }: MatchOddsProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {odds.map((odd, index) => (
             <div key={index} className="p-4 text-sm text-brand-white">
-              <p className="text-brand-orange font-semibold m-2">
+              <p className="flex flex-col gap-4 p-4 text-xs font-semibold text-brand-yellow uppercase leading-5">
                 {odd.betName}
               </p>
 
-              <div className="flex flex-wrap gap-2 text-brand-lightGray">
+              <div className="flex flex-col gap-1 p-4 text-xs font-semibold text-brand-white uppercase leading-5">
                 {odd.values.map((item, idx) => (
                   <div
                     key={idx}
                     className="bg-brand-navbar px-4 py-2 font-medium"
                   >
                     {item.label}:{" "}
-                    <span className="text-brand-white">{item.odd}</span>
+                    <span className="font-semibold text-brand-green">{item.odd}</span>
                   </div>
                 ))}
               </div>

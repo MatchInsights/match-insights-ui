@@ -1,4 +1,4 @@
-import { TeamDetails } from "../../../types/types";
+import { TeamDetails } from "../../../types/types"; 
 import Logo from "../../logo/Logo";
 
 interface TeamDetailsComponentProps {
@@ -8,29 +8,33 @@ interface TeamDetailsComponentProps {
 export const TeamInfo = ({ teamDetails }: TeamDetailsComponentProps) => {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div className="text-center md:text-left m-2 p-2">
+      <div className="grid grid-cols-1 gap-8 rounded bg-brand-card md:grid-cols-2 lg:grid-cols-3">
+        <div className="m-2 p-2 text-center md:text-left">
           <Logo
             src={teamDetails.teamLogo}
-            customImageClass="w-24 h-24 md:w-28 md:h-28  bg-transparent "
-            customIconWrapperClass="w-24 h-24 md:w-28 md:h-28  bg-transparent flex items-center justify-center"
-            customIconClass="w-2/3 h-2/3 text-brand-lightGray"
+            customImageClass="h-24 w-24 bg-transparent md:h-28 md:w-28"
+            customIconWrapperClass="flex h-24 w-24 items-center justify-center bg-transparent md:h-28 md:w-28"
+            customIconClass="h-2/3 w-2/3 text-brand-lightGray"
           />
-          <h1 className="text-lg font-bold text-brand-yellow">
+          <h1 className="text-lg font-bold uppercase text-brand-yellow">
             {teamDetails.teamName}
           </h1>
-          <p className="text-brand-lightGray text-sm">
+          <p className="text-xs font-semibold uppercase text-brand-white">
             {teamDetails.teamCountry} • Founded{" "}
             {teamDetails.teamFounded > 0 ? teamDetails.teamFounded : "Unknown"}
           </p>
         </div>
       </div>
 
-      <div className="p-6">
-        <h2 className="text-lg font-semibold mb-2 text-brand-orange">Venue</h2>
-        <p className="text-md font-medium">{teamDetails.venueName}</p>
-        <p className="text-sm text-brand-lightGray">{teamDetails.venueCity}</p>
-        <p className="text-sm text-brand-yellow mt-1">
+      <div className="rounded bg-brand-card p-6">
+        <h2 className="mb-2 text-lg font-semibold text-brand-white">Venue</h2>
+        <p className="text-sm font-semibold uppercase text-brand-yellow">
+          {teamDetails.venueName}
+        </p>
+        <p className="text-xs font-semibold uppercase text-brand-lightGray">
+          {teamDetails.venueCity}
+        </p>
+        <p className="mt-1 text-xs font-semibold uppercase text-brand-green">
           Capacity:{" "}
           {teamDetails.venueCapacity > 0
             ? teamDetails.venueCapacity
@@ -38,13 +42,14 @@ export const TeamInfo = ({ teamDetails }: TeamDetailsComponentProps) => {
         </p>
       </div>
 
-      <div className="p-6 ">
-        <h2 className="text-lg font-semibold mb-2 text-brand-orange">Coach</h2>
-        <p className="text-md font-medium">{teamDetails.coachName}</p>
-        <p className="text-sm text-brand-lightGray">
+      <div className="rounded bg-brand-card p-6">
+        <h2 className="mb-2 text-lg font-semibold text-brand-white">Coach</h2>
+        <p className="text-sm font-semibold uppercase text-brand-yellow">
+          {teamDetails.coachName}
+        </p>
+        <p className="text-xs font-semibold uppercase text-brand-lightGray">
           {teamDetails.coachAge > 0
-            ? `${teamDetails.coachAge} years
-          old`
+            ? `${teamDetails.coachAge} years old`
             : "Unknown Age"}
         </p>
       </div>

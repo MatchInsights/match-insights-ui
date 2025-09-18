@@ -59,7 +59,7 @@ const TeamsRestStatusComponent = ({
     return (
       <PreDisplay
         title="Rest Status"
-        titleClass="text-brand-white font-semibold text-lg font-bold"
+        titleClass="text-brand-yellow font-semibold text-lg font-bold"
         child={
           <NoData displayedMessage="Fetching Rest status for both teams." />
         }
@@ -85,7 +85,7 @@ const TeamsRestStatusComponent = ({
       onRefresh={fetchData}
       titleClass="text-brand-white font-semibold text-lg font-bold"
       child={
-        <div className="grid grid-cols-1 gap-2 w-full">
+        <div className="grid grid-cols-1 gap-1 w-full">
           <ArrowStatusTile
             isUp={isUp(data?.homeTeamStatus)}
             description={homeTeam}

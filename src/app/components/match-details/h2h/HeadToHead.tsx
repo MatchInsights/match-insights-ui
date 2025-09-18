@@ -49,7 +49,7 @@ const HeadToHead = ({
     return (
       <PreDisplay
         title="Head to Head"
-        titleClass="text-brand-yellow font-semibold text-lg font-bold"
+        titleClass="text-brand-white font-semibold text-lg font-bold"
         onRefresh={fetchData}
         child={<NoData displayedMessage="H2H Info is not available." />}
       />
@@ -59,66 +59,64 @@ const HeadToHead = ({
   return (
     <PreDisplay
       title="Head to Head"
-      titleClass="text-brand-yellow font-semibold text-lg font-bold"
+      titleClass="text-brand-white font-semibold text-lg font-bold"
       onRefresh={fetchData}
       child={
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.map((match, index) => (
             <div
               key={index}
-              className="flex flex-col gap-4 p-4  text-sm text-left "
+              className="flex flex-col gap-4 p-4 text-xs font-semibold text-brand-white uppercase leading-5 "
             >
               <p>
-                <span className="text-brand-yellow font-semibold">Date:</span>{" "}
+                <span className="text-xs font-semibold text-brand-yellow uppercase leading-5">Date:</span>{" "}
                 {new Date(match.date).toLocaleDateString()}
               </p>
               <p>
-                <span className="text-brand-yellow font-semibold">Venue:</span>{" "}
+                <span className="text-xs font-semibold text-brand-yellow uppercase leading-5">Venue:</span>{" "}
                 {match.venue.name}
               </p>
               <p>
-                <span className="text-brand-yellow font-semibold">League:</span>{" "}
+                <span className="text-xs font-semibold text-brand-yellow uppercase leading-5">League:</span>{" "}
                 {match.leagueName}
               </p>
               <p>
-                <span className="text-brand-yellow font-semibold">Season:</span>{" "}
+                <span className="text-xs font-semibold text-brand-yellow uppercase leading-5">Season:</span>{" "}
                 {match.season}
               </p>
               {match.round && (
                 <p>
-                  <span className="text-brand-yellow font-semibold">
-                    Round:
-                  </span>{" "}
+                  <span className="text-xs font-semibold text-brand-yellow uppercase leading-5">Round:</span>{" "}
                   {match.round}
                 </p>
               )}
 
               <p>
-                <span className="text-brand-lightGray font-medium">
+                <span className="text-xs font-semibold text-brand-lightGray uppercase leading-5">
                   Half Time:
                 </span>{" "}
                 {match.homeHalfTimeGoal} - {match.awayHalfTimeGoal}
               </p>
               <p>
-                <span className="text-brand-lightGray font-medium">
+                <span className="text-xs font-semibold text-brand-lightGray uppercase leading-5">
                   Full Time:
                 </span>{" "}
                 {match.homeFullTimeGoal} - {match.awayFullTimeGoal}
               </p>
               <p>
-                <span className="text-brand-lightGray font-medium">
+                <span className="text-xs font-semibold text-brand-lightGray uppercase leading-5">
                   Extra Time:
                 </span>{" "}
                 {match.homeExtraTimeGoal} - {match.awayExtraTimeGoal}
               </p>
               <p>
-                <span className="text-brand-lightGray font-medium">
+                <span className="text-xs font-semibold text-brand-lightGray uppercase leading-5">
                   Penalties:
                 </span>{" "}
                 {match.homePenalty} - {match.awayPenalty}
               </p>
 
-              <p className="text-md font-bold text-brand-success">
+              <p className="text-xs font-semibold text-brand-success uppercase leading-5">
                 Winner: <span className="text-white">{match.winner}</span>
               </p>
             </div>
