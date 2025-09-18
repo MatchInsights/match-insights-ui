@@ -72,7 +72,7 @@ describe("OddsWinnerFeelingComponent", () => {
     const drawSpan = screen.getByText("Neutral");
     const awaySpan = screen.getByText("Weak Away");
     expect(screen.getByText("Home FC")).toBeInTheDocument();
-    expect(screen.getByText("draw")).toBeInTheDocument();
+    expect(screen.getByText("Draw")).toBeInTheDocument();
     expect(screen.getByText("Away United")).toBeInTheDocument();
   });
 

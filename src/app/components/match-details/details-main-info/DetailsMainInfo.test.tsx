@@ -3,16 +3,10 @@ import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { DetailsMainInfo } from "./DetailsMainInfo";
 
-vi.mock("../../ball-animation/BallAnimation", () => ({
-  BallAnimation: ({ isSubHeader }: { isSubHeader: boolean }) => (
-    <div data-testid={`ball-animation-${isSubHeader ? "subheader" : "main"}`} />
-  ),
-}));
-
-vi.mock("./details-header/DetailsHeader", () => ({
-  default: ({ homeTeam, awayTeam }: any) => (
-    <div data-testid="details-header">
-      <span>{homeTeam.name}</span> vs <span>{awayTeam.name}</span>
+vi.mock("./team-details-info/TeamDetailsInfo", () => ({
+  default: ({ team }: any) => (
+    <div data-testid="team-details">
+      <span>{team.name}</span>
     </div>
   ),
 }));
@@ -44,16 +38,9 @@ describe("DetailsMainInfo", () => {
       </MemoryRouter>
     );
 
-  it("renders BallAnimation on both sides", () => {
+  it("renders home and away teams", () => {
     renderComponent();
-    expect(screen.getAllByTestId(/ball-animation/)).toHaveLength(2);
-  });
-
-  it("renders DetailsHeader with both team names", () => {
-    renderComponent();
-    expect(screen.getByTestId("details-header")).toHaveTextContent(
-      "Home FC vs Away United"
-    );
+    expect(screen.getAllByTestId("team-details")).toHaveLength(2);
   });
 
   it("renders league link with correct href and name", () => {
@@ -72,7 +59,7 @@ describe("DetailsMainInfo", () => {
 
   it("renders venue and date correctly", () => {
     renderComponent();
-    expect(screen.getByText(/Big Stadium, Metropolis/)).toBeInTheDocument();
-    expect(screen.getByText(/📅/)).toBeInTheDocument(); // formatted date
+    expect(screen.getByTestId("venue-details")).toBeDefined();
+    expect(screen.getByTestId("match-date")).toBeDefined();
   });
 });

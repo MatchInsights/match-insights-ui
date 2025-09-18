@@ -59,13 +59,52 @@ export default function SeasonStats({
       />
     );
 
-  const categories = [
-    { icon: "⚽️", label: "Goals For", home: stats?.team0.goalsFor, away: stats?.team1.goalsFor, bg: "bg-brand-royalblue" },
-    { icon: "💀", label: "Goals Against", home: stats?.team0.goalsAgainst, away: stats?.team1.goalsAgainst, bg: "bg-brand-red" },
-    { icon: "🛡️", label: "Clean Sheet", home: stats?.team0.cleanSheet, away: stats?.team1.cleanSheet, bg: "bg-brand-royalblue" },
-    { icon: "⚽️", label: "Scored In", home: stats?.team0.scoredIn, away: stats?.team1.scoredIn, bg: "bg-brand-royalblue" },
-    { icon: "💀", label: "Conceded In", home: stats?.team0.concededIn, away: stats?.team1.concededIn, bg: "bg-brand-red" },
-  ];
+  const categories = () => {
+    const seasonStats: TwoTeamStats = stats as TwoTeamStats;
+
+    return [
+      {
+        icon: "⚽️",
+        label: "Goals For",
+        labelId: 0,
+        home: seasonStats.team0.goalsFor,
+        away: seasonStats.team1.goalsFor,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        label: "Goals Against",
+        labelId: 1,
+        home: seasonStats.team0.goalsAgainst,
+        away: seasonStats.team1.goalsAgainst,
+        bg: "bg-brand-red",
+      },
+      {
+        icon: "🛡️",
+        label: "Clean Sheet",
+        labelId: 2,
+        home: seasonStats.team0.cleanSheet,
+        away: seasonStats.team1.cleanSheet,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "⚽️",
+        label: "Scored In",
+        labelId: 3,
+        home: seasonStats.team0.scoredIn,
+        away: seasonStats.team1.scoredIn,
+        bg: "bg-brand-royalblue",
+      },
+      {
+        icon: "💀",
+        label: "Conceded In",
+        labelId: 4,
+        home: seasonStats.team0.concededIn,
+        away: seasonStats.team1.concededIn,
+        bg: "bg-brand-red",
+      },
+    ];
+  };
 
   return (
     <PreDisplay
@@ -74,20 +113,27 @@ export default function SeasonStats({
       onRefresh={fetchData}
       child={
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map(({ icon, label, home, away, bg }, index) => (
-            <div key={index} className="flex flex-col gap-1">
-              {/* Icon + Label como lista */}
+          {categories().map(({ icon, label, labelId, home, away, bg }) => (
+            <div
+              data-testid={`stat-label-${labelId}`}
+              key={labelId}
+              className="flex flex-col gap-1"
+            >
               <ul className="list-none p-0 m-0">
                 <li className="flex items-center gap-2 text-sm font-semibold text-brand-white">
-                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-md ${bg}`}>
+                  <span
+                    className={`inline-flex items-center justify-center w-6 h-6 rounded-md ${bg}`}
+                  >
                     {icon}
                   </span>
                   <span>{label}</span>
                 </li>
               </ul>
 
-              {/* Home / Away Stats */}
-              <div className="flex flex-col text-sm text-left text-brand-white">
+              <div
+                data-testid={`stat-data-${labelId}`}
+                className="flex flex-col text-sm text-left text-brand-white"
+              >
                 <p>
                   <span className="text-xs font-semibold text-brand-green uppercase leading-5">
                     {homeTeamName}:

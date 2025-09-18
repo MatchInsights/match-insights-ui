@@ -1,5 +1,6 @@
 import { Goal, League, Score, Team, Venue } from "../../../types/types";
 import { Link } from "react-router-dom";
+import TeamDetailsInfo from "./team-details-info/TeamDetailsInfo";
 
 interface DetailsMainInfoProps {
   homeTeam: Team;
@@ -23,24 +24,9 @@ export const DetailsMainInfo = ({
   return (
     <div className="w-full bg-brand-700 p-6">
       <div className="w-full max-w-6xl mx-auto flex flex-col gap-6">
-        {/* Header: equipo - marcador - equipo */}
         <div className="grid grid-cols-3 items-center text-center gap-4 overflow-x-auto">
-          {/* Equipo local */}
-          <div className="flex flex-col items-center gap-2">
-            <img
-              src={homeTeam.logo}
-              alt={homeTeam.name}
-              className="w-20 h-20 object-contain"
-            />
-            <Link
-              to={homeTeam?.id ? `/team/${homeTeam.id}` : "#"}
-              className="text-s font-extrabold text-brand-white capitalize hover:text-brand-orange hover:underline transition"
-            >
-              {homeTeam.name}
-            </Link>
-          </div>
+          <TeamDetailsInfo team={homeTeam} />
 
-          {/* Marcador (centro) */}
           <div className="flex flex-col items-center justify-center">
             <p className="text-3xl font-extrabold text-brand-white leading-none">
               {goals.home ?? "-"} : {goals.away ?? "-"}
@@ -63,23 +49,9 @@ export const DetailsMainInfo = ({
             </div>
           </div>
 
-          {/* Equipo visitante */}
-          <div className="flex flex-col items-center gap-2">
-            <img
-              src={awayTeam.logo}
-              alt={awayTeam.name}
-              className="w-20 h-20 object-contain"
-            />
-            <Link
-              to={awayTeam?.id ? `/team/${awayTeam.id}` : "#"}
-              className="text-s font-extrabold text-brand-white capitalize hover:text-brand-orange hover:underline transition"
-            >
-              {awayTeam.name}
-            </Link>
-          </div>
+          <TeamDetailsInfo team={awayTeam} />
         </div>
 
-        {/* === Info centrada debajo === */}
         <div className="flex flex-col items-center text-center gap-2">
           <Link
             data-testid="league-link"
@@ -90,13 +62,16 @@ export const DetailsMainInfo = ({
           </Link>
 
           {venue.name && venue.city && (
-            <div className="text-s text-brand-lightGray text-center max-w-md">
+            <div
+              data-testid="venue-details"
+              className="text-s text-brand-lightGray text-center max-w-md"
+            >
               <p className="break-words whitespace-normal">📍 {venue.name}</p>
               <p className="break-words whitespace-normal">{venue.city}</p>
             </div>
           )}
 
-          <p className="text-s text-brand-yellow">
+          <p data-testid="match-date" className="text-s text-brand-yellow">
             📅 {new Date(date).toLocaleString()}
           </p>
         </div>
