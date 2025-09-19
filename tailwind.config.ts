@@ -33,6 +33,7 @@ const config: Config = {
           green: "#6faa54",
           red: "#ff4848",
           danger: "#D50000",
+          gridblue:"rgba(20, 33, 68, 1)",
           royalblue: "#0d2769ff",
           royalblue_old: "#153483",
           blueintense: "#0f2150ff",
