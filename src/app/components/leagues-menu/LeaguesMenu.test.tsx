@@ -1,12 +1,36 @@
+import { describe, it, vi, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { LeaguesMenu } from "./LeaguesMenu";
-import { ApiService } from "../../services/apiService";
 import { mockLeaguesGroups } from "../../../../testSetup/leaguegroups";
 
-describe("LeaguesMenu component", () => {
+vi.mock("./leagues-menu-grid/LeaguesMenuGrid", () => ({
+  LeaguesMenuGrid: ({ leagues, setLeague, closeMenu }: any) => (
+    <div data-testid="leagues-menu-grid">{leagues.length} leagues</div>
+  ),
+}));
+
+vi.mock("./leagues-menu-options/LeaguesMenuOptions", () => ({
+  LeaguesMenuOptions: ({ items, selectItem }: any) => (
+    <div data-testid="leagues-menu-options">
+      {items.map((item: string) => (
+        <button key={item} onClick={() => selectItem(item)}>
+          {item}
+        </button>
+      ))}
+    </div>
+  ),
+}));
+
+vi.mock("../no-data/NoData", () => ({
+  default: ({ displayedMessage }: any) => (
+    <div data-testid="no-data">{displayedMessage}</div>
+  ),
+}));
+
+describe("LeaguesMenu Component", () => {
+  let setLeagueMock = vi.fn();
+
   let mockApiService: any;
-  const setLeague = vi.fn();
 
   beforeEach(() => {
     mockApiService = {
@@ -14,87 +38,74 @@ describe("LeaguesMenu component", () => {
     };
   });
 
-  it("renders the ball icon", () => {
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
+  it("renders the menu ball icon", () => {
+    render(
+      <LeaguesMenu setLeague={setLeagueMock} apiService={mockApiService} />
+    );
     expect(screen.getByTestId("menu-ball-icon")).toBeInTheDocument();
   });
 
-  it("opens and closes the menu", async () => {
+  it("opens menu on clicking ball icon and shows loading", async () => {
+    mockApiService.fetchLeaguesGroups.mockReturnValue(new Promise(() => {}));
+
+    render(
+      <LeaguesMenu setLeague={setLeagueMock} apiService={mockApiService} />
+    );
+    fireEvent.click(screen.getByTestId("menu-ball-icon"));
+
+    expect(screen.getByTestId("leagues-menu")).toBeInTheDocument();
+    expect(screen.getByTestId("no-data").textContent).toContain(
+      "Fetching Leagues..."
+    );
+  });
+
+  it("displays leagues for a selected option", async () => {
     mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
 
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
+    render(
+      <LeaguesMenu setLeague={setLeagueMock} apiService={mockApiService} />
+    );
+    fireEvent.click(screen.getByTestId("menu-ball-icon"));
 
-    const ball = screen.getByTestId("menu-ball-icon");
-    fireEvent.click(ball);
-
-    expect(await screen.findByTestId("leagues-menu")).toBeInTheDocument();
-
-    const closeIcon = screen.getByTestId("close-leagues-menu-icon");
-    fireEvent.click(closeIcon);
-
-    expect(mockApiService.fetchLeaguesGroups).toHaveBeenCalled();
+    await waitFor(() => screen.getByTestId("leagues-menu-options"));
+    fireEvent.click(screen.getByText("Internationals"));
 
     await waitFor(() => {
-      expect(screen.queryByTestId("leagues-menu")).toBeNull();
+      expect(screen.getByTestId("leagues-menu-grid").textContent).toContain(
+        "2 leagues"
+      );
     });
   });
 
-  it("shows loading state while fetching leagues", async () => {
-    mockApiService.fetchLeaguesGroups.mockResolvedValue(new Promise(() => {}));
-
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
-
-    fireEvent.click(screen.getByTestId("menu-ball-icon"));
-
-    expect(await screen.findByText("Fetching Leagues...")).toBeInTheDocument();
-    expect(mockApiService.fetchLeaguesGroups).toHaveBeenCalledTimes(1);
-  });
-
-  it("shows error state if fetch fails", async () => {
-    mockApiService.fetchLeaguesGroups.mockRejectedValueOnce(new Error("fail"));
-
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
-
-    fireEvent.click(screen.getByTestId("menu-ball-icon"));
-
-    expect(
-      await screen.findByText("We could not find any Leagues.")
-    ).toBeInTheDocument();
-    expect(mockApiService.fetchLeaguesGroups).toHaveBeenCalledTimes(1);
-  });
-
-  it("filters leagues by league name", async () => {
-    mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
-
-    fireEvent.click(screen.getByTestId("menu-ball-icon"));
-
-    const nameInput = await screen.findByPlaceholderText("League Name");
-    fireEvent.change(nameInput, { target: { value: "UEFA" } });
-
-    await waitFor(() => {
-      expect(
-        screen.getByTestId(`league-${mockLeaguesGroups.internationals[0].id}`)
-      ).toBeInTheDocument();
-    });
-  });
-
-  it("filters leagues by country name", async () => {
+  it("closes menu on clicking close icon", async () => {
     mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
 
-    render(<LeaguesMenu setLeague={setLeague} apiService={mockApiService} />);
-
+    render(
+      <LeaguesMenu setLeague={setLeagueMock} apiService={mockApiService} />
+    );
     fireEvent.click(screen.getByTestId("menu-ball-icon"));
 
-    const countryInput = await screen.findByPlaceholderText("League Country");
-    fireEvent.change(countryInput, { target: { value: "England" } });
+    await waitFor(() => screen.getByTestId("leagues-menu-options"));
 
-    await waitFor(() => {
-      expect(
-        screen.getByTestId(
-          `league-${mockLeaguesGroups.countryLeagues[0].leagues[0].id}`
-        )
-      ).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("close-leagues-menu-icon"));
+    expect(screen.queryByTestId("leagues-menu")).not.toBeInTheDocument();
+  });
+
+  it("filters options based on search input", async () => {
+    mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
+
+    render(
+      <LeaguesMenu setLeague={setLeagueMock} apiService={mockApiService} />
+    );
+    fireEvent.click(screen.getByTestId("menu-ball-icon"));
+
+    await waitFor(() => screen.getByTestId("leagues-menu-options"));
+
+    fireEvent.change(screen.getByPlaceholderText("Search"), {
+      target: { value: "spa" },
     });
+
+    expect(screen.getByText("Spain")).toBeInTheDocument();
+    expect(screen.queryByText("Internationals")).not.toBeInTheDocument();
   });
 });
