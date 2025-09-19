@@ -100,11 +100,18 @@ describe("Home Component", () => {
       expect(screen.getByText("Internationals")).toBeDefined();
     });
 
-    const leagueOption = screen.getByTestId(
-      `league-${mockLeaguesGroups.internationals[0].id}`
-    );
+    const inertantionalLeagues = screen.getByText("Internationals");
+    fireEvent.click(inertantionalLeagues);
 
-    fireEvent.click(leagueOption);
+    await waitFor(() => {
+      expect(
+        screen.getByText(mockLeaguesGroups.internationals[0].name)
+      ).toBeDefined();
+    });
+
+    const league0 = screen.getByText(mockLeaguesGroups.internationals[0].name);
+
+    fireEvent.click(league0);
 
     await waitFor(() => {
       expect(screen.getByTestId("league-link")).toBeDefined();

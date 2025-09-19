@@ -97,7 +97,7 @@ describe("MatchControls component", () => {
     expect(screen.getByText("ALL LEAGUES")).toBeInTheDocument();
   });
 
-  it("select a league show and set it", async () => {
+  it("select a league and set it", async () => {
     mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
     const setLeague = vi.fn();
     render(
@@ -121,11 +121,18 @@ describe("MatchControls component", () => {
       expect(screen.getByText("Internationals")).toBeDefined();
     });
 
-    const leagueOption = screen.getByTestId(
-      `league-${mockLeaguesGroups.internationals[0].id}`
-    );
+    const inertantionalLeagues = screen.getByText("Internationals");
+    fireEvent.click(inertantionalLeagues);
 
-    fireEvent.click(leagueOption);
+    await waitFor(() => {
+      expect(
+        screen.getByText(mockLeaguesGroups.internationals[0].name)
+      ).toBeDefined();
+    });
+
+    const league0 = screen.getByText(mockLeaguesGroups.internationals[0].name);
+
+    fireEvent.click(league0);
 
     expect(setLeague).toHaveBeenCalledTimes(1);
     expect(mockApiService.fetchLeaguesGroups).toHaveBeenCalledTimes(1);

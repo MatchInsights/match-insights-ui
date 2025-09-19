@@ -1,104 +1,57 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { LeaguesMenuGrid } from "./LeaguesMenuGrid";
-
 import { mockLeaguesGroups } from "../../../../../testSetup/leaguegroups";
 
-describe("LeaguesMenuGrid component", () => {
-  it("renders international leagues when not hidden", () => {
+vi.mock("../../logo/Logo", () => ({
+  default: ({
+    src,
+    customImageClass,
+  }: {
+    src: string;
+    customImageClass?: string;
+  }) => <img data-testid="mock-logo" src={src} className={customImageClass} />,
+}));
+
+describe("LeaguesMenuGrid", () => {
+  const mockSetLeague = vi.fn();
+  const mockCloseMenu = vi.fn();
+
+  const setup = (leagues) =>
     render(
       <LeaguesMenuGrid
-        internationals={mockLeaguesGroups.internationals}
-        countryLeagues={[]}
-        others={[]}
-        setLeague={vi.fn()}
-        closeMenu={vi.fn()}
-        isInternationalHidden={false}
+        leagues={leagues}
+        setLeague={mockSetLeague}
+        closeMenu={mockCloseMenu}
       />
     );
 
-    expect(screen.getByText("Internationals")).toBeInTheDocument();
+  it("renders without crashing", () => {
+    setup(mockLeaguesGroups.internationals);
     expect(
-      screen.getByText(mockLeaguesGroups.internationals[0].name)
+      screen.getByRole("list", { name: /responsive-grid/i })
     ).toBeInTheDocument();
   });
 
-  it("does not render internationals when hidden", () => {
-    render(
-      <LeaguesMenuGrid
-        internationals={mockLeaguesGroups.internationals}
-        countryLeagues={[]}
-        others={[]}
-        setLeague={vi.fn()}
-        closeMenu={vi.fn()}
-        isInternationalHidden={true}
-      />
-    );
-
-    expect(screen.queryByText("Internationals")).toBeNull();
-    expect(screen.queryByText("World Cup")).toBeNull();
-  });
-
-  it("renders country leagues and their nested leagues", () => {
-    render(
-      <LeaguesMenuGrid
-        internationals={[]}
-        countryLeagues={mockLeaguesGroups.countryLeagues}
-        others={[]}
-        setLeague={vi.fn()}
-        closeMenu={vi.fn()}
-        isInternationalHidden={false}
-      />
-    );
-
-    expect(screen.getByText("By Country")).toBeInTheDocument();
-    expect(
-      screen.getByText(mockLeaguesGroups.countryLeagues[0].country)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(mockLeaguesGroups.countryLeagues[0].leagues[0].name)
-    ).toBeInTheDocument();
-  });
-
-  it("renders other leagues", () => {
-    render(
-      <LeaguesMenuGrid
-        internationals={[]}
-        countryLeagues={[]}
-        others={mockLeaguesGroups.others}
-        setLeague={vi.fn()}
-        closeMenu={vi.fn()}
-        isInternationalHidden={false}
-      />
-    );
-
-    expect(screen.getByText("Others")).toBeInTheDocument();
-    expect(
-      screen.getByText(mockLeaguesGroups.others[0].name)
-    ).toBeInTheDocument();
+  it("renders all leagues with their names and logos", () => {
+    setup(mockLeaguesGroups.internationals);
+    mockLeaguesGroups.internationals.forEach((league) => {
+      expect(screen.getByText(league.name)).toBeVisible();
+      const logo = screen
+        .getAllByTestId("mock-logo")
+        .find((img) => img.getAttribute("src") === league.logo);
+      expect(logo).toBeTruthy();
+    });
   });
 
   it("calls setLeague and closeMenu when a league is clicked", () => {
-    const setLeague = vi.fn();
-    const closeMenu = vi.fn();
-
-    render(
-      <LeaguesMenuGrid
-        internationals={mockLeaguesGroups.internationals}
-        countryLeagues={[]}
-        others={[]}
-        setLeague={setLeague}
-        closeMenu={closeMenu}
-        isInternationalHidden={false}
-      />
-    );
-
-    const leagueItem = screen.getByTestId(
-      `league-${mockLeaguesGroups.internationals[0].id}`
+    setup(mockLeaguesGroups.internationals);
+    const leagueItem = screen.getByText(
+      mockLeaguesGroups.internationals[0].name
     );
     fireEvent.click(leagueItem);
 
-    expect(setLeague).toHaveBeenCalledTimes(1);
-    expect(closeMenu).toHaveBeenCalled();
+    expect(mockSetLeague).toHaveBeenCalled();
+    expect(mockCloseMenu).toHaveBeenCalled();
   });
 });
