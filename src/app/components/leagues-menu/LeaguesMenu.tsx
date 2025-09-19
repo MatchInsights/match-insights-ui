@@ -79,7 +79,7 @@ export const LeaguesMenu = ({ setLeague, apiService }: LeaguesMenuProps) => {
 
       {isDisplayed && (
         <div
-          className="fixed top-20 left-10 h-full w-[70%] shadow-lg p-4 z-40 bg-brand-blueintense"
+          className="fixed top-20 left-10 h-[calc(100vh-5rem)] w-[70%] shadow-lg p-4 z-40 bg-brand-blueintense overflow-y-auto"
           data-testid="leagues-menu"
         >
           <div className="flex justify-between items-center rounded w-full">
