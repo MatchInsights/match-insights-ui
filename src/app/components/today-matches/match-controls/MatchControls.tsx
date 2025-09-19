@@ -134,7 +134,7 @@ const MatchControls = ({
             <X
               className="cursor-pointer m-4 text-brand-white hover:text-brand-danger"
               onClick={() => setSelectedLeague(null)}
-              data-testid="close-icon"
+              data-testid="remove-league-icon"
             />
           </div>
         )}

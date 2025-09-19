@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import Home from "./Home";
 import { TodayMatch } from "../../types/types";
 import { mockTodayMatches } from "../../../../testSetup/matches";
+import { mockLeaguesGroups } from "../../../../testSetup/leaguegroups";
 
 const mockMatches: TodayMatch[] = mockTodayMatches;
 
@@ -13,6 +14,7 @@ describe("Home Component", () => {
   beforeEach(() => {
     mockApiService = {
       fetchTodayMatches: vi.fn(),
+      fetchLeaguesGroups: vi.fn(),
     };
   });
 
@@ -75,5 +77,42 @@ describe("Home Component", () => {
       expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
       expect(screen.queryByText(mockMatches[1].homeTeam.name)).toBeNull();
     });
+  });
+
+  it("filter by the selected league", async () => {
+    mockApiService.fetchTodayMatches.mockResolvedValue(mockMatches);
+    mockApiService.fetchLeaguesGroups.mockResolvedValue(mockLeaguesGroups);
+
+    render(
+      <MemoryRouter>
+        <Home apiService={mockApiService} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
+    });
+
+    const leagueMenu = screen.getByTestId("menu-ball-icon");
+    fireEvent.click(leagueMenu);
+
+    await waitFor(() => {
+      expect(screen.getByText("Internationals")).toBeDefined();
+    });
+
+    const leagueOption = screen.getByTestId(
+      `league-${mockLeaguesGroups.internationals[0].id}`
+    );
+
+    fireEvent.click(leagueOption);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("league-link")).toBeDefined();
+      expect(screen.getByText(mockMatches[0].homeTeam.name)).toBeDefined();
+      expect(screen.queryByText(mockMatches[1].homeTeam.name)).toBeDefined();
+    });
+
+    expect(mockApiService.fetchTodayMatches).toHaveBeenCalledTimes(2);
+    expect(mockApiService.fetchLeaguesGroups).toHaveBeenCalledTimes(1);
   });
 });

@@ -56,6 +56,7 @@ export class MockApiServiceImplementation implements ApiService {
     leagueId?: number
   ): Promise<TodayMatch[]> {
     console.log(status);
+    console.log(leagueId);
     return Promise.resolve(mockTodayMatches);
   }
 

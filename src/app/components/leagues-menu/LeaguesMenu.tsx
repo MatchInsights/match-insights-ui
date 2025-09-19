@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X } from "lucide-react"; // icons
+import { X } from "lucide-react";
 import ballimage from "../../images/ball.png";
 import { LeaguesMenuGrid } from "./leagues-menu-grid/LeaguesMenuGrid";
 import { LeagueBasicInfo, LeaguesGroups } from "../../types/league-groups";
@@ -72,7 +72,7 @@ export const LeaguesMenu = ({ setLeague, apiService }: LeaguesMenuProps) => {
       <img
         src={ballimage}
         alt="Leagues Menu"
-        className="fixed cursor-pointer w-12 h-12 mr-10 animate-spin [animation-duration:3s] right-0"
+        className="fixed cursor-pointer w-22 h-20 mr-10 animate-spin [animation-duration:3s] right-0"
         onClick={() => onDisplayClick(!isDisplayed)}
         data-testid="menu-ball-icon"
       />
@@ -101,7 +101,7 @@ export const LeaguesMenu = ({ setLeague, apiService }: LeaguesMenuProps) => {
             <X
               className="cursor-pointer m-4 text-brand-white"
               onClick={() => onDisplayClick(false)}
-              data-testid="close-icon"
+              data-testid="close-leagues-menu-icon"
             />
           </div>
 

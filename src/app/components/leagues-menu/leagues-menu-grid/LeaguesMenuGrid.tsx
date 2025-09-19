@@ -32,6 +32,7 @@ export const LeaguesMenuGrid = ({
           </h2>
           {internationals.map((league) => (
             <li
+              data-testid={`league-${league.id}`}
               key={league.id}
               className="flex items-center gap-1 m-2 hover:underline hover:cursor-pointer hover:text-brand-yellow"
               onClick={() => onClickLeague(league)}
@@ -60,6 +61,7 @@ export const LeaguesMenuGrid = ({
                 <ul className="ml-6 list-disc">
                   {country.leagues.map((league) => (
                     <li
+                      data-testid={`league-${league.id}`}
                       key={league.id}
                       className="flex items-center gap-1 m-2 hover:underline hover:cursor-pointer hover:text-brand-yellow"
                       onClick={() => onClickLeague(league)}
@@ -82,6 +84,7 @@ export const LeaguesMenuGrid = ({
           </h2>
           {others.map((league) => (
             <li
+              data-testid={`league-${league.id}`}
               key={league.id}
               className="flex items-center gap-1 mb-2 hover:underline hover:cursor-pointer hover:text-brand-yellow"
               onClick={() => onClickLeague(league)}
